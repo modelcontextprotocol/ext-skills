@@ -332,3 +332,37 @@ Keeping optionality to a single feature flag responds to the CM position that op
 - [Core-maintainer alignment document](https://docs.google.com/document/d/1llJ667kyIu5ZA_-A8U1AntWUxMW65iXaLT-3elfi3J4/edit) — reviewed with the CMs early July 2026.
 - [Supporting-file digests thread](https://discord.com/channels/1358869848138059966/1524467339674910901) — design discussion behind the per-file `resources` manifest (Peter Alexander, Cliff Hall, Aditya, Peder), 2026-07-08 through 07-10; registry/CVE-style provenance ideas raised there were explicitly deferred beyond v1.
 - [PR #108](https://github.com/modelcontextprotocol/experimental-ext-skills/pull/108) — companion threat-model document, in review.
+
+---
+
+### 2026-09-08: Stable spec page: caching attributes on `skills/list` and `skills/get`, and the `resources` capability dependency
+
+**Status:** Proposed
+
+**Context:** [`specification/stable/skills.mdx`](../specification/stable/skills.mdx) ([PR #138](https://github.com/modelcontextprotocol/ext-skills/pull/138)) renders SEP-2640 as a spec page written against base protocol revision `2026-07-28`. Review by @panyam against the traceability extraction maintained for the conformance suite ([conformance#330](https://github.com/modelcontextprotocol/conformance/pull/330)) found three places where the page diverged from, or went beyond, the SEP text without recording it:
+
+1. `ListSkillsResult` was declared as `extends PaginatedResult`. In the base schema `PaginatedResult` carries only `nextCursor`; `ttlMs` and `cacheScope` live on `CacheableResult`, where both are required, and the base list results extend both. As written the page dropped the caching attributes the SEP says `skills/list` carries.
+2. SEP-2640 says of `skills/get`: "whether the result should also carry the base protocol's caching attributes (`ttlMs` and `cacheScope`), as `resources/read` results do, is left open." The page's `GetSkillResult extends Result` closed that question in the negative without saying so.
+3. The page added "a server declaring this extension MUST also declare the `resources` capability", which has no counterpart sentence in the SEP. A server conformant to the SEP text alone could read as non-conformant to the page.
+
+The page also did not state its protocol-revision baseline, so dropping the SEP's "in protocol versions 2026-07-28 and later" conditional was not visibly justified.
+
+**Decision:**
+
+1. `ListSkillsResult extends PaginatedResult, CacheableResult`. `ttlMs` and `cacheScope` are required on `skills/list` results, as on `tools/list` and `resources/list`. The page states its `2026-07-28` baseline in a Protocol Revision section instead of carrying the SEP's per-version conditional.
+2. `GetSkillResult extends CacheableResult`. `ttlMs` and `cacheScope` are required on `skills/get` results, as on `resources/read`. This resolves the question SEP-2640 left open.
+3. The `resources`-capability requirement stays, worded as a consequence of the base Resources specification (a server that serves `resources/read` declares the `resources` capability) rather than as a free-standing rule. The conformance suite adds a check for it.
+
+**Rationale:**
+
+(1) is what the SEP intended by "carries the base protocol's list-caching attributes ... as defined for `tools/list` and `resources/list`"; the page named the wrong base type. Making the fields required rather than conditional follows from the page targeting `2026-07-28` or later, where `CacheableResult` makes them required on every list result.
+
+(2) `skills/get` is a single-item fetch whose closest base analogue, `resources/read`, is already a `CacheableResult`. Giving the entry a `ttlMs` gives hosts a server-supplied hint for how long to treat a held entry as current before re-calling `skills/get`, and keeps every result type in the extension uniform with the base protocol. Neither field is an integrity property. Digest verification, the held-entry rules, and content-bound approval are unaffected: a host acting on a skill still verifies every read against the held entry regardless of `ttlMs`, and a changed `resources` set still revokes approval regardless of how the refreshed entry was obtained.
+
+(3) A server cannot serve skill files without implementing `resources/read`, and the base specification already requires such a server to declare `resources`. Stating it on the page makes the dependency checkable by the conformance suite without adding an obligation a base-conformant server does not already have.
+
+**References:**
+- [PR #138 review comment](https://github.com/modelcontextprotocol/ext-skills/pull/138#issuecomment-5545405326) from @panyam raising these points.
+- [conformance#330](https://github.com/modelcontextprotocol/conformance/pull/330), the SEP-2640 conformance suite.
+- [SEP-2549](https://modelcontextprotocol.io/seps/2549-TTL-for-list-results), which defines `CacheableResult`.
+- SEP-2640, "Retrieval via `skills/get`", final semantics bullet (the "left open" sentence this entry resolves).

@@ -26,6 +26,10 @@ Skills are useful for shipping the instructions for using a server together with
 
 This extension is identified as: `io.modelcontextprotocol/skills`.
 
+## Protocol Revision
+
+This page specifies the extension against base protocol revision `2026-07-28` or later. Type names it references without defining (`Result`, `PaginatedRequest`, `PaginatedResult`, `CacheableResult`, `Resource`, `Cursor`) are those of the base schema at that revision.
+
 ## Capability Negotiation
 
 Servers declare support for this extension in the `extensions` field of their capabilities:
@@ -55,7 +59,7 @@ An empty object indicates support for the extension with no optional features.
 - A server that declares this extension **MUST** implement [`skills/list`](#listing-skills) and [`skills/get`](#getting-a-skill).
 - A server that additionally declares `directoryRead: true` **MUST** implement [`resources/directory/read`](#reading-directories).
 - Clients **MUST NOT** call `resources/directory/read` against a server that has not declared `directoryRead: true`.
-- This extension depends only on the base protocol's Resources primitive. A server declaring it **MUST** also declare the `resources` capability and serve skill files through `resources/read`.
+- This extension depends only on the base protocol's Resources primitive. Skill files are served through `resources/read`, and the base Resources specification requires any server that supports resources to declare the `resources` capability. A server declaring this extension therefore **MUST** also declare the `resources` capability.
 
 Clients issue `skills/list` and `skills/get` only after observing the server's declaration. To a client that does not implement this extension, `skill://` resources are ordinary resources.
 
@@ -257,7 +261,7 @@ interface ListSkillsRequest extends PaginatedRequest {
 ### Response
 
 ```typescript
-interface ListSkillsResult extends PaginatedResult {
+interface ListSkillsResult extends PaginatedResult, CacheableResult {
   skills: Skill[];
 }
 ```
@@ -311,7 +315,9 @@ interface ListSkillsResult extends PaginatedResult {
         },
         "resources": "dynamic"
       }
-    ]
+    ],
+    "ttlMs": 300000,
+    "cacheScope": "public"
   }
 }
 ```
@@ -322,7 +328,7 @@ Semantics:
 - The result **MAY** be empty. A server whose skill catalog is large, generated on demand, or otherwise unenumerable **MAY** return an empty or partial listing.
 - Hosts **MUST NOT** treat an empty or partial listing as proof that a server has no skills, and **MUST** support loading a skill given only its URI ([Getting a Skill](#getting-a-skill)).
 - Pagination mirrors the base protocol's list methods: the request accepts an optional `cursor`, and when the result includes `nextCursor` the client passes it back to retrieve the next page. An entry is atomic, and a skill's `resources` set is never split across pages.
-- `ListSkillsResult` also carries the base protocol's list-caching attributes, `ttlMs` and `cacheScope`, as defined for `tools/list` and `resources/list`, with the same semantics. They are a freshness hint and a cache-scope marker for the listing, not an integrity property. [Integrity and Verification](#integrity-and-verification) governs content regardless of how fresh a cached listing is.
+- `ListSkillsResult` extends `CacheableResult`, so `ttlMs` and `cacheScope` are **REQUIRED**, as they are on `tools/list` and `resources/list`, and carry the same semantics. They are a freshness hint and a cache-scope marker for the listing, not an integrity property. [Integrity and Verification](#integrity-and-verification) governs content regardless of how fresh a cached listing is.
 - The method serves entries for a server's skills regardless of URI scheme.
 
 A `skills/list` entry is a complete manifest of the skill rather than a summary. After paging through the listing, a host has everything it needs to build its registry, present a skill for approval, bind the approval to content, and verify every file it later reads. A host does not need to call `skills/get` to complete a listed entry.
@@ -357,7 +363,7 @@ interface GetSkillRequest extends Request {
 ### Response
 
 ```typescript
-interface GetSkillResult extends Result {
+interface GetSkillResult extends CacheableResult {
   skill: Skill;
 }
 ```
@@ -407,7 +413,9 @@ interface GetSkillResult extends Result {
           "size": 1472
         }
       ]
-    }
+    },
+    "ttlMs": 300000,
+    "cacheScope": "public"
   }
 }
 ```
@@ -421,6 +429,7 @@ Semantics:
 - If the URI does not identify a skill the server serves, the server **MUST** return error `-32602` (Invalid params), the same code `resources/read` uses for unknown resources.
 - A server **MUST** answer for every skill it serves, whether or not that skill appears in its `skills/list` result. A skill absent from a partial listing is still retrievable by URI.
 - The result is a point-in-time snapshot, as a listing entry is. A host re-calls the method to refresh one skill's digests without re-enumerating the catalog.
+- `GetSkillResult` extends `CacheableResult`, so `ttlMs` and `cacheScope` are **REQUIRED**, as they are on `resources/read`, and carry the same semantics. `ttlMs` is the server's hint for how long a host may treat the entry as current before re-calling `skills/get`. Neither field is an integrity property.
 - A skill whose content is generated dynamically carries `"resources": "dynamic"`, per [Resources](#resources), whether it is reached through `skills/list` or `skills/get`.
 - The result carries no pagination cursor.
 
@@ -619,7 +628,9 @@ Consider a host connected to a server it labels `docs-server`, which declares th
           }
         ]
       }
-    ]
+    ],
+    "ttlMs": 300000,
+    "cacheScope": "public"
   }
 }
 ```
@@ -651,7 +662,9 @@ Later the model asks to load the skill. The host obtains user approval, binding 
         "mimeType": "text/markdown",
         "text": "---\nname: pdf-processing\ndescription: Extract, fill, and assemble PDF documents\n---\n\n# PDF processing\n\nChoose the matching template from `templates/` ..."
       }
-    ]
+    ],
+    "ttlMs": 300000,
+    "cacheScope": "public"
   }
 }
 ```
@@ -747,7 +760,9 @@ To make `credit-note.md` available, the host refreshes the entry:
           "size": 1104
         }
       ]
-    }
+    },
+    "ttlMs": 300000,
+    "cacheScope": "public"
   }
 }
 ```
