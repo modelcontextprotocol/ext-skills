@@ -3,8 +3,8 @@
 ## Documentation website
 
 The [Skills overview](index.md) and [full specification](specification/stable/skills.mdx)
-are published with VitePress and GitHub Pages. See [website development](CONTRIBUTING.md#documentation-website)
-for local preview commands and [publishing setup](docs/publishing.md) for deployment.
+are built with VitePress. See [website development](CONTRIBUTING.md#documentation-website)
+for local preview commands.
 
 > ⚠️ **Experimental** — This repository is an incubation space for the Skills Over MCP Working Group. Contents are exploratory and do not represent official MCP specifications or recommendations.
 

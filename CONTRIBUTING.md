@@ -24,8 +24,7 @@ file includes it for VitePress, so there is only one copy of the specification t
 Working Group research and historical documents under `docs/` remain available on GitHub.
 
 Pull requests build the website with both a root URL and the `/ext-skills/` project
-path. Broken internal page links fail the build. Merges to `main` publish through
-GitHub Actions after the [one-time Pages setup](docs/publishing.md).
+path. Broken internal page links fail the build.
 
 ## How to Participate
 
