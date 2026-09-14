@@ -1,5 +1,32 @@
 # Contributing
 
+## Documentation Website
+
+Use Node.js 22 or later:
+
+```sh
+npm ci
+npm run docs:dev
+```
+
+Before submitting a change, build and preview the production site:
+
+```sh
+npm run docs:build
+npm run docs:preview
+```
+
+`index.md` is the condensed overview, adapted from the
+[MCP website's Skills page](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/docs/extensions/skills/overview.mdx).
+Keep its protocol descriptions and examples aligned with that page and the specification.
+Edit `specification/stable/skills.mdx` for the full specification; the adjacent `.md`
+file includes it for VitePress, so there is only one copy of the specification text.
+Working Group research and historical documents under `docs/` remain available on GitHub.
+
+Pull requests build the website with both a root URL and the `/ext-skills/` project
+path. Broken internal page links fail the build. Merges to `main` publish through
+GitHub Actions after the [one-time Pages setup](docs/publishing.md).
+
 ## How to Participate
 
 This Working Group welcomes contributions from anyone interested in skills distribution over MCP. You can participate by:
