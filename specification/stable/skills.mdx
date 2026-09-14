@@ -838,6 +838,8 @@ Skill content is instructional text delivered to a model, which makes it a promp
 - **Name collisions are an impersonation surface.** Skill names are not unique across origins, and a malicious server can publish a skill under the name of a popular one. A name binds to whatever bytes its origin currently serves and carries no authorship or endorsement.
   - Hosts **MUST** resolve skill names within a per-origin namespace, identifying servers by a host-assigned label.
   - Hosts **MUST NOT** let an MCP-served skill silently shadow, replace, or intercept invocations of a same-named skill from any other origin, including the host's filesystem skills.
+  - Approval to load a dynamic skill **MUST NOT** authorize code execution, permission widening, access to credentials or sensitive files, network transmission, or other side-effecting operations.
+  - Any such operation requires separate approval for the concrete action. Executable content **MUST** be fetched before approval, hashed by the host, retained in an immutable host-private location, and executed only if the retained bytes match those presented for approval.
   - Hosts **SHOULD** surface collisions to the user.
   - Intermediaries **MAY** attach provenance or verification annotations via `_meta` under their own reverse-domain prefix, not the `io.modelcontextprotocol.skills/` prefix reserved for this extension. This extension assigns such annotations no semantics.
 - **No implicit permission grants.** A remote server populating `allowed-tools` is requesting elevated access on the host, not declaring a property of its own environment.
