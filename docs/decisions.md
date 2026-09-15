@@ -337,7 +337,7 @@ Keeping optionality to a single feature flag responds to the CM position that op
 
 ### 2026-09-08: Stable spec page: caching attributes on `skills/list` and `skills/get`, and the `resources` capability dependency
 
-**Status:** Proposed
+**Status:** Accepted — applied to `specification/stable/skills.mdx` in [PR #139](https://github.com/modelcontextprotocol/ext-skills/pull/139) (merged 2026-09-10), before SEP-2640 was marked Final
 
 **Context:** [`specification/stable/skills.mdx`](../specification/stable/skills.mdx) ([PR #138](https://github.com/modelcontextprotocol/ext-skills/pull/138)) renders SEP-2640 as a spec page written against base protocol revision `2026-07-28`. Review by @panyam against the traceability extraction maintained for the conformance suite ([conformance#330](https://github.com/modelcontextprotocol/conformance/pull/330)) found three places where the page diverged from, or went beyond, the SEP text without recording it:
 
