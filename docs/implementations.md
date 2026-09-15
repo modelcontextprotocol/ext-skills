@@ -33,6 +33,6 @@ To add or update a row, open a PR. Keep notes to one line.
 | [MCP Inspector](https://github.com/modelcontextprotocol/inspector/blob/main/clients/cli/README.md#skill-verification---verify) | `vendor` | `partial` | SEP-2640 support since 2.6.0 (2026-09-09), including CLI skill verification |
 | [ChatGPT plugins](https://developers.openai.com/plugins/build/mcp-server#import-skills-from-the-mcp-server) | `vendor` | `partial` | Imports skills at plugin submission, static snapshot |
 | [VS Code fork](https://github.com/tobi-oye/vscode/pull/1) | `community` | `prototype` | `skills/list` discovery and loading ([findings](archive/experimental-findings.md)) |
-| [Goose fork](https://github.com/modelcontextprotocol/ext-skills/pull/125) | `community` | `prototype` | Skills-over-MCP loading path alongside file-based skills |
+| [Goose](https://github.com/aaif-goose/goose) | `vendor` | `planned` ([#12068](https://github.com/aaif-goose/goose/issues/12068)) | Prototype fork in [ext-skills#125](https://github.com/modelcontextprotocol/ext-skills/pull/125) |
 | [mcpkit host](https://github.com/panyam/mcpkit) | `community` | `partial` | `load_skill` tool, verified reads, per-origin resolution |
 | [agent-harness](https://github.com/ar27111994/agent-harness) | `community` | `planned` ([#492](https://github.com/ar27111994/agent-harness/issues/492)) | Digest-pinned skill store |
