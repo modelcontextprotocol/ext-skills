@@ -30,7 +30,7 @@ A skill orchestrating tools from several servers can't live in any single server
 
 **Emerging proposal — host-mediated dependency resolution:** Skills would declare MCP servers and/or tools as dependencies in their frontmatter. The host mediates availability: if required dependencies are not present, the skill frontmatter should not be loaded into model context (it is effectively not an available skill). This model also enables local caching of skills — they can be downloaded once and used offline as long as their dependencies are available.
 
-The agentskills.io spec currently has a freeform [compatibility field](https://agentskills.io/specification#compatibility-field) but no formal dependency mechanism. Some existing tools (e.g., skills.sh) handle dependencies implicitly by instructing agents to install via bash/npm/uv. Skills may also be composable (skill-to-skill dependencies) — see [Use Case 3](archive/use-cases.md#3-multi-server-composition).
+The agentskills.io spec currently has a freeform [compatibility field](https://agentskills.io/specification#compatibility-field) but no formal dependency mechanism. Some existing tools (e.g., skills.sh) handle dependencies implicitly by instructing agents to install via bash/npm/uv. Skills may also be composable (skill-to-skill dependencies) — see [Use Case 3](use-cases.md#3-multi-server-composition).
 
 **Community input:**
 
@@ -119,7 +119,7 @@ Note: Some apps like Claude Code have started to indicate in the skill frontmatt
 
 > "If the conclusion is 'just use resources', I am fine with that direction too — but then we should standardize a way to identify and list workflow resources as 'skills' so clients can reliably surface them (otherwise we are back to out-of-band conventions)." — [sebthom](https://github.com/modelcontextprotocol/modelcontextprotocol/issues/2167#issuecomment-3824771018)
 
-See also [Approaches](archive/approaches.md) for more notes on using resources.
+See also [Approaches](approaches.md) for more notes on using resources.
 
 ## 13. What is the optimal relationship between skills and MCP?
 
