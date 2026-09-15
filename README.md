@@ -27,7 +27,7 @@ MCP servers give agents tools, but tools alone are insufficient for complex work
 
 Skills are *context*, and MCP is a *context protocol*. Agents already connect to remote services over MCP to get tools — they can get the know-how to use those tools through the same channel. A remote MCP server can serve both its tools and the instructions for using them together, as a single atomic unit. This also enables automatic discovery (connect to a server, find its skills), dynamic updates (server-side changes flow without reinstall), multi-server composition (skills orchestrating tools across servers), and enterprise distribution (RBAC, multi-tenant, version-adaptive content) — all through infrastructure MCP servers already provide.
 
-See [why-and-when.md](docs/why-and-when.md) for the full value proposition and a guide for when MCP distribution applies vs. simpler alternatives. For an accessible external framing of the premise, see Angie Jones's ["Skills Over MCP"](https://aaif.io/blog/skills-over-mcp/) (Agentic AI Foundation) — "ship the manual with the product."
+See [why-and-when.md](docs/archive/why-and-when.md) for the full value proposition and a guide for when MCP distribution applies vs. simpler alternatives. For an accessible external framing of the premise, see Angie Jones's ["Skills Over MCP"](https://aaif.io/blog/skills-over-mcp/) (Agentic AI Foundation) — "ship the manual with the product."
 
 ## Problem Statement
 
@@ -45,20 +45,16 @@ See [problem-statement.md](docs/problem-statement.md) for full details.
 | Document | Description |
 | :--- | :--- |
 | [Specification](specification/stable/skills.mdx) | The Skills extension specification (`io.modelcontextprotocol/skills`) — source of truth |
-| [Problem Statement](docs/problem-statement.md) | Current limitations and gaps |
-| [Why Skills Over MCP?](docs/why-and-when.md) | Value proposition and decision guide |
-| [Use Cases](docs/use-cases.md) | Key use cases driving this work |
-| [Approaches](docs/approaches.md) | Approaches being explored (not mutually exclusive) |
-| [SEP-2640 baseline copy](docs/sep-draft-skills-extension.md) | Copy of the SEP text as it stood when accepted, kept so decision records and findings can quote stable text. The accepted SEP is published at [modelcontextprotocol.io/seps/2640-skills-extension](https://modelcontextprotocol.io/seps/2640-skills-extension); the normative text going forward is [`specification/stable/skills.mdx`](specification/stable/skills.mdx). |
-| [Open Questions](docs/open-questions.md) | Unresolved questions with community input (see also [issues](https://github.com/modelcontextprotocol/ext-skills/issues) and [meeting notes](https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/categories/meeting-notes-skills-over-mcp-wg)) |
-| [Experimental Findings](docs/experimental-findings.md) | Results from implementations and testing |
+| [Decision Log](docs/decisions.md) | ADR-lite record of the group's decisions, and the vehicle for proposing changes to the specification |
+| [Threat Model](docs/threat-model.md) | Threat model for skills served over MCP, with delivery-model recommendations and an archive appendix |
+| [Experimental Findings](docs/experimental-findings.md) | Results from implementations and testing ([template](docs/findings-template.md) for new entries) |
+| [Skills Extension Candidates](docs/skills-extension-candidates.md) | MCP servers, dev tools, SDKs, and skills repositories that are candidates for adopting the extension |
+| [Problem Statement](docs/problem-statement.md) | The gaps the extension addresses |
+| [Rationale](docs/rationale.md) | Design rationale for the Resources-based extension |
 | [Related Work](docs/related-work.md) | SEPs, implementations, and external resources |
-| [Threat Model](docs/threat-model.md) | Threat model for skills served over MCP (SEP-2640), with delivery-model recommendations and an archive appendix |
-| [Skills Extension Candidates](docs/skills-extension-candidates.md) | MCP servers, dev tools, SDKs, and skills repositories that are candidates for adopting the skills extension |
-| [Client MCP Support](docs/client-mcp-support.md) | Survey of model-facing MCP resource loading and SEP-2640 support across open-source clients |
-| [Decision Log](docs/decisions.md) | Record of key decisions with context and rationale |
-| [Rationale](docs/rationale.md) | Design rationale for the Resources-based skills extension |
-| [Glossary](docs/glossary.md) | Working definitions for key Skills Over MCP terms |
+| [Open Questions](docs/open-questions.md) | Early open questions; kept for reference, see the decision log for what was settled |
+| [Using `_meta` for Skill Resources](docs/skill-meta-keys.md) | Guidelines for `_meta` on skill resources; see the 2026-03-16 decision |
+| [Archive](docs/archive/) | Pre-release design documents, frozen when SEP-2640 was marked Final |
 
 ## Contributing
 

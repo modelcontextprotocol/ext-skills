@@ -1,6 +1,6 @@
 # Threat Model: Skills Over MCP
 
-> ⚠️ **Experimental** — This document models threats against skills served over MCP as specified in [SEP-2640](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2640) *in its current form*: the revision on the canonical [`sep/skills-extension`](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2640/files) branch, which supersedes the older [`docs/sep-draft-skills-extension.md`](sep-draft-skills-extension.md) working draft. That revision **replaced the `skill://index.json` resource with the `skills/list` and `skills/get` methods, added a per-file `resources` digest array covering the whole skill, and moved archive distribution to a deferred-features appendix.** It is a Working Group reference, not a normative part of the SEP. Where it recommends behavior beyond what SEP-2640 mandates, it says so.
+> ⚠️ **Experimental** — This document models threats against skills served over MCP as specified in [SEP-2640](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2640) *in its current form*: the revision on the canonical [`sep/skills-extension`](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2640/files) branch, which supersedes the older [`docs/sep-draft-skills-extension.md`](archive/sep-draft-skills-extension.md) working draft. That revision **replaced the `skill://index.json` resource with the `skills/list` and `skills/get` methods, added a per-file `resources` digest array covering the whole skill, and moved archive distribution to a deferred-features appendix.** It is a Working Group reference, not a normative part of the SEP. Where it recommends behavior beyond what SEP-2640 mandates, it says so.
 
 ## Scope
 
@@ -274,7 +274,7 @@ Threats the current SEP revision does **not** fully close, and directions raised
 
 ## References
 
-- [SEP-2640: Skills Extension](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2640) — the specification this document models. Canonical text on the `sep/skills-extension` branch. The older working draft [`docs/sep-draft-skills-extension.md`](sep-draft-skills-extension.md) predates the `skills/list`/`skills/get` + `resources`-array revision and the archive removal.
+- [SEP-2640: Skills Extension](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2640) — the specification this document models. Canonical text on the `sep/skills-extension` branch. The older working draft [`docs/sep-draft-skills-extension.md`](archive/sep-draft-skills-extension.md) predates the `skills/list`/`skills/get` + `resources`-array revision and the archive removal.
 - [`dangerous-skills-mcp`](https://github.com/olaservo/dangerous-skills-mcp) — the executable adversarial corpus (fixtures, oracles, smoke client). Live: `https://olaservo-dangerous-skills-mcp.hf.space/mcp`. Forked from [`gricha/dangerous-skills`](https://github.com/gricha/dangerous-skills).
 - [Agent Skills Discovery RFC](https://github.com/cloudflare/agent-skills-discovery-rfc) (Cloudflare) — SHA-256 content integrity and per-file digests; the closest external analog for the integrity model.
 - [Open Questions §10](open-questions.md#10-how-should-skills-handle-security-and-trust-boundaries) — the WG's trust-boundary discussion and community input.

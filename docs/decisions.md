@@ -82,7 +82,7 @@ For background on the ADR format, see [adr.github.io](https://adr.github.io/).
 **References:**
 - [Issue #14](https://github.com/modelcontextprotocol/experimental-ext-skills/issues/14)
 - [PR #17](https://github.com/modelcontextprotocol/experimental-ext-skills/pull/17)
-- [Approaches doc](approaches.md)
+- [Approaches doc](archive/approaches.md)
 
 ---
 
@@ -124,7 +124,7 @@ For background on the ADR format, see [adr.github.io](https://adr.github.io/).
 
 **Status:** Superseded in part — three of the bullets below were changed in SEP-2640 v1: enumeration moved from a `skill://index.json` resource to a `skills/list` method, the no-nesting constraint was reversed (nested skills are permitted, gated on fresh activation consent), and `skill://` was made non-privileged rather than the marker of what counts as a skill. See the 2026-07-16 v1 scope entry below, items 2, 6, and 8. The URI structure itself carries forward unchanged: explicit `SKILL.md`, final path segment equal to the skill `name`, optional organizational prefix, authority segment without special semantics.
 
-**Context:** Several independent MCP implementations (FastMCP 3.0, NimbleBrain, skilljack-mcp, skills-over-mcp, etc.) had converged on using Resources to represent skills using either `skill://` or domain-specific URI schemes, but diverged on the rest of the URI structure. This included variations around whether to use an authority segment, whether `SKILL.md` is explicit in the URI, how to address sub-resources, and how the URI path relates to the skill's frontmatter `name`. A survey of these patterns was published in [`skill-uri-scheme.md`](skill-uri-scheme.md) and informed the draft [Skills Extension SEP (#69)](https://github.com/modelcontextprotocol/experimental-ext-skills/pull/69). The path↔name relationship went through two drafts before settling: the first required a single path segment equal to the `name`, which broke for servers needing hierarchy (e.g., `acme/billing/refunds` vs. `acme/support/refunds`); a second draft fully decoupled path from `name`, which was too loose — a URI like `skill://a/b/c/SKILL.md` revealed nothing about what the skill was called without a frontmatter round trip.
+**Context:** Several independent MCP implementations (FastMCP 3.0, NimbleBrain, skilljack-mcp, skills-over-mcp, etc.) had converged on using Resources to represent skills using either `skill://` or domain-specific URI schemes, but diverged on the rest of the URI structure. This included variations around whether to use an authority segment, whether `SKILL.md` is explicit in the URI, how to address sub-resources, and how the URI path relates to the skill's frontmatter `name`. A survey of these patterns was published in [`skill-uri-scheme.md`](archive/skill-uri-scheme.md) and informed the draft [Skills Extension SEP (#69)](https://github.com/modelcontextprotocol/experimental-ext-skills/pull/69). The path↔name relationship went through two drafts before settling: the first required a single path segment equal to the `name`, which broke for servers needing hierarchy (e.g., `acme/billing/refunds` vs. `acme/support/refunds`); a second draft fully decoupled path from `name`, which was too loose — a URI like `skill://a/b/c/SKILL.md` revealed nothing about what the skill was called without a frontmatter round trip.
 
 **Decision:** Adopt `skill://<skill-path>/SKILL.md` as the recommended URI convention for skill resources over MCP, with:
 
@@ -143,7 +143,7 @@ For background on the ADR format, see [adr.github.io](https://adr.github.io/).
 - [PR #70](https://github.com/modelcontextprotocol/experimental-ext-skills/pull/70) — URI scheme refinements (merged 2026-04-16)
 - [Issue #44](https://github.com/modelcontextprotocol/experimental-ext-skills/issues/44) — URI scheme discussion
 - [Draft Skills Extension SEP (#69)](https://github.com/modelcontextprotocol/experimental-ext-skills/pull/69)
-- [Skill URI Scheme Proposal](skill-uri-scheme.md)
+- [Skill URI Scheme Proposal](archive/skill-uri-scheme.md)
 
 ---
 

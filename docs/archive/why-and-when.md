@@ -8,7 +8,7 @@ MCP servers give agents access to tools. But tools alone are insufficient for co
 
 Skills are *context*, and MCP is a *context protocol*. This Working Group isn't looking for problems to solve with the MCP hammer. The question is narrower and more practical: agents already connect to remote services over MCP to get tools — can they get the know-how to use those tools through the same channel?
 
-The answer matters because skills and tools are often tightly coupled. A server that provides graph-building tools is hard to use without 875 lines of orchestration instructions. A server exposing Airflow APIs needs version-specific guidance to avoid suggesting deprecated patterns. One workaround is wrapping each MCP server in a custom sub-agent with hand-written instructions — but this means independently reinventing the same orchestration guidance for the same servers. Skills over MCP makes those instructions portable and shareable: the server author ships them once, and every user benefits. See [problem-statement.md](problem-statement.md) for the full gap analysis.
+The answer matters because skills and tools are often tightly coupled. A server that provides graph-building tools is hard to use without 875 lines of orchestration instructions. A server exposing Airflow APIs needs version-specific guidance to avoid suggesting deprecated patterns. One workaround is wrapping each MCP server in a custom sub-agent with hand-written instructions — but this means independently reinventing the same orchestration guidance for the same servers. Skills over MCP makes those instructions portable and shareable: the server author ships them once, and every user benefits. See [problem-statement.md](../problem-statement.md) for the full gap analysis.
 
 ## What MCP Adds
 
@@ -20,7 +20,7 @@ This is especially relevant for **remote agent skill integration**. A remote MCP
 
 > "Skills living as `skill://` resources on the server itself was the natural endpoint of that consolidation. The skill context is colocated with the tools it describes, versioned together, shipped together." — [Mat Goldsborough](https://github.com/mgoldsborough) (NimbleBrain)
 
-See [NimbleBrain findings](experimental-findings.md#nimblebrain-skill-resource-consolidation) for production validation of this pattern.
+See [NimbleBrain findings](../experimental-findings.md#nimblebrain-skill-resource-consolidation) for production validation of this pattern.
 
 ### Discovery Where It Belongs
 
@@ -38,7 +38,7 @@ See [Use Case 6: Skill Versioning and Updates](use-cases.md#6-skill-versioning-a
 
 MCP defines app, human, and assistant roles. This gives skills a built-in framework for *who sees the content* and *who decides when it loads* — model-controlled (the agent decides to read a skill) vs. application-controlled (the host app presents it). File-based distribution has no equivalent; the control model is ad hoc and varies by host application.
 
-See [Open Question 9](open-questions.md#9-who-gets-visibility-into-skill-content-and-who-decides-when-it-gets-loaded) for the ongoing discussion.
+See [Open Question 9](../open-questions.md#9-who-gets-visibility-into-skill-content-and-who-decides-when-it-gets-loaded) for the ongoing discussion.
 
 ### Multi-Server Composition
 
@@ -76,7 +76,7 @@ This isn't an either/or choice. Skills can exist as local files *and* be served 
 
 ### "Why not just files in a git repo?"
 
-This works well for many cases and will continue to. But file-based distribution has no discovery mechanism (you have to know the repo exists), no dynamic updates (you have to re-pull), and no ephemeral availability (files persist on disk). For enterprises, git-based skill distribution raises its own trust and access-control concerns — though MCP-based distribution introduces different governance questions (allowlisting, provenance verification, runtime integrity) that are [still being worked out](open-questions.md#10-how-should-skills-handle-security-and-trust-boundaries).
+This works well for many cases and will continue to. But file-based distribution has no discovery mechanism (you have to know the repo exists), no dynamic updates (you have to re-pull), and no ephemeral availability (files persist on disk). For enterprises, git-based skill distribution raises its own trust and access-control concerns — though MCP-based distribution introduces different governance questions (allowlisting, provenance verification, runtime integrity) that are [still being worked out](../open-questions.md#10-how-should-skills-handle-security-and-trust-boundaries).
 
 ### "Why not just extend server instructions?"
 
@@ -90,5 +90,5 @@ You *can* use bare resources. But without a shared convention, every server inve
 
 - [Use Cases](use-cases.md) — 11 detailed scenarios driving this work
 - [Approaches](approaches.md) — Technical approaches being explored
-- [Experimental Findings](experimental-findings.md) — Results from implementations and testing
-- [Open Questions](open-questions.md) — Unresolved questions with community input
+- [Experimental Findings](../experimental-findings.md) — Results from implementations and testing
+- [Open Questions](../open-questions.md) — Unresolved questions with community input

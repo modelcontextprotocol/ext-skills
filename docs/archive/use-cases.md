@@ -28,7 +28,7 @@ Skills that leverage tools from multiple off-the-shelf servers where you can't (
 
 > "The ecosystem has been too focused on the server being the main deliverable in some ways, and actually there's a lot that can be done in terms of composition that we miss by people generally imagining their code as being the server boundary and not providing functionality more as a library." — [Sam Morrow](https://github.com/SamMorrowDrums)
 
-Beyond multi-server tool orchestration, skills themselves may be composable — one skill depending on another skill's output or behavior. This extends the dependency model beyond tool availability to skill availability, and raises questions about declarative dependency metadata. See [Open Question 4](open-questions.md#4-how-should-skills-relate-to-multiple-servers) for the emerging proposal on host-mediated dependency resolution.
+Beyond multi-server tool orchestration, skills themselves may be composable — one skill depending on another skill's output or behavior. This extends the dependency model beyond tool availability to skill availability, and raises questions about declarative dependency metadata. See [Open Question 4](../open-questions.md#4-how-should-skills-relate-to-multiple-servers) for the emerging proposal on host-mediated dependency resolution.
 
 **See also:** [#39](https://github.com/modelcontextprotocol/experimental-ext-skills/issues/39) — Skill dependency declaration, [#45](https://github.com/modelcontextprotocol/experimental-ext-skills/issues/45) — Worked examples for multi-server composition
 
@@ -40,7 +40,7 @@ Skills broken into linked sets of files for effective context management, loaded
 
 > "Especially mimicking progressive disclosure via resources and dynamically adding new ones as the agent reads pieces of the skill has been quite handy!" — [Ozz / Juan Antonio Osorio](https://github.com/JAORMX)
 
-**Practical limitation:** In non-visual execution environments (CLI agents, headless), skills lack the "collapse" mechanism of UI-based progressive disclosure. Without a UI affordance to hide/show content, all disclosed context remains in the model's context window, contributing to the adherence decay problem (see [Skill Reliability and Adherence](experimental-findings.md#skill-reliability-and-adherence)). Tool-based expansion partially addresses this, since pruning a tool call also collapses the context, but this is not a general solution.
+**Practical limitation:** In non-visual execution environments (CLI agents, headless), skills lack the "collapse" mechanism of UI-based progressive disclosure. Without a UI affordance to hide/show content, all disclosed context remains in the model's context window, contributing to the adherence decay problem (see [Skill Reliability and Adherence](../experimental-findings.md#skill-reliability-and-adherence)). Tool-based expansion partially addresses this, since pruning a tool call also collapses the context, but this is not a general solution.
 
 **At scale:** A server may expose hundreds or thousands of skills, but a client may only need a handful. This reinforces the need for selective loading via progressive disclosure rather than loading all skill content at once.
 

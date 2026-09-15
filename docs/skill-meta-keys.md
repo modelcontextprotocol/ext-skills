@@ -4,13 +4,13 @@
 
 **Issue:** [#55](https://github.com/modelcontextprotocol/experimental-ext-skills/issues/55)
 **Status:** Draft
-**Related:** [Skill URI Scheme Proposal](skill-uri-scheme.md)
+**Related:** [Skill URI Scheme Proposal](archive/skill-uri-scheme.md)
 
 ---
 
 ## Overview
 
-The [Skill URI Scheme Proposal](skill-uri-scheme.md) defines a `skill://` URI convention for identifying skill resources over MCP, and notes that servers MAY use the `_meta` field for additional skill metadata — but doesn't specify what keys would be useful or how `_meta` relates to other metadata surfaces.
+The [Skill URI Scheme Proposal](archive/skill-uri-scheme.md) defines a `skill://` URI convention for identifying skill resources over MCP, and notes that servers MAY use the `_meta` field for additional skill metadata — but doesn't specify what keys would be useful or how `_meta` relates to other metadata surfaces.
 
 Skills exposed as MCP resources already have multiple metadata surfaces: `Resource` fields (`name`, `description`, `uri`), `annotations` (`audience`, `priority`), and [Agent Skills frontmatter](https://agentskills.io/specification) in the resource content. Before defining any `_meta` keys, it's important to establish clear boundaries between these surfaces to avoid duplication and fragmentation.
 
@@ -105,7 +105,7 @@ The agentskills community has also proposed open frontmatter with namespacing gu
 
 ## Example: Skill Resource Without `_meta`
 
-Most skill resources won't need `_meta` keys. Resource fields, `annotations`, and frontmatter cover the common cases. This example uses the `skill://` URI convention from the [Skill URI Scheme Proposal](skill-uri-scheme.md).
+Most skill resources won't need `_meta` keys. Resource fields, `annotations`, and frontmatter cover the common cases. This example uses the `skill://` URI convention from the [Skill URI Scheme Proposal](archive/skill-uri-scheme.md).
 
 ```json
 {
@@ -155,7 +155,7 @@ The following areas have been identified as potential uses for `_meta` on skill 
 
 | Area | Description | Open Questions | Community References |
 | :--- | :--- | :--- | :--- |
-| **Provenance** | Server origin, authorship, canonical source for skills aggregated across servers | Could be solved at the plugin/distribution layer instead of per-resource. Also applies to non-MCP skills, suggesting frontmatter may be more appropriate. | [Skill URI Scheme Proposal](skill-uri-scheme.md) |
+| **Provenance** | Server origin, authorship, canonical source for skills aggregated across servers | Could be solved at the plugin/distribution layer instead of per-resource. Also applies to non-MCP skills, suggesting frontmatter may be more appropriate. | [Skill URI Scheme Proposal](archive/skill-uri-scheme.md) |
 | **Dependencies** | Inter-skill and inter-server dependency declarations for host-mediated resolution | Plugin-level dependency resolution may be more appropriate than per-skill declarations. Versioning is also an open MCP-wide concern (see server versioning SEPs). | [agentskills#21](https://github.com/agentskills/agentskills/issues/21), [agentskills#195](https://github.com/agentskills/agentskills/issues/195) |
 | **Input/output schemas** | Typed contracts for skills-as-tools bridge | May belong in frontmatter if applicable to non-MCP skills. | [agentskills#136](https://github.com/agentskills/agentskills/issues/136), [agentskills#61](https://github.com/agentskills/agentskills/issues/61) |
 | **Content integrity** | Hash for verifying skill content hasn't been modified in transit | Potentially MCP-transport-specific; no frontmatter equivalent. | — |
@@ -167,7 +167,7 @@ The general razor for evaluating candidates: **does this metadata also apply to 
 
 ### Skill URI Scheme (PR #53)
 
-The [Skill URI Scheme Proposal](skill-uri-scheme.md) defines the `skill://` URI convention for identifying skill resources. The URI scheme determines *how skills are addressed*; this document establishes conventions for *what metadata they carry* in `_meta`, when `_meta` is warranted at all.
+The [Skill URI Scheme Proposal](archive/skill-uri-scheme.md) defines the `skill://` URI convention for identifying skill resources. The URI scheme determines *how skills are addressed*; this document establishes conventions for *what metadata they carry* in `_meta`, when `_meta` is warranted at all.
 
 ### Agent Skills Spec Frontmatter
 
@@ -189,7 +189,7 @@ The [registry `skills.json` proposal](https://github.com/modelcontextprotocol/re
 
 - [MCP Resources Specification (2025-11-25)](https://modelcontextprotocol.io/specification/2025-11-25/server/resources) — Resource schema, `annotations`, `_meta` field
 - [Agent Skills Specification](https://agentskills.io/specification) — Frontmatter field definitions
-- [Skill URI Scheme Proposal](skill-uri-scheme.md) — `skill://` URI convention
+- [Skill URI Scheme Proposal](archive/skill-uri-scheme.md) — `skill://` URI convention
 - [SEP-2076: Skills as MCP Primitives](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2076) — `skills/list` and `skills/get` proposal
 - [Registry `skills.json` Discussion](https://github.com/modelcontextprotocol/registry/discussions/895) — Registry-layer skill metadata
 - [agentskills#211: Open Frontmatter with Namespacing](https://github.com/agentskills/agentskills/issues/211) — Namespace convention for non-standard fields
