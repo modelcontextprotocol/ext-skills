@@ -1,6 +1,6 @@
 # Implementations
 
-Servers, SDKs, and hosts that serve or consume skills over MCP. Official client support is tracked on the [extension client matrix](https://modelcontextprotocol.io/extensions/client-matrix); this list is broader and community-maintained.
+Example servers, SDKs, and hosts that serve or consume skills over MCP. Official client support is tracked on the [extension client matrix](https://modelcontextprotocol.io/extensions/client-matrix); this list is broader and community-maintained.
 
 **Status:** `v1` implements the released extension · `partial` implements some of it · `pre-v1` targets an earlier draft · `prototype` fork or demo · `planned`. A link after the status points to the issue or PR tracking the work.
 
@@ -14,6 +14,7 @@ To add or update a row, open a PR. Keep notes to one line.
 | :--- | :--- | :--- | :--- | :--- |
 | [hf-mcp-server](https://github.com/huggingface/hf-mcp-server) | `vendor` | TypeScript | `v1` | Hugging Face. `skills/list`, `skills/get`, `directoryRead`. HTTP transports only |
 | [github-stars-contrib-mcp-server](https://github.com/svg153/github-stars-contrib-mcp-server) | `community` | TypeScript | `v1` ([#144](https://github.com/modelcontextprotocol/ext-skills/issues/144)) | Passes the [conformance suite](https://github.com/modelcontextprotocol/conformance/pull/330) server scenarios |
+| [TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk) | `vendor` | TypeScript | `planned` ([#2798](https://github.com/modelcontextprotocol/typescript-sdk/issues/2798)) | First-class skills APIs; phase 1 in [#2818](https://github.com/modelcontextprotocol/typescript-sdk/pull/2818) |
 | [github-mcp-server](https://github.com/github/github-mcp-server/pull/2428) | `vendor` | Go | `prototype` | Demo branch, not for merge |
 | [mcpkit](https://github.com/panyam/mcpkit) | `community` | Go | `partial` ([#780](https://github.com/panyam/mcpkit/issues/780)) | Server and host. v1 security rules; catalog still on the index-resource shape |
 | [FastMCP SkillsProvider](https://gofastmcp.com/servers/providers/skills) | `vendor` | Python | `pre-v1` ([#129](https://github.com/modelcontextprotocol/ext-skills/issues/129)) | Own `skill://` shape |
