@@ -11,7 +11,7 @@
 
 Changes are proposed here. The vehicle is a dated entry in [`docs/decisions.md`](docs/decisions.md) with `**Status:** Proposed`, in the ADR-lite format used throughout that file (Status / Context / Decision / Rationale / References) — the PR carrying that entry is the proposal.
 
-Once a proposal is accepted, the resulting text is applied to `specification/stable/skills.mdx` in the same or a follow-up PR, and the entry's status is updated to Accepted.
+`specification/stable/skills.mdx` is a released snapshot and is not edited in place. Once a proposal is accepted, the resulting text lands in a draft revision of the specification (a `draft/` directory alongside the released text, following the layout used by [ext-tasks](https://github.com/modelcontextprotocol/ext-tasks/tree/main/specification)), the entry's status is updated to Accepted, and the draft ships as a new stable revision when released.
 
 When a decision supersedes or amends an earlier one, add a forward pointer to the earlier entry's `**Status:**` line rather than rewriting the entry. The log is an auditable trace of the group's reasoning over time, not a snapshot of current state.
 

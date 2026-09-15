@@ -11,7 +11,7 @@ This repository is the home of the official [Model Context Protocol](https://mod
 | **SEP-2640: Skills Extension** | [modelcontextprotocol.io/seps/2640-skills-extension](https://modelcontextprotocol.io/seps/2640-skills-extension) — the accepted SEP (Status: Final; [PR #2640](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2640) merged 2026-09-13) |
 | **Client support** | [Extension client matrix](https://modelcontextprotocol.io/extensions/client-matrix) — which clients implement the extension |
 
-Changes to the specification are proposed as dated entries in the [decision log](docs/decisions.md) (see [AGENTS.md](AGENTS.md) for the process) and, once accepted, applied to `specification/stable/skills.mdx`.
+The stable specification is a released snapshot and is not edited in place. Changes are proposed as dated entries in the [decision log](docs/decisions.md) (see [AGENTS.md](AGENTS.md) for the process) and, once accepted, land in a draft revision of the specification that ships as a new release.
 
 > ℹ️ The [`docs/`](docs/) folder holds the Working Group's design history, rationale, findings, and trackers. Those documents are exploratory and are not part of the specification.
 
