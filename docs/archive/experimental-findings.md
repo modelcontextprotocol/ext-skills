@@ -45,7 +45,7 @@ Added `skill://` discovery to VS Code and verified it against the [Hugging Face 
 - **Author:** Bob Dickinson
 - **Relevant artifacts:** [mcpgraphtoolkit/SKILL.md](https://github.com/TeamSparkAI/mcpGraph/blob/main/skills/mcpgraphtoolkit/SKILL.md) (875+ lines)
 
-**Approach tested:** Related to [Approach 5: Server Instructions Reference](archive/approaches.md#5-server-instructions-reference). The standalone skill lives beside the MCP server but is not formally connected to it.
+**Approach tested:** Related to [Approach 5: Server Instructions Reference](approaches.md#5-server-instructions-reference). The standalone skill lives beside the MCP server but is not formally connected to it.
 
 **Setup:**
 
@@ -108,7 +108,7 @@ Introduces support for agent skills with a tools-based approach.
 - **Author:** [Mat Goldsborough](https://github.com/mgoldsborough) (NimbleBrain)
 - **Relevant artifacts:** Atomic MCP server repositories with skills exposed as `skill://` resources
 
-**Approach tested:** [Approach 3: Skills as Tools and/or Resources](archive/approaches.md#3-skills-as-tools-andor-resources).
+**Approach tested:** [Approach 3: Skills as Tools and/or Resources](approaches.md#3-skills-as-tools-andor-resources).
 
 **Setup:**
 
@@ -193,7 +193,7 @@ the tools they orchestrate, including a multi-file skill with a `references/` su
 descriptor — which matches the prefix SEP-2640 recommends ("When `_meta` keys are used for
 skill resources, implementations SHOULD use the `io.modelcontextprotocol.skills/`
 reverse-domain prefix"). Useful corroboration of the recommended prefix. Note: the
-working-group repo-local draft ([`docs/sep-draft-skills-extension.md`](archive/sep-draft-skills-extension.md))
+working-group repo-local draft ([`docs/sep-draft-skills-extension.md`](sep-draft-skills-extension.md))
 does not yet include that sentence — its `_meta` paragraph ends at "…via the resource's
 `_meta` object." — so the SEP PR and this repo's copy have drifted and could be synced.
 (Discussed on [SEP-2640](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2640#issuecomment-4622668503).)

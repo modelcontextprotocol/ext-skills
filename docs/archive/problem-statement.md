@@ -17,7 +17,7 @@ MCP's value for skills goes beyond distribution; it provides an interaction mode
 
 ## Key Use Cases
 
-See [use-cases.md](archive/use-cases.md) for detailed use cases and community input. In summary:
+See [use-cases.md](use-cases.md) for detailed use cases and community input. In summary:
 
 1. **Complex Workflow Orchestration** — Multi-step workflows requiring 875+ lines of instruction (e.g., [mcpGraph](https://github.com/TeamSparkAI/mcpGraph))
 2. **Conditional Workflows** — Branching instructions dynamically loaded based on context
@@ -26,6 +26,6 @@ See [use-cases.md](archive/use-cases.md) for detailed use cases and community in
 
 ## Open Questions
 
-See [open-questions.md](archive/open-questions.md) for the full list of unresolved questions with community input.
+See [open-questions.md](open-questions.md) for the full list of unresolved questions with community input.
 
-For the value proposition and a guide on when MCP distribution applies, see [why-and-when.md](archive/why-and-when.md).
+For the value proposition and a guide on when MCP distribution applies, see [why-and-when.md](why-and-when.md).

@@ -14,7 +14,7 @@ Use this template when adding an entry to [experimental-findings.md](experimenta
 - **Author:** Name or handle
 - **Relevant artifacts:** Links to skill files, server/client code, commits, or pull requests
 
-**Approach tested:** Link to the relevant section of [approaches.md](archive/approaches.md), or describe the approach if it is not listed.
+**Approach tested:** Link to the relevant section of [approaches.md](approaches.md), or describe the approach if it is not listed.
 
 **Setup:**
 
@@ -30,7 +30,7 @@ Use this template when adding an entry to [experimental-findings.md](experimenta
 - **What didn't:** Observed failures
 - **What was surprising:** Unexpected behavior
 
-**Requirements or design questions addressed:** Link the finding to the current [problem statement](problem-statement.md), [use cases](archive/use-cases.md), or [approaches](archive/approaches.md).
+**Requirements or design questions addressed:** Link the finding to the current [problem statement](problem-statement.md), [use cases](use-cases.md), or [approaches](approaches.md).
 
 **Evidence and reproduction:** Provide commands, configuration, logs, measurements, or links that let another contributor inspect or repeat the experiment.
 
