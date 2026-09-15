@@ -10,7 +10,7 @@
 | ~~[SEP-2093](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2093)~~ | MCP Spec | ~~Resource Contents Metadata and Capabilities: scoped `resources/list`, per-resource capabilities, `resources/metadata` endpoint~~ — **rejected** ([labeled upstream](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2093)) |
 | ~~[SEP-2076](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2076)~~ | MCP Spec | ~~Agent Skills as a first-class MCP primitive~~ — **closed** (2026-02-24, without merge) |
 
-> Client support for the extension is tracked on the official [extension client matrix](https://modelcontextprotocol.io/extensions/client-matrix). The server-side candidates tracker this note once pointed to was retired when this repository was trimmed after SEP-2640 was marked Final.
+> Client support for the extension is tracked on the official [extension client matrix](https://modelcontextprotocol.io/extensions/client-matrix). Implementations are listed in [implementations.md](../implementations.md).
 
 ## Working Group Member Implementations
 

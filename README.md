@@ -13,7 +13,7 @@ This repository is the home of the official [Model Context Protocol](https://mod
 
 The stable specification is a released snapshot and is not edited in place. Changes are proposed as dated entries in the [decision log](docs/decisions.md) (see [AGENTS.md](AGENTS.md) for the process) and, once accepted, land in a draft revision of the specification that ships as a new release.
 
-> ℹ️ The [`docs/`](docs/) folder holds the [decision log](docs/decisions.md) and the [design rationale](docs/rationale.md). Earlier design documents, findings, and trackers are frozen in [`docs/archive/`](docs/archive/). None of it is part of the specification.
+> ℹ️ The [`docs/`](docs/) folder holds the [decision log](docs/decisions.md), the [design rationale](docs/rationale.md), and the [implementations list](docs/implementations.md). Earlier design documents, findings, and trackers are frozen in [`docs/archive/`](docs/archive/). None of it is part of the specification.
 
 **Charter:** [modelcontextprotocol.io/community/working-groups/skills-over-mcp](https://modelcontextprotocol.io/community/working-groups/skills-over-mcp) — mission, scope, membership, active work items, and success criteria.
 **Project board:** [Skills Over MCP WG](https://github.com/orgs/modelcontextprotocol/projects/38/views/1)
@@ -28,6 +28,7 @@ The stable specification is a released snapshot and is not edited in place. Chan
 | [Specification](specification/stable/skills.mdx) | The Skills extension specification (`io.modelcontextprotocol/skills`) — source of truth |
 | [Decision Log](docs/decisions.md) | ADR-lite record of the group's decisions, and the vehicle for proposing changes to the specification |
 | [Rationale](docs/rationale.md) | Design rationale for the Resources-based extension |
+| [Implementations](docs/implementations.md) | Servers, SDKs, and hosts that serve or consume skills over MCP |
 | [Archive](docs/archive/) | Pre-release design documents, findings, and trackers, frozen when SEP-2640 was marked Final |
 
 For the case for serving skills over MCP, see the [official overview](https://modelcontextprotocol.io/extensions/skills/overview) and the Motivation section of [SEP-2640](https://modelcontextprotocol.io/seps/2640-skills-extension).
