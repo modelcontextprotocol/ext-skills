@@ -6,6 +6,8 @@ Example servers, SDKs, and hosts that serve or consume skills over MCP. Official
 
 **Category:** `vendor` maintained by the organization behind the product or SDK · `community` individual or community project
 
+Implementations that predate the SEP are recorded in the archived [related work](archive/related-work.md) and are not repeated here.
+
 To add or update a row, open a PR. Keep notes to one line.
 
 ## Servers and SDKs
@@ -18,11 +20,6 @@ To add or update a row, open a PR. Keep notes to one line.
 | [github-mcp-server](https://github.com/github/github-mcp-server/pull/2428) | `vendor` | Go | `prototype` | Demo branch, not for merge |
 | [mcpkit](https://github.com/panyam/mcpkit) | `community` | Go | `partial` ([#780](https://github.com/panyam/mcpkit/issues/780)) | Server and host. v1 security rules; catalog still on the index-resource shape |
 | [FastMCP SkillsProvider](https://gofastmcp.com/servers/providers/skills) | `vendor` | Python | `pre-v1` ([#129](https://github.com/modelcontextprotocol/ext-skills/issues/129)) | Own `skill://` shape |
-| [PHP MCP SDK + Symfony AI](https://github.com/modelcontextprotocol/ext-skills/pull/95) | `vendor` | PHP | `pre-v1` | Skills as `skill://` resources |
-| [skillsdotnet](https://github.com/PederHP/skillsdotnet) | `community` | C# | `pre-v1` | `skill://` resources, `load_skill` tool, file-hash manifest |
-| [skilljack-mcp](https://github.com/olaservo/skilljack-mcp) | `community` | TypeScript | `pre-v1` | `skill://` resources with progressive disclosure |
-| [skills-over-mcp](https://github.com/keithagroves/skills-over-mcp) | `community` | TypeScript | `pre-v1` | `skill://` resources, Zod validation |
-| [NimbleBrain servers](https://github.com/NimbleBrainInc) | `vendor` | TypeScript | `pre-v1` | `skill://` colocation across several servers |
 
 ## Hosts and clients
 
