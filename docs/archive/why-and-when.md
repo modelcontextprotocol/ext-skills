@@ -8,7 +8,7 @@ MCP servers give agents access to tools. But tools alone are insufficient for co
 
 Skills are *context*, and MCP is a *context protocol*. This Working Group isn't looking for problems to solve with the MCP hammer. The question is narrower and more practical: agents already connect to remote services over MCP to get tools — can they get the know-how to use those tools through the same channel?
 
-The answer matters because skills and tools are often tightly coupled. A server that provides graph-building tools is hard to use without 875 lines of orchestration instructions. A server exposing Airflow APIs needs version-specific guidance to avoid suggesting deprecated patterns. One workaround is wrapping each MCP server in a custom sub-agent with hand-written instructions — but this means independently reinventing the same orchestration guidance for the same servers. Skills over MCP makes those instructions portable and shareable: the server author ships them once, and every user benefits. See [problem-statement.md](../problem-statement.md) for the full gap analysis.
+The answer matters because skills and tools are often tightly coupled. A server that provides graph-building tools is hard to use without 875 lines of orchestration instructions. A server exposing Airflow APIs needs version-specific guidance to avoid suggesting deprecated patterns. One workaround is wrapping each MCP server in a custom sub-agent with hand-written instructions — but this means independently reinventing the same orchestration guidance for the same servers. Skills over MCP makes those instructions portable and shareable: the server author ships them once, and every user benefits. See [problem-statement.md](problem-statement.md) for the full gap analysis.
 
 ## What MCP Adds
 
@@ -20,7 +20,7 @@ This is especially relevant for **remote agent skill integration**. A remote MCP
 
 > "Skills living as `skill://` resources on the server itself was the natural endpoint of that consolidation. The skill context is colocated with the tools it describes, versioned together, shipped together." — [Mat Goldsborough](https://github.com/mgoldsborough) (NimbleBrain)
 
-See [NimbleBrain findings](../experimental-findings.md#nimblebrain-skill-resource-consolidation) for production validation of this pattern.
+See [NimbleBrain findings](experimental-findings.md#nimblebrain-skill-resource-consolidation) for production validation of this pattern.
 
 ### Discovery Where It Belongs
 
@@ -90,5 +90,5 @@ You *can* use bare resources. But without a shared convention, every server inve
 
 - [Use Cases](use-cases.md) — 11 detailed scenarios driving this work
 - [Approaches](approaches.md) — Technical approaches being explored
-- [Experimental Findings](../experimental-findings.md) — Results from implementations and testing
+- [Experimental Findings](experimental-findings.md) — Results from implementations and testing
 - [Open Questions](open-questions.md) — Unresolved questions with community input

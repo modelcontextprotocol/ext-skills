@@ -18,7 +18,7 @@ For background on the ADR format, see [adr.github.io](https://adr.github.io/).
 
 **References:**
 - [Feb 13 meeting notes](https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/2248) (Key Decisions & Agreements)
-- [Problem Statement](problem-statement.md)
+- [Problem Statement](archive/problem-statement.md)
 
 ---
 

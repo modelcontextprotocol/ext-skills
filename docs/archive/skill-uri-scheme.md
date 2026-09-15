@@ -359,5 +359,5 @@ Servers MAY include provenance metadata in `_meta` to make origin explicit.
 - [RFC 6570: URI Templates](https://datatracker.ietf.org/doc/html/rfc6570)
 - [Agent Skills specification](https://agentskills.io/specification)
 - [Agent Skills Discovery RFC](https://github.com/cloudflare/agent-skills-discovery-rfc)
-- [NimbleBrain skill:// findings](../experimental-findings.md#nimblebrain-skill-resource-consolidation)
+- [NimbleBrain skill:// findings](experimental-findings.md#nimblebrain-skill-resource-consolidation)
 - [Approach 6: Official Convention](approaches.md#6-official-convention-as-intermediate-step)

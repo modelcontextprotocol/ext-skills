@@ -6,7 +6,7 @@ This Working Group welcomes contributions from anyone interested in skills distr
 
 - Joining discussions in the [#skills-over-mcp-wg Discord channel](https://discord.com/channels/1358869848138059966/1464745826629976084) (info on joining the Discord server [here](https://modelcontextprotocol.io/community/communication#discord))
 - Opening or commenting on [GitHub Discussions](https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/categories/meeting-notes-skills-over-mcp-wg) in the main MCP repo
-- Sharing experimental findings from your own implementations
+- Sharing findings from your own implementations as GitHub issues
 - Contributing to documentation and pattern evaluation
 
 ## Communication Channels
@@ -15,7 +15,7 @@ This Working Group welcomes contributions from anyone interested in skills distr
 | :--- | :--- | :--- |
 | [Discord #skills-over-mcp-wg](https://discord.com/channels/1358869848138059966/1464745826629976084) | Quick questions, coordination, async discussion | Best effort |
 | [GitHub Discussions](https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/categories/meeting-notes-skills-over-mcp-wg) | Meeting notes, long-form technical proposals, experimental findings | Weekly triage |
-| This repository | Living reference for approaches, findings, and decisions | Updated after meetings |
+| This repository | The specification, decision log, and design rationale | Updated after meetings |
 
 ## Coordination with the Agent Skills Spec
 
@@ -41,15 +41,14 @@ Outputs include:
 
 ## Contribution Guidelines
 
-### Documenting Approaches and Findings
+### Sharing Implementation Findings
 
-When adding experimental findings or new approaches:
+Findings from implementations are shared as [GitHub issues](https://github.com/modelcontextprotocol/ext-skills/issues) rather than as documents in this repository. The pre-v1 findings and their template are frozen in [`docs/archive/`](docs/archive/). When reporting a finding:
 
-- Start from the [experimental findings template](docs/findings-template.md) when adding a finding
 - Include enough detail for others to reproduce or evaluate
-- Note which clients and servers were tested
+- Note which clients and servers were tested, and the specification revision
 - Be explicit about what worked, what didn't, and what remains untested
-- Write "Not documented" for missing historical details instead of inferring them
+- Write "Not documented" for missing details instead of inferring them
 - Attribute community input with GitHub handles and link to the source where possible
 
 ### Community Input
