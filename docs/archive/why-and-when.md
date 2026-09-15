@@ -38,7 +38,7 @@ See [Use Case 6: Skill Versioning and Updates](use-cases.md#6-skill-versioning-a
 
 MCP defines app, human, and assistant roles. This gives skills a built-in framework for *who sees the content* and *who decides when it loads* — model-controlled (the agent decides to read a skill) vs. application-controlled (the host app presents it). File-based distribution has no equivalent; the control model is ad hoc and varies by host application.
 
-See [Open Question 9](../open-questions.md#9-who-gets-visibility-into-skill-content-and-who-decides-when-it-gets-loaded) for the ongoing discussion.
+See [Open Question 9](open-questions.md#9-who-gets-visibility-into-skill-content-and-who-decides-when-it-gets-loaded) for the ongoing discussion.
 
 ### Multi-Server Composition
 
@@ -76,7 +76,7 @@ This isn't an either/or choice. Skills can exist as local files *and* be served 
 
 ### "Why not just files in a git repo?"
 
-This works well for many cases and will continue to. But file-based distribution has no discovery mechanism (you have to know the repo exists), no dynamic updates (you have to re-pull), and no ephemeral availability (files persist on disk). For enterprises, git-based skill distribution raises its own trust and access-control concerns — though MCP-based distribution introduces different governance questions (allowlisting, provenance verification, runtime integrity) that are [still being worked out](../open-questions.md#10-how-should-skills-handle-security-and-trust-boundaries).
+This works well for many cases and will continue to. But file-based distribution has no discovery mechanism (you have to know the repo exists), no dynamic updates (you have to re-pull), and no ephemeral availability (files persist on disk). For enterprises, git-based skill distribution raises its own trust and access-control concerns — though MCP-based distribution introduces different governance questions (allowlisting, provenance verification, runtime integrity) that are [still being worked out](open-questions.md#10-how-should-skills-handle-security-and-trust-boundaries).
 
 ### "Why not just extend server instructions?"
 
@@ -91,4 +91,4 @@ You *can* use bare resources. But without a shared convention, every server inve
 - [Use Cases](use-cases.md) — 11 detailed scenarios driving this work
 - [Approaches](approaches.md) — Technical approaches being explored
 - [Experimental Findings](../experimental-findings.md) — Results from implementations and testing
-- [Open Questions](../open-questions.md) — Unresolved questions with community input
+- [Open Questions](open-questions.md) — Unresolved questions with community input

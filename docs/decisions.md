@@ -116,7 +116,7 @@ For background on the ADR format, see [adr.github.io](https://adr.github.io/).
 - [PR #60](https://github.com/modelcontextprotocol/experimental-ext-skills/pull/60)
 - [Issue #55](https://github.com/modelcontextprotocol/experimental-ext-skills/issues/55)
 - [Discord discussion](https://discord.com/channels/1358869848138059966/1482008994062274610)
-- [Using `_meta` for Skill Resources](skill-meta-keys.md)
+- [Using `_meta` for Skill Resources](archive/skill-meta-keys.md)
 
 ---
 

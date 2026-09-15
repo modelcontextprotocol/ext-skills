@@ -45,6 +45,6 @@ This glossary defines working terminology for the Skills Over MCP documents. It 
 - [Agent Skills specification](https://agentskills.io/specification)
 - [MCP Resources specification](https://modelcontextprotocol.io/specification/2025-11-25/server/resources)
 - [MCP Tools specification](https://modelcontextprotocol.io/specification/2025-11-25/server/tools)
-- [Open Questions](../open-questions.md)
+- [Open Questions](open-questions.md)
 - [Approaches](approaches.md)
 - [Skill URI Scheme Proposal](skill-uri-scheme.md)

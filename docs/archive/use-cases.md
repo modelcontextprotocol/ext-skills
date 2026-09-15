@@ -28,7 +28,7 @@ Skills that leverage tools from multiple off-the-shelf servers where you can't (
 
 > "The ecosystem has been too focused on the server being the main deliverable in some ways, and actually there's a lot that can be done in terms of composition that we miss by people generally imagining their code as being the server boundary and not providing functionality more as a library." — [Sam Morrow](https://github.com/SamMorrowDrums)
 
-Beyond multi-server tool orchestration, skills themselves may be composable — one skill depending on another skill's output or behavior. This extends the dependency model beyond tool availability to skill availability, and raises questions about declarative dependency metadata. See [Open Question 4](../open-questions.md#4-how-should-skills-relate-to-multiple-servers) for the emerging proposal on host-mediated dependency resolution.
+Beyond multi-server tool orchestration, skills themselves may be composable — one skill depending on another skill's output or behavior. This extends the dependency model beyond tool availability to skill availability, and raises questions about declarative dependency metadata. See [Open Question 4](open-questions.md#4-how-should-skills-relate-to-multiple-servers) for the emerging proposal on host-mediated dependency resolution.
 
 **See also:** [#39](https://github.com/modelcontextprotocol/experimental-ext-skills/issues/39) — Skill dependency declaration, [#45](https://github.com/modelcontextprotocol/experimental-ext-skills/issues/45) — Worked examples for multi-server composition
 

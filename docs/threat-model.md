@@ -4,7 +4,7 @@
 
 ## Scope
 
-This threat model covers the **delivery and host-handling layer** for skills served over MCP: how a host discovers, fetches, verifies, materializes, and reads skill content from an MCP server, and what an adversary controlling that content (or the channel to it) can do. It is the security companion to SEP-2640's [Security Implications](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2640) section and to [open-questions.md §10](open-questions.md#10-how-should-skills-handle-security-and-trust-boundaries).
+This threat model covers the **delivery and host-handling layer** for skills served over MCP: how a host discovers, fetches, verifies, materializes, and reads skill content from an MCP server, and what an adversary controlling that content (or the channel to it) can do. It is the security companion to SEP-2640's [Security Implications](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2640) section and to [open-questions.md §10](archive/open-questions.md#10-how-should-skills-handle-security-and-trust-boundaries).
 
 Out of scope:
 
@@ -277,7 +277,7 @@ Threats the current SEP revision does **not** fully close, and directions raised
 - [SEP-2640: Skills Extension](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2640) — the specification this document models. Canonical text on the `sep/skills-extension` branch. The older working draft [`docs/sep-draft-skills-extension.md`](archive/sep-draft-skills-extension.md) predates the `skills/list`/`skills/get` + `resources`-array revision and the archive removal.
 - [`dangerous-skills-mcp`](https://github.com/olaservo/dangerous-skills-mcp) — the executable adversarial corpus (fixtures, oracles, smoke client). Live: `https://olaservo-dangerous-skills-mcp.hf.space/mcp`. Forked from [`gricha/dangerous-skills`](https://github.com/gricha/dangerous-skills).
 - [Agent Skills Discovery RFC](https://github.com/cloudflare/agent-skills-discovery-rfc) (Cloudflare) — SHA-256 content integrity and per-file digests; the closest external analog for the integrity model.
-- [Open Questions §10](open-questions.md#10-how-should-skills-handle-security-and-trust-boundaries) — the WG's trust-boundary discussion and community input.
+- [Open Questions §10](archive/open-questions.md#10-how-should-skills-handle-security-and-trust-boundaries) — the WG's trust-boundary discussion and community input.
 - [Decision Log](decisions.md) — instructor-format scoping, filesystem-as-host-detail, the `resources/directory/read` method, and the digest/archive decisions.
-- [Skill `_meta` Keys](skill-meta-keys.md) — `_meta` key conventions for skill resources, including the reserved `io.modelcontextprotocol.skills/` prefix.
+- [Skill `_meta` Keys](archive/skill-meta-keys.md) — `_meta` key conventions for skill resources, including the reserved `io.modelcontextprotocol.skills/` prefix.
 - [RFC 8089: The "file" URI Scheme](https://datatracker.ietf.org/doc/html/rfc8089) — the no-authority `file:` forms behind `adv-file-url`.

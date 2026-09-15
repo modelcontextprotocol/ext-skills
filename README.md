@@ -52,8 +52,6 @@ See [problem-statement.md](docs/problem-statement.md) for full details.
 | [Problem Statement](docs/problem-statement.md) | The gaps the extension addresses |
 | [Rationale](docs/rationale.md) | Design rationale for the Resources-based extension |
 | [Related Work](docs/related-work.md) | SEPs, implementations, and external resources |
-| [Open Questions](docs/open-questions.md) | Early open questions; kept for reference, see the decision log for what was settled |
-| [Using `_meta` for Skill Resources](docs/skill-meta-keys.md) | Guidelines for `_meta` on skill resources; see the 2026-03-16 decision |
 | [Archive](docs/archive/) | Pre-release design documents, frozen when SEP-2640 was marked Final |
 
 ## Contributing
