@@ -16,13 +16,13 @@ npm run docs:build
 npm run docs:preview
 ```
 
-The homepage renders `README.md` through a VitePress route rewrite; there is no
-separate copy of the overview. Navigation links to the condensed overview on the
-[MCP website](https://modelcontextprotocol.io/extensions/skills/overview).
-The full specification is rendered from `specification/stable/skills.mdx`; the adjacent
-`.md` file includes it for VitePress, so there is only one copy of the specification
+The homepage renders the full specification from `specification/stable/skills.mdx`.
+The adjacent `.md` file includes it for VitePress and is routed to `/`, so there
+is one documentation page and one copy of the specification
 text. Follow the [specification change process](AGENTS.md#proposing-changes-to-the-specification)
 when proposing changes.
+Navigation links to the condensed overview on the
+[MCP website](https://modelcontextprotocol.io/extensions/skills/overview).
 Working Group research and historical documents under `docs/` remain available on GitHub.
 
 Pull requests build the website in CI, including contributions from forks.
