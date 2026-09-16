@@ -41,7 +41,7 @@ This glossary defines working terminology for the Skills Over MCP documents. It 
 ## References
 
 - [SEP-2640: Skills Extension](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2640) — the extension these terms describe (v1 copy at [sep-draft-skills-extension.md](sep-draft-skills-extension.md))
-- [Decision Log](decisions.md) — Working Group decisions that ground several definitions
+- [Decision Log](../decisions.md) — Working Group decisions that ground several definitions
 - [Agent Skills specification](https://agentskills.io/specification)
 - [MCP Resources specification](https://modelcontextprotocol.io/specification/2025-11-25/server/resources)
 - [MCP Tools specification](https://modelcontextprotocol.io/specification/2025-11-25/server/tools)

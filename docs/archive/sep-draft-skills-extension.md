@@ -12,12 +12,12 @@
 >
 > **The v1 spec text lives on that PR. Review and comments belong there, not on this copy.**
 >
-> This file is the v1 baseline: a verbatim copy of the canonical SEP at commit [`753b9f2`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/753b9f2be43e07fdd070e535d75f190cff14beea/seps/2640-skills-extension.md) (2026-08-22) on the [`sep/skills-extension`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/sep/skills-extension/seps/2640-skills-extension.md) branch, kept here so Working Group discussion and decision records can quote and link stable text. It is only as current as that pinned commit. For what v1 comprises and why, see the 2026-07-16 v1 scope entry in the [decision log](decisions.md).
+> This file is the v1 baseline: a verbatim copy of the canonical SEP at commit [`753b9f2`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/753b9f2be43e07fdd070e535d75f190cff14beea/seps/2640-skills-extension.md) (2026-08-22) on the [`sep/skills-extension`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/sep/skills-extension/seps/2640-skills-extension.md) branch, kept here so Working Group discussion and decision records can quote and link stable text. It is only as current as that pinned commit. For what v1 comprises and why, see the 2026-07-16 v1 scope entry in the [decision log](../decisions.md).
 >
-> **To propose a change beyond v1**, add a dated entry to [`decisions.md`](decisions.md) with **Status: Proposed**, in the ADR-lite format used throughout that file — the PR carrying that entry is the proposal. Once a proposal is accepted, the resulting spec text is applied to this document and its section marked with a pointer to the record:
+> **To propose a change beyond v1**, add a dated entry to [`decisions.md`](../decisions.md) with **Status: Proposed**, in the ADR-lite format used throughout that file — the PR carrying that entry is the proposal. Once a proposal is accepted, the resulting spec text is applied to this document and its section marked with a pointer to the record:
 >
 > ```markdown
-> > **Beyond v1** — [2026-08-04: Batch resource read](decisions.md) · Proposed
+> > **Beyond v1** — [2026-08-04: Batch resource read](../decisions.md) · Proposed
 > ```
 >
 > A section without such a marker is v1 as it stands upstream. Re-sync by overwriting the unmarked text from the canonical file and updating the commit reference above.
