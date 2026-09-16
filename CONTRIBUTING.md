@@ -19,8 +19,10 @@ npm run docs:preview
 `index.md` is the condensed overview, adapted from the
 [MCP website's Skills page](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/docs/extensions/skills/overview.mdx).
 Keep its protocol descriptions and examples aligned with that page and the specification.
-Edit `specification/stable/skills.mdx` for the full specification; the adjacent `.md`
-file includes it for VitePress, so there is only one copy of the specification text.
+The full specification is rendered from `specification/stable/skills.mdx`; the adjacent
+`.md` file includes it for VitePress, so there is only one copy of the specification
+text. Follow the [specification change process](AGENTS.md#proposing-changes-to-the-specification)
+when proposing changes.
 Working Group research and historical documents under `docs/` remain available on GitHub.
 
 Pull requests build the website with both a root URL and the `/ext-skills/` project
