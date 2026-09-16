@@ -24,11 +24,11 @@ To add or update a row, open a PR. Keep notes to one line.
 
 ## Servers
 
-| Implementation | Category | Status | Notes |
-| :--- | :--- | :--- | :--- |
-| [hf-mcp-server](https://github.com/huggingface/hf-mcp-server) | | TypeScript | Hugging Face. `skills/list`, `skills/get`, `directoryRead`. HTTP transports only |
-| [github-stars-contrib-mcp-server](https://github.com/svg153/github-stars-contrib-mcp-server) | `community` | `v1` ([#144](https://github.com/modelcontextprotocol/ext-skills/issues/144)) | Passes the [conformance suite](https://github.com/modelcontextprotocol/conformance) server scenarios |
-| [github-mcp-server](https://github.com/github/github-mcp-server/pull/2428) | | Go | Demo branch, not for merge |
+| Implementation | Category | Language | Status | Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| [hf-mcp-server](https://github.com/huggingface/hf-mcp-server) | | TypeScript | `v1` | Hugging Face. `skills/list`, `skills/get`, `directoryRead`. HTTP transports only |
+| [github-stars-contrib-mcp-server](https://github.com/svg153/github-stars-contrib-mcp-server) | `community` | Python | `v1` ([#144](https://github.com/modelcontextprotocol/ext-skills/issues/144)) | Passes the [conformance suite](https://github.com/modelcontextprotocol/conformance) server scenarios |
+| [github-mcp-server](https://github.com/github/github-mcp-server/pull/2428) | | Go | `prototype` | Demo branch, not for merge |
 
 ## Hosts (including agent harnesses, IDEs, and web applications)
 
