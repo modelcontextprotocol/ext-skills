@@ -1,4 +1,4 @@
-# Implementations
+# Example Implementations
 
 Example servers, SDKs, and hosts that serve or consume skills over MCP. Official client support is tracked on the [extension client matrix](https://modelcontextprotocol.io/extensions/client-matrix); this list is broader and community-maintained.
 
@@ -30,12 +30,13 @@ To add or update a row, open a PR. Keep notes to one line.
 | [github-stars-contrib-mcp-server](https://github.com/svg153/github-stars-contrib-mcp-server) | `community` | `v1` ([#144](https://github.com/modelcontextprotocol/ext-skills/issues/144)) | Passes the [conformance suite](https://github.com/modelcontextprotocol/conformance) server scenarios |
 | [github-mcp-server](https://github.com/github/github-mcp-server/pull/2428) | | Go | Demo branch, not for merge |
 
-## Hosts
+## Hosts (including agent harnesses, IDEs, and web applications)
 
 | Implementation | Category | Status | Notes |
 | :--- | :--- | :--- | :--- |
 | [fast-agent](https://github.com/evalstate/fast-agent/blob/main/docs/docs/mcp/skills-over-mcp.md) | `community` | `partial` | First client interoperated end-to-end with hf-mcp-server |
 | [MCP Inspector](https://github.com/modelcontextprotocol/inspector/blob/main/clients/cli/README.md#skill-verification---verify) | `official` | `partial` | SEP-2640 support since 2.6.0 (2026-09-09), including CLI skill verification |
+| [MCPJam Inspector](https://github.com/MCPJam/inspector) | | `partial` | Skills surface in the app and CLI; declares the extension capability |
 | [ChatGPT plugins](https://developers.openai.com/plugins/build/mcp-server#import-skills-from-the-mcp-server) | | `partial` | Imports skills at plugin submission, static snapshot |
 | [VS Code fork](https://github.com/tobi-oye/vscode/pull/1) | `community` | `prototype` | `skills/list` discovery and loading ([findings](archive/experimental-findings.md)) |
 | [Goose](https://github.com/aaif-goose/goose) | | `planned` ([#12068](https://github.com/aaif-goose/goose/issues/12068)) | Prototype fork in [ext-skills#125](https://github.com/modelcontextprotocol/ext-skills/pull/125) |
