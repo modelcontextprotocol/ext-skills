@@ -1,5 +1,7 @@
 # Glossary
 
+> **Historical document.** Frozen during development of SEP-2640; statements of current status and requirements below describe that draft-era context. See the [stable specification](../../specification/stable/skills.mdx) for current requirements and the [archive index](README.md) for context.
+
 This glossary defines working terminology for the Skills Over MCP documents. It is descriptive rather than normative: the [MCP specification](https://modelcontextprotocol.io/specification/2025-11-25/server/resources) and the [Agent Skills specification](https://agentskills.io/specification) remain the source of truth for their respective formats and protocol surfaces. Definitions are intentionally short (1–3 sentences) and note alignment or divergence with Agent Skills where relevant.
 
 ## Core terms

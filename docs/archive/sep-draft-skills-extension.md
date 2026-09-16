@@ -1,5 +1,7 @@
 # SEP-2640: Skills Extension
 
+> **Historical document.** Frozen during development of SEP-2640; statements of current status and requirements below describe that draft-era context. See the [stable specification](../../specification/stable/skills.mdx) for current requirements and the [archive index](README.md) for context.
+
 - **Status**: Draft
 - **Type**: Extensions Track
 - **Created**: 2026-04-23
