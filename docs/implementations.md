@@ -10,22 +10,27 @@ Implementations that predate the SEP are recorded in the archived [related work]
 
 To add or update a row, open a PR. Keep notes to one line.
 
-## Servers and SDKs
+## SDKs and frameworks
 
 | Implementation | Category | Language | Status | Notes |
 | :--- | :--- | :--- | :--- | :--- |
-| [hf-mcp-server](https://github.com/huggingface/hf-mcp-server) | | TypeScript | `v1` | Hugging Face. `skills/list`, `skills/get`, `directoryRead`. HTTP transports only |
-| [github-stars-contrib-mcp-server](https://github.com/svg153/github-stars-contrib-mcp-server) | `community` | TypeScript | `v1` ([#144](https://github.com/modelcontextprotocol/ext-skills/issues/144)) | Passes the [conformance suite](https://github.com/modelcontextprotocol/conformance) server scenarios |
 | [Go SDK](https://github.com/modelcontextprotocol/go-sdk) | `official` | Go | `in progress` ([#1238](https://github.com/modelcontextprotocol/go-sdk/pull/1238)) | Passes the conformance suite; filesystem provider in [#1240](https://github.com/modelcontextprotocol/go-sdk/pull/1240) |
 | [TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk) | `official` | TypeScript | `in progress` ([#2818](https://github.com/modelcontextprotocol/typescript-sdk/pull/2818)) | Phase 1: schemas, client ops, server handlers. Tracking issue [#2798](https://github.com/modelcontextprotocol/typescript-sdk/issues/2798) |
 | [Python SDK](https://github.com/modelcontextprotocol/python-sdk) | `official` | Python | `in progress` ([#3485](https://github.com/modelcontextprotocol/python-sdk/pull/3485)) | Tracking issue [#3486](https://github.com/modelcontextprotocol/python-sdk/issues/3486) |
 | [C# SDK](https://github.com/modelcontextprotocol/csharp-sdk) | `official` | C# | `in progress` ([#1864](https://github.com/modelcontextprotocol/csharp-sdk/pull/1864)) | Alternative PR [#1856](https://github.com/modelcontextprotocol/csharp-sdk/pull/1856); maintainers to pick |
-| [Tachyon](https://github.com/tachyonmcp/tachyon/tree/main/examples/mcp-skills) | | Java | `v1` | Self-reported 2026-09-14; requires clients to advertise the extension capability |
-| [github-mcp-server](https://github.com/github/github-mcp-server/pull/2428) | | Go | `prototype` | Demo branch, not for merge |
-| [mcpkit](https://github.com/panyam/mcpkit) | `community` | Go | `partial` ([#780](https://github.com/panyam/mcpkit/issues/780)) | Server and host. v1 security rules; catalog still on the index-resource shape |
 | [FastMCP SkillsProvider](https://gofastmcp.com/servers/providers/skills) | | Python | `pre-v1` ([#129](https://github.com/modelcontextprotocol/ext-skills/issues/129)) | Own `skill://` shape |
+| [mcpkit](https://github.com/panyam/mcpkit) | `community` | Go | `partial` ([#780](https://github.com/panyam/mcpkit/issues/780)) | Server and host. v1 security rules; catalog still on the index-resource shape |
+| [Tachyon](https://github.com/tachyonmcp/tachyon/tree/main/examples/mcp-skills) | | Java | `v1` | Self-reported 2026-09-14; requires clients to advertise the extension capability |
 
-## Hosts and clients
+## Servers
+
+| Implementation | Category | Status | Notes |
+| :--- | :--- | :--- | :--- |
+| [hf-mcp-server](https://github.com/huggingface/hf-mcp-server) | | TypeScript | Hugging Face. `skills/list`, `skills/get`, `directoryRead`. HTTP transports only |
+| [github-stars-contrib-mcp-server](https://github.com/svg153/github-stars-contrib-mcp-server) | `community` | `v1` ([#144](https://github.com/modelcontextprotocol/ext-skills/issues/144)) | Passes the [conformance suite](https://github.com/modelcontextprotocol/conformance) server scenarios |
+| [github-mcp-server](https://github.com/github/github-mcp-server/pull/2428) | | Go | Demo branch, not for merge |
+
+## Hosts
 
 | Implementation | Category | Status | Notes |
 | :--- | :--- | :--- | :--- |
