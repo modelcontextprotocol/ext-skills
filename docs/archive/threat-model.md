@@ -1,5 +1,7 @@
 # Threat Model: Skills Over MCP
 
+> **Historical document.** Frozen during development of SEP-2640; statements of current status and requirements below describe that draft-era context. See the [stable specification](../../specification/stable/skills.mdx) for current requirements and the [archive index](README.md) for context.
+
 > ⚠️ **Experimental** — This document models threats against skills served over MCP as specified in [SEP-2640](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2640) *in its current form*: the revision on the canonical [`sep/skills-extension`](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2640/files) branch, which supersedes the older [`docs/sep-draft-skills-extension.md`](sep-draft-skills-extension.md) working draft. That revision **replaced the `skill://index.json` resource with the `skills/list` and `skills/get` methods, added a per-file `resources` digest array covering the whole skill, and moved archive distribution to a deferred-features appendix.** It is a Working Group reference, not a normative part of the SEP. Where it recommends behavior beyond what SEP-2640 mandates, it says so.
 
 ## Scope

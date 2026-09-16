@@ -1,5 +1,7 @@
 # Agent Plugins x Skills Over MCP
 
+> **Historical document.** Frozen during development of SEP-2640; statements of current status and requirements below describe that draft-era context. See the [stable specification](../../specification/stable/skills.mdx) for current requirements and the [archive index](README.md) for context.
+
 ## Summary
 
 Agent Plugins 1.0 is a portable *packaging* format — a directory with a `plugin.json` manifest whose two component types are Agent Skills (a `skills/` directory) and MCP server configurations (`mcp.json`). It deliberately layers on top of the Agent Skills spec and MCP rather than redefining either, so it is overwhelmingly a **complement** to SEP-2640: the SEP moves skills over the wire at runtime; Agent Plugins moves them onto disk at install time. The two even compose — a plugin's `mcp.json` can point at a server that itself serves skills under the extension.

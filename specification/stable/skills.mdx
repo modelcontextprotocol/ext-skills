@@ -30,14 +30,17 @@ This extension is identified as: `io.modelcontextprotocol/skills`.
 
 This page specifies the extension against base protocol revision `2026-07-28` or later. Type names it references without defining (`Result`, `PaginatedRequest`, `PaginatedResult`, `CacheableResult`, `Resource`, `Cursor`) are those of the base schema at that revision.
 
+For brevity, request examples omit `_meta`. Every request **MUST** include the required [request metadata](https://modelcontextprotocol.io/specification/2026-07-28/basic/index#_meta).
+
 ## Capability Negotiation
 
-Servers declare support for this extension in the `extensions` field of their capabilities:
+Servers declare support for this extension in the `extensions` field of their capabilities in `server/discover`:
 
 ```jsonc
 // Server capabilities
 {
   "capabilities": {
+    "resources": {},
     // Other capabilities...
     "extensions": {
       "io.modelcontextprotocol/skills": {
@@ -72,7 +75,7 @@ A skill served over MCP **MUST** conform to the [Agent Skills specification](htt
 - `SKILL.md` **MUST** begin with YAML frontmatter containing at minimum the `name` and `description` fields as defined by the Agent Skills specification.
 - A skill **MAY** contain additional files and subdirectories (references, scripts, examples, assets).
 
-This extension does not redefine, constrain, or extend the skill format. Future revisions of the Agent Skills specification apply automatically.
+This extension does not redefine, constrain, or extend the skill format. Future revisions of the Agent Skills specification apply automatically. In the event that the Agent Skills specification changes in a backwards incompatible way, clients **MUST** honor any backwards compatibility mechanisms provided by the Agent Skills specification and **SHOULD** continue to support the Agent Skills specification as it existed prior to any incompatible change.
 
 ## Resource Mapping
 
@@ -282,8 +285,8 @@ interface ListSkillsResult extends PaginatedResult, CacheableResult {
         "resources": [
           {
             "uri": "skill://git-workflow/SKILL.md",
-            "digest": "sha256:a1b2c3d4...",
-            "size": 2314
+            "digest": "sha256:b95a384300adeea2d902f7d19cd7c04b378ef58e09759107b9c7db4dcacbaa25",
+            "size": 190
           }
         ]
       },
@@ -297,13 +300,13 @@ interface ListSkillsResult extends PaginatedResult, CacheableResult {
         "resources": [
           {
             "uri": "skill://acme/billing/refunds/SKILL.md",
-            "digest": "sha256:b2c3d4e5...",
-            "size": 3871
+            "digest": "sha256:ae7bc7e45f44a6381977ef1f772cbad6e38d8ec78903ea7b87abb373815a8f89",
+            "size": 175
           },
           {
             "uri": "skill://acme/billing/refunds/examples/email.md",
-            "digest": "sha256:c3d4e5f6...",
-            "size": 962
+            "digest": "sha256:a724fa5ed3b9e39c0e731fe1f0e866eb46d23969af25ecf0d5f41982e3e36bea",
+            "size": 58
           }
         ]
       },
@@ -378,39 +381,23 @@ interface GetSkillResult extends CacheableResult {
       "uri": "skill://pdf-processing/SKILL.md",
       "frontmatter": {
         "name": "pdf-processing",
-        "description": "Extract, fill, and assemble PDF documents",
-        "metadata": { "version": "2.1.0" }
+        "description": "Extract, fill, and assemble PDF documents"
       },
       "resources": [
         {
           "uri": "skill://pdf-processing/SKILL.md",
-          "digest": "sha256:d5e6f7a8...",
-          "size": 5120
-        },
-        {
-          "uri": "skill://pdf-processing/references/FORMS.md",
-          "digest": "sha256:e6f7a8b9...",
-          "size": 18433
-        },
-        {
-          "uri": "skill://pdf-processing/scripts/extract.py",
-          "digest": "sha256:f7a8b9c0...",
-          "size": 4096
+          "digest": "sha256:99b737495721155ece826d57521e2d66141ebdc1344a400487481ea2642ab19e",
+          "size": 151
         },
         {
           "uri": "skill://pdf-processing/templates/invoice.md",
-          "digest": "sha256:a8b9c0d1...",
-          "size": 1210
+          "digest": "sha256:61f4ea6d2c75fde1b4977219e7e3107d491c3c26aefb6686e84d6281c088d9ee",
+          "size": 29
         },
         {
           "uri": "skill://pdf-processing/templates/purchase-order.md",
-          "digest": "sha256:b9c0d1e2...",
-          "size": 1388
-        },
-        {
-          "uri": "skill://pdf-processing/templates/regional/eu-invoice.md",
-          "digest": "sha256:c0d1e2f3...",
-          "size": 1472
+          "digest": "sha256:f2ff774b1737ff3dec81c47946f9976f18a1a9f69dda0a81f22eabd95173c158",
+          "size": 35
         }
       ]
     },
@@ -613,18 +600,18 @@ Consider a host connected to a server it labels `docs-server`, which declares th
         "resources": [
           {
             "uri": "skill://pdf-processing/SKILL.md",
-            "digest": "sha256:d5e6f7a8...",
-            "size": 5120
+            "digest": "sha256:99b737495721155ece826d57521e2d66141ebdc1344a400487481ea2642ab19e",
+            "size": 151
           },
           {
             "uri": "skill://pdf-processing/templates/invoice.md",
-            "digest": "sha256:a8b9c0d1...",
-            "size": 1210
+            "digest": "sha256:61f4ea6d2c75fde1b4977219e7e3107d491c3c26aefb6686e84d6281c088d9ee",
+            "size": 29
           },
           {
             "uri": "skill://pdf-processing/templates/purchase-order.md",
-            "digest": "sha256:b9c0d1e2...",
-            "size": 1388
+            "digest": "sha256:f2ff774b1737ff3dec81c47946f9976f18a1a9f69dda0a81f22eabd95173c158",
+            "size": 35
           }
         ]
       }
@@ -633,6 +620,26 @@ Consider a host connected to a server it labels `docs-server`, which declares th
     "cacheScope": "public"
   }
 }
+```
+
+The supporting files in this example contain the following UTF-8 text, each ending with a newline. Their sizes and SHA-256 digests match the manifest above.
+
+`invoice.md`:
+
+```markdown
+# Invoice
+
+Customer:
+Amount:
+```
+
+`purchase-order.md`:
+
+```markdown
+# Purchase order
+
+Supplier:
+Items:
 ```
 
 The host records the entry under the identity (`docs-server`, `skill://pdf-processing/SKILL.md`), surfaces the skill's name, description, and origin to the model and the user, and fetches nothing further.
@@ -660,7 +667,7 @@ Later the model asks to load the skill. The host obtains user approval, binding 
       {
         "uri": "skill://pdf-processing/SKILL.md",
         "mimeType": "text/markdown",
-        "text": "---\nname: pdf-processing\ndescription: Extract, fill, and assemble PDF documents\n---\n\n# PDF processing\n\nChoose the matching template from `templates/` ..."
+        "text": "---\nname: pdf-processing\ndescription: Extract, fill, and assemble PDF documents\n---\n\n# PDF processing\n\nChoose the matching template from `templates/`.\n"
       }
     ],
     "ttlMs": 300000,
@@ -669,7 +676,7 @@ Later the model asks to load the skill. The host obtains user approval, binding 
 }
 ```
 
-The host checks that the content is 5120 bytes and hashes to `sha256:d5e6f7a8...`, parses the frontmatter and confirms it equals the entry's `frontmatter`, then places the content in the model's context tagged as originating from `docs-server`. The host is now acting on the skill and holds this entry.
+The host checks that the content is 151 bytes and matches the manifest's SHA-256 digest, parses the frontmatter and confirms it equals the entry's `frontmatter`, then places the content in the model's context tagged as originating from `docs-server`. The host is now acting on the skill and holds this entry.
 
 The instructions reference `templates/`. The model lists the directory, and the host routes this to `docs-server`:
 
@@ -713,6 +720,15 @@ The instructions reference `templates/`. The model lists the directory, and the 
 
 `credit-note.md` is not in the held entry's `resources`, because the server added it after the listing. The host does not surface it as a file of the skill and would treat a read of it as a verification failure. The model reads `invoice.md`, which is listed. The host issues `resources/read`, verifies size and digest against the held entry, and returns the content.
 
+The newly added `credit-note.md` contains this UTF-8 text, ending with a newline:
+
+```markdown
+# Credit note
+
+Invoice:
+Credit amount:
+```
+
 To make `credit-note.md` available, the host refreshes the entry:
 
 ```json
@@ -741,23 +757,23 @@ To make `credit-note.md` available, the host refreshes the entry:
       "resources": [
         {
           "uri": "skill://pdf-processing/SKILL.md",
-          "digest": "sha256:d5e6f7a8...",
-          "size": 5120
+          "digest": "sha256:99b737495721155ece826d57521e2d66141ebdc1344a400487481ea2642ab19e",
+          "size": 151
         },
         {
           "uri": "skill://pdf-processing/templates/invoice.md",
-          "digest": "sha256:a8b9c0d1...",
-          "size": 1210
+          "digest": "sha256:61f4ea6d2c75fde1b4977219e7e3107d491c3c26aefb6686e84d6281c088d9ee",
+          "size": 29
         },
         {
           "uri": "skill://pdf-processing/templates/purchase-order.md",
-          "digest": "sha256:b9c0d1e2...",
-          "size": 1388
+          "digest": "sha256:f2ff774b1737ff3dec81c47946f9976f18a1a9f69dda0a81f22eabd95173c158",
+          "size": 35
         },
         {
           "uri": "skill://pdf-processing/templates/credit-note.md",
-          "digest": "sha256:e2f3a4b5...",
-          "size": 1104
+          "digest": "sha256:766bffa8d4908ce897e1727ca22e4bf0fa796620b35218ce2132a124545626f1",
+          "size": 39
         }
       ]
     },

@@ -1,5 +1,7 @@
 # Problem Statement
 
+> **Historical document.** Frozen during development of SEP-2640; statements of current status and requirements below describe that draft-era context. See the [stable specification](../../specification/stable/skills.mdx) for current requirements and the [archive index](README.md) for context.
+
 [Agent Skills](https://agentskills.io/home) support in AI applications demonstrates demand for rich workflow instructions, but there's no convention for exposing equivalent functionality through MCP primitives.
 
 ## Current Limitations
