@@ -16,9 +16,12 @@ npm run docs:build
 npm run docs:preview
 ```
 
-The homepage renders the full specification from `specification/stable/skills.mdx`.
-The adjacent `.md` file includes it for VitePress and is routed to `/`, so there
-is one documentation page and one copy of the specification
+The site follows the Tasks extension layout: an overview at `/` and a separate
+specification page. `index.md` includes excerpts from the released
+`specification/stable/skills.mdx` using VitePress Markdown includes; it does not
+maintain a second copy of that text. The include ranges refer to the stable
+snapshot; update them when switching the overview to a new revision.
+The adjacent `specification/stable/skills.md` includes the full specification
 text. Follow the [specification change process](AGENTS.md#proposing-changes-to-the-specification)
 when proposing changes.
 Navigation links to the condensed overview on the

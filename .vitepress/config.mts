@@ -9,7 +9,6 @@ export default withMermaid(
     description:
       "Discover and read Agent Skills over the Model Context Protocol",
     cleanUrls: true,
-    rewrites: { "specification/stable/skills.md": "index.md" },
     srcExclude: [
       "README.md",
       "SECURITY.md",
@@ -22,6 +21,15 @@ export default withMermaid(
 
     markdown: {
       config(md) {
+        // Excerpts retain cross-references to the complete specification.
+        md.core.ruler.before("block", "overview-links", (state) => {
+          if (state.env.relativePath === "index.md") {
+            state.src = state.src.replace(
+              /\]\(#([^)]+)\)/g,
+              "](/specification/stable/skills#$1)",
+            );
+          }
+        });
         // Render the existing MDX specification's callout after Markdown inclusion.
         md.core.ruler.before("block", "mdx-notes", (state) => {
           state.src = state.src
@@ -34,10 +42,7 @@ export default withMermaid(
     themeConfig: {
       outline: [2, 3],
       nav: [
-        {
-          text: "Overview",
-          link: "https://modelcontextprotocol.io/extensions/skills/overview",
-        },
+        { text: "Specification", link: "/specification/stable/skills" },
         {
           text: "SEP-2640",
           link: "https://modelcontextprotocol.io/seps/2640-skills-extension",
@@ -47,6 +52,14 @@ export default withMermaid(
           link: "https://modelcontextprotocol.io/community/working-groups/skills-over-mcp",
         },
       ],
+      sidebar: {
+        "/specification/": [
+          {
+            text: "Specification",
+            items: [{ text: "Stable", link: "/specification/stable/skills" }],
+          },
+        ],
+      },
       socialLinks: [{ icon: "github", link: repository }],
       search: { provider: "local" },
       editLink: {
