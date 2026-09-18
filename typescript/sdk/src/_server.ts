@@ -614,8 +614,8 @@ export function warnIfOverLimits(skill: SkillMetadata): boolean {
  */
 const PROTOCOL_VERSION_META_KEY = "io.modelcontextprotocol/protocolVersion";
 
-/** First protocol version whose list results carry `ttlMs`/`cacheScope` (SEP-2549). */
-const LIST_CACHING_MIN_PROTOCOL = "2026-07-28";
+/** First protocol version whose results carry `ttlMs`/`cacheScope` (SEP-2549 `CacheableResult`). */
+const CACHING_MIN_PROTOCOL = "2026-07-28";
 
 /**
  * Structural slice of the v2 SDK's request handler context: the per-request
@@ -627,26 +627,34 @@ export interface SkillsHandlerContext {
 
 /**
  * Whether the request was made under a protocol version that defines the
- * SEP-2549 list-caching attributes. Per SEP-2640, `skills/list` results
- * carry `ttlMs`/`cacheScope` "in protocol versions 2026-07-28 and later" —
- * on earlier versions the attributes are omitted. Detected from the
- * request's `_meta` envelope, which exists only on 2026-07-28+ requests
- * (protocol versions are dates, so string comparison orders them).
+ * SEP-2549 caching attributes. The Skills extension is specified against
+ * protocol 2026-07-28 or later, where `skills/list` and `skills/get` results
+ * extend `CacheableResult` and `ttlMs`/`cacheScope` are required; on
+ * earlier versions the attributes do not exist and are omitted. Detected
+ * from the request's `_meta` envelope, which exists only on 2026-07-28+
+ * requests (protocol versions are dates, so string comparison orders them).
  */
-function supportsListCaching(ctx?: SkillsHandlerContext): boolean {
+function supportsCachingAttributes(ctx?: SkillsHandlerContext): boolean {
   const version = ctx?.mcpReq?.envelope?.[PROTOCOL_VERSION_META_KEY];
-  return typeof version === "string" && version >= LIST_CACHING_MIN_PROTOCOL;
+  return typeof version === "string" && version >= CACHING_MIN_PROTOCOL;
 }
 
-/** Options for the `skills/list` handler. */
-export interface SkillsListHandlerOptions {
-  /** Entries per page. Default {@link DEFAULT_SKILLS_LIST_PAGE_SIZE}. */
-  pageSize?: number;
+/** SEP-2549 caching attributes shared by the `skills/list` and `skills/get` handlers. */
+export interface SkillsCachingOptions {
   /** SEP-2549 freshness hint (ms). Default 0 (immediately stale). */
   ttlMs?: number;
   /** SEP-2549 cache scope. Default `"private"`. */
   cacheScope?: "public" | "private";
 }
+
+/** Options for the `skills/list` handler. */
+export interface SkillsListHandlerOptions extends SkillsCachingOptions {
+  /** Entries per page. Default {@link DEFAULT_SKILLS_LIST_PAGE_SIZE}. */
+  pageSize?: number;
+}
+
+/** Options for the `skills/get` handler. */
+export type SkillsGetHandlerOptions = SkillsCachingOptions;
 
 /**
  * Build a `skills/list` handler backed by an in-memory skill map. Paginates
@@ -654,8 +662,8 @@ export interface SkillsListHandlerOptions {
  * skill's `resources` set is never split across pages). Skills marked
  * `listed: false` are omitted (the SEP's partial-listing allowance) —
  * `skills/get` still answers for them. On protocol 2026-07-28+ requests the
- * result carries the SEP-2549 list-caching attributes (`ttlMs`,
- * `cacheScope`); on earlier versions they are omitted.
+ * result carries the SEP-2549 caching attributes (`ttlMs`, `cacheScope`);
+ * on earlier versions they are omitted.
  */
 export function makeSkillsListHandler(
   skillMap: Map<string, SkillMetadata>,
@@ -676,7 +684,7 @@ export function makeSkillsListHandler(
     return {
       skills: page,
       ...(nextCursor !== undefined ? { nextCursor } : {}),
-      ...(supportsListCaching(ctx) ? { ttlMs, cacheScope } : {}),
+      ...(supportsCachingAttributes(ctx) ? { ttlMs, cacheScope } : {}),
     };
   };
 }
@@ -685,17 +693,26 @@ export function makeSkillsListHandler(
  * Build a `skills/get` handler backed by an in-memory skill map. Answers for
  * every skill the server serves — whether or not it appears in the listing —
  * and returns error `-32602` (Invalid params) for URIs it does not serve as
- * skills, the same code `resources/read` uses for unknown resources.
+ * skills, the same code `resources/read` uses for unknown resources. On
+ * protocol 2026-07-28+ requests the result carries the SEP-2549 caching
+ * attributes (`ttlMs`, `cacheScope`), as `resources/read` results do; on
+ * earlier versions they are omitted.
  */
 export function makeSkillsGetHandler(
   skillMap: Map<string, SkillMetadata>,
-): (params: { uri: string }) => Promise<SkillsGetResult> {
+  options?: SkillsGetHandlerOptions,
+): (
+  params: { uri: string },
+  ctx?: SkillsHandlerContext,
+) => Promise<SkillsGetResult> {
   const byUri = new Map<string, SkillMetadata>();
   for (const skill of skillMap.values()) {
     byUri.set(buildSkillUri(skill.skillPath), skill);
   }
+  const ttlMs = options?.ttlMs ?? 0;
+  const cacheScope = options?.cacheScope ?? "private";
 
-  return async (params) => {
+  return async (params, ctx) => {
     const skill = byUri.get(params.uri);
     if (!skill) {
       throw new ProtocolError(
@@ -704,7 +721,10 @@ export function makeSkillsGetHandler(
         { uri: params.uri },
       );
     }
-    return { skill: buildSkillEntry(skill) };
+    return {
+      skill: buildSkillEntry(skill),
+      ...(supportsCachingAttributes(ctx) ? { ttlMs, cacheScope } : {}),
+    };
   };
 }
 
@@ -862,7 +882,7 @@ export function registerSkillResources(
   lowLevel.setRequestHandler(
     SKILLS_GET_METHOD,
     { params: SkillsGetParamsSchema, result: SkillsGetResultSchema },
-    makeSkillsGetHandler(skillMap),
+    makeSkillsGetHandler(skillMap, { ttlMs, cacheScope }),
   );
 
   // Optional: resources/directory/read, gated behind the `directoryRead`

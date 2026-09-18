@@ -339,6 +339,28 @@ describe("registerSkillResources — skills methods", () => {
       code: -32602,
     });
   });
+
+  it("carries ttlMs/cacheScope on skills/get for 2026-07-28+ requests and omits them otherwise", async () => {
+    const server = makeStubServer();
+    registerSkillResources(server, mapOf(skill({ name: "a", skillPath: "a" })), "/skills", {
+      template: false,
+      ttlMs: 60_000,
+      cacheScope: "public",
+    });
+    const handler = handlerFor(server, SKILLS_GET_METHOD)!;
+
+    const modern = await handler(
+      { uri: "skill://a/SKILL.md" },
+      { mcpReq: { envelope: { "io.modelcontextprotocol/protocolVersion": "2026-07-28" } } },
+    );
+    expect(modern.skill.uri).toBe("skill://a/SKILL.md");
+    expect(modern.ttlMs).toBe(60_000);
+    expect(modern.cacheScope).toBe("public");
+
+    const legacy = await handler({ uri: "skill://a/SKILL.md" });
+    expect(legacy.ttlMs).toBeUndefined();
+    expect(legacy.cacheScope).toBeUndefined();
+  });
 });
 
 // ---------------------------------------------------------------------------

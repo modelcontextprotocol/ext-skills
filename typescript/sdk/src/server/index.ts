@@ -20,7 +20,9 @@ export {
   DEFAULT_SKILLS_LIST_PAGE_SIZE,
 } from "../_server.js";
 export type {
+  SkillsCachingOptions,
   SkillsListHandlerOptions,
+  SkillsGetHandlerOptions,
   SkillsHandlerContext,
 } from "../_server.js";
 

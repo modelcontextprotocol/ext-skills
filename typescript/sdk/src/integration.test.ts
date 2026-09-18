@@ -23,7 +23,12 @@ import {
   readDirectory,
   discoverSkills,
 } from "./_client.js";
-import { SKILLS_LIST_METHOD, SkillsListResultSchema } from "./skills-methods.js";
+import {
+  SKILLS_GET_METHOD,
+  SKILLS_LIST_METHOD,
+  SkillsGetResultSchema,
+  SkillsListResultSchema,
+} from "./skills-methods.js";
 import { SKILLS_EXTENSION_ID } from "./resource-extensions.js";
 
 const SKILL_MD = `---
@@ -202,14 +207,21 @@ describe("e2e over the v2 SDK", () => {
 
   it("omits ttlMs/cacheScope on this pre-2026-07-28 connection", async () => {
     // InMemoryTransport pairs negotiate a 2025-era protocol version, whose
-    // requests carry no _meta envelope — so per SEP-2640 the list-caching
-    // attributes must be absent from the result.
-    const result = (await client.request(
+    // requests carry no _meta envelope — CacheableResult does not exist
+    // there, so the caching attributes must be absent from both results.
+    const listing = (await client.request(
       { method: SKILLS_LIST_METHOD, params: {} },
       SkillsListResultSchema,
     )) as { ttlMs?: number; cacheScope?: string };
-    expect(result.ttlMs).toBeUndefined();
-    expect(result.cacheScope).toBeUndefined();
+    expect(listing.ttlMs).toBeUndefined();
+    expect(listing.cacheScope).toBeUndefined();
+
+    const got = (await client.request(
+      { method: SKILLS_GET_METHOD, params: { uri: "skill://acme/billing/refunds/SKILL.md" } },
+      SkillsGetResultSchema,
+    )) as { ttlMs?: number; cacheScope?: string };
+    expect(got.ttlMs).toBeUndefined();
+    expect(got.cacheScope).toBeUndefined();
   });
 
   it("errors -32602 for directory read of a non-directory", async () => {

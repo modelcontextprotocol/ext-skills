@@ -26,8 +26,8 @@ npm install @olaservo/ext-skills @modelcontextprotocol/client
 
 Every server declaring the `io.modelcontextprotocol/skills` extension implements two methods:
 
-- **`skills/list`** — paginated enumeration of *skill entries*. Each entry carries the skill's `uri`, its **verbatim** `SKILL.md` frontmatter as JSON, and a complete `resources` manifest: `{uri, digest, size}` for `SKILL.md` and every supporting file, or the string `"dynamic"` for a skill whose content is generated on demand. The listing MAY be empty or partial (large/generated/unenumerable catalogs); hosts MUST NOT treat that as proof a server has no skills. In protocol 2026-07-28+ the result also carries the SEP-2549 list-caching attributes (`ttlMs`, `cacheScope`).
-- **`skills/get`** — returns the entry for one skill by the URI of its `SKILL.md`, whether or not it appears in the listing; errors `-32602` for URIs the server does not serve as skills. This is both how unlisted skills get verified and how a host confirms an explicitly referenced URI is a skill (never by inspecting the URI scheme).
+- **`skills/list`** — paginated enumeration of *skill entries*. Each entry carries the skill's `uri`, its **verbatim** `SKILL.md` frontmatter as JSON, and a complete `resources` manifest: `{uri, digest, size}` for `SKILL.md` and every supporting file, or the string `"dynamic"` for a skill whose content is generated on demand. The listing MAY be empty or partial (large/generated/unenumerable catalogs); hosts MUST NOT treat that as proof a server has no skills. In protocol 2026-07-28+ the result also carries the SEP-2549 caching attributes (`ttlMs`, `cacheScope`).
+- **`skills/get`** — returns the entry for one skill by the URI of its `SKILL.md`, whether or not it appears in the listing; errors `-32602` for URIs the server does not serve as skills. This is both how unlisted skills get verified and how a host confirms an explicitly referenced URI is a skill (never by inspecting the URI scheme). In protocol 2026-07-28+ the result also carries `ttlMs` and `cacheScope`, as `resources/read` results do.
 
 One optional method, gated behind the `directoryRead` capability setting:
 
@@ -63,11 +63,12 @@ const server = new McpServer(
 registerSkillResources(server, skillMap, "./skills", {
   template: true,        // catch-all resource template for supporting files
   directoryRead: true,   // implement resources/directory/read + declare the setting
-  ttlMs: 60_000,         // SEP-2549 freshness hint on skills/list results
+  ttlMs: 60_000,         // SEP-2549 freshness hint on skills/list and skills/get results
   cacheScope: "public",  // safe only when the catalog has no user-specific data
-  // ttlMs/cacheScope are emitted only on 2026-07-28+ connections — the SEP
-  // scopes the list-caching attributes to those protocol versions, and the
-  // handler detects the version from each request's _meta envelope.
+  // ttlMs/cacheScope are emitted only on 2026-07-28+ connections — the
+  // extension is specified against that revision, where both results extend
+  // CacheableResult — and the handlers detect the version from each
+  // request's _meta envelope.
   // audience defaults to ["assistant"] — skills consumed only by the model;
   // use ["user", "assistant"] for skills also shown in a skill browser UI
 });
@@ -79,7 +80,7 @@ await server.connect(new StdioServerTransport());
 
 ### Protocol versions (2025 eras and 2026-07-28)
 
-The SDK works on every protocol version the v2 MCP SDK speaks; which one a connection uses is decided by the transport entry points, not by this SDK. The `skills/list`, `skills/get`, and `resources/directory/read` methods work identically on both eras. The one version-dependent behavior is SEP-2640's scoping of the SEP-2549 list-caching attributes: `skills/list` results carry `ttlMs`/`cacheScope` only on 2026-07-28+ connections (detected per request from the `_meta` envelope), and omit them on 2025-era connections. On 2026-07-28 connections the extension capability reaches clients via `server/discover` instead of the `initialize` result; `serverSupportsSkills()` / `serverSupportsDirectoryRead()` read it the same way either way.
+The SDK works on every protocol version the v2 MCP SDK speaks; which one a connection uses is decided by the transport entry points, not by this SDK. The `skills/list`, `skills/get`, and `resources/directory/read` methods work identically on both eras. The one version-dependent behavior is the SEP-2549 caching attributes: `skills/list` and `skills/get` results carry `ttlMs`/`cacheScope` only on 2026-07-28+ connections (detected per request from the `_meta` envelope), and omit them on 2025-era connections, where `CacheableResult` does not exist. On 2026-07-28 connections the extension capability reaches clients via `server/discover` instead of the `initialize` result; `serverSupportsSkills()` / `serverSupportsDirectoryRead()` read it the same way either way.
 
 To serve the 2026-07-28 revision (while still accepting 2025-era clients), build the server in a factory passed to the v2 SDK's era-aware entry points instead of calling `connect()` yourself:
 

@@ -27,7 +27,12 @@ import {
   readDirectory,
   discoverSkills,
 } from "./_client.js";
-import { SKILLS_LIST_METHOD, SkillsListResultSchema } from "./skills-methods.js";
+import {
+  SKILLS_GET_METHOD,
+  SKILLS_LIST_METHOD,
+  SkillsGetResultSchema,
+  SkillsListResultSchema,
+} from "./skills-methods.js";
 import { SKILLS_EXTENSION_ID } from "./resource-extensions.js";
 
 const SKILL_MD = `---
@@ -112,6 +117,16 @@ describe("e2e on the 2026-07-28 era", () => {
     expect(result.ttlMs).toBe(60_000);
     expect(result.cacheScope).toBe("public");
     expect(result.skills).toHaveLength(1);
+  });
+
+  it("carries ttlMs and cacheScope on skills/get results (CacheableResult)", async () => {
+    const result = (await client.request(
+      { method: SKILLS_GET_METHOD, params: { uri: "skill://acme/billing/refunds/SKILL.md" } },
+      SkillsGetResultSchema,
+    )) as { skill: { uri: string }; ttlMs?: number; cacheScope?: string };
+    expect(result.skill.uri).toBe("skill://acme/billing/refunds/SKILL.md");
+    expect(result.ttlMs).toBe(60_000);
+    expect(result.cacheScope).toBe("public");
   });
 
   it("lists, retrieves, and verifies a skill end to end", async () => {

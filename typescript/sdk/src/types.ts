@@ -69,10 +69,20 @@ export interface SkillsListResult {
   cacheScope?: "public" | "private";
 }
 
-/** Result of the `skills/get` method: one entry, no pagination. Whether it carries SEP-2549 caching attributes is left open by SEP-2640. */
+/**
+ * Result of the `skills/get` method: one entry, no pagination. In protocol
+ * versions 2026-07-28 and later the result also carries the base protocol's
+ * caching attributes (`ttlMs`, `cacheScope` per SEP-2549), as `resources/read`
+ * results do — a hint for how long to treat the entry as current, not an
+ * integrity property.
+ */
 export interface SkillsGetResult {
   /** The skill's entry — same shape and rules as a `skills/list` entry. */
   skill: SkillEntry;
+  /** SEP-2549 freshness hint in milliseconds (0 = immediately stale). */
+  ttlMs?: number;
+  /** SEP-2549 cache scope: may the result be shared across auth contexts? */
+  cacheScope?: "public" | "private";
 }
 
 /**

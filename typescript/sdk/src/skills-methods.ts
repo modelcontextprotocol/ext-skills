@@ -16,7 +16,9 @@
  *   its `SKILL.md`. The `skill` object is identical in shape and meaning to
  *   a `skills/list` entry. A server MUST answer for every skill it serves,
  *   whether or not it appears in the listing, and MUST return error `-32602`
- *   (Invalid params) for URIs it does not serve as skills.
+ *   (Invalid params) for URIs it does not serve as skills. In protocol
+ *   versions 2026-07-28+ the result also carries `ttlMs` and `cacheScope`,
+ *   as `resources/read` results do.
  *
  * The zod schemas here are Standard Schemas: pass the params/result pair to
  * the v2 MCP SDK's `setRequestHandler(method, { params, result }, handler)`
@@ -95,10 +97,12 @@ export const SkillsGetParamsSchema = z.looseObject({
 /**
  * Result schema for `skills/get`: a single entry and no pagination cursor
  * (a single entry is not a list; it is a point-in-time snapshot of the skill
- * as the server holds it). Whether the result also carries the SEP-2549
- * caching attributes is left open by SEP-2640; the schema passes them
- * through if present.
+ * as the server holds it). `ttlMs`/`cacheScope` are the SEP-2549 caching
+ * attributes carried in protocol versions 2026-07-28+, where the result
+ * extends `CacheableResult` as `resources/read` does.
  */
 export const SkillsGetResultSchema = z.looseObject({
   skill: SkillEntrySchema,
+  ttlMs: z.number().int().min(0).optional(),
+  cacheScope: z.enum(["public", "private"]).optional(),
 });
