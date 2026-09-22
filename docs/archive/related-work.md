@@ -1,5 +1,7 @@
 # Related Work
 
+> **Historical document.** Frozen during development of SEP-2640; statements of current status and requirements below describe that draft-era context. See the [stable specification](../../specification/stable/skills.mdx) for current requirements and the [archive index](README.md) for context.
+
 ## SEPs and Proposals
 
 | Proposal | Venue | Description |
@@ -10,7 +12,7 @@
 | ~~[SEP-2093](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2093)~~ | MCP Spec | ~~Resource Contents Metadata and Capabilities: scoped `resources/list`, per-resource capabilities, `resources/metadata` endpoint~~ — **rejected** ([labeled upstream](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2093)) |
 | ~~[SEP-2076](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2076)~~ | MCP Spec | ~~Agent Skills as a first-class MCP primitive~~ — **closed** (2026-02-24, without merge) |
 
-> See also [**skills-extension-candidates.md**](skills-extension-candidates.md) for a tracker of MCP servers, dev tools, SDKs, and skills repositories that are candidates for adopting the skills extension.
+> Client support for the extension is tracked on the official [extension client matrix](https://modelcontextprotocol.io/extensions/client-matrix). The implementation tables below are frozen; [implementations.md](../implementations.md) has more recent information.
 
 ## Working Group Member Implementations
 

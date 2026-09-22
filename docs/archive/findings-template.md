@@ -1,5 +1,7 @@
 # Experimental Findings Template
 
+> **Historical document.** Frozen during development of SEP-2640; statements of current status and requirements below describe that draft-era context. See the [stable specification](../../specification/stable/skills.mdx) for current requirements and the [archive index](README.md) for context.
+
 Use this template when adding an entry to [experimental-findings.md](experimental-findings.md). Include enough evidence for another contributor to evaluate the result, and write "Not documented" rather than inferring missing details.
 
 ---

@@ -1,5 +1,7 @@
 # Threat Model: Skills Over MCP
 
+> **Historical document.** Frozen during development of SEP-2640; statements of current status and requirements below describe that draft-era context. See the [stable specification](../../specification/stable/skills.mdx) for current requirements and the [archive index](README.md) for context.
+
 > ⚠️ **Experimental** — This document models threats against skills served over MCP as specified in [SEP-2640](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2640) *in its current form*: the revision on the canonical [`sep/skills-extension`](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2640/files) branch, which supersedes the older [`docs/sep-draft-skills-extension.md`](sep-draft-skills-extension.md) working draft. That revision **replaced the `skill://index.json` resource with the `skills/list` and `skills/get` methods, added a per-file `resources` digest array covering the whole skill, and moved archive distribution to a deferred-features appendix.** It is a Working Group reference, not a normative part of the SEP. Where it recommends behavior beyond what SEP-2640 mandates, it says so.
 
 ## Scope
@@ -278,6 +280,6 @@ Threats the current SEP revision does **not** fully close, and directions raised
 - [`dangerous-skills-mcp`](https://github.com/olaservo/dangerous-skills-mcp) — the executable adversarial corpus (fixtures, oracles, smoke client). Live: `https://olaservo-dangerous-skills-mcp.hf.space/mcp`. Forked from [`gricha/dangerous-skills`](https://github.com/gricha/dangerous-skills).
 - [Agent Skills Discovery RFC](https://github.com/cloudflare/agent-skills-discovery-rfc) (Cloudflare) — SHA-256 content integrity and per-file digests; the closest external analog for the integrity model.
 - [Open Questions §10](open-questions.md#10-how-should-skills-handle-security-and-trust-boundaries) — the WG's trust-boundary discussion and community input.
-- [Decision Log](decisions.md) — instructor-format scoping, filesystem-as-host-detail, the `resources/directory/read` method, and the digest/archive decisions.
+- [Decision Log](../decisions.md) — instructor-format scoping, filesystem-as-host-detail, the `resources/directory/read` method, and the digest/archive decisions.
 - [Skill `_meta` Keys](skill-meta-keys.md) — `_meta` key conventions for skill resources, including the reserved `io.modelcontextprotocol.skills/` prefix.
 - [RFC 8089: The "file" URI Scheme](https://datatracker.ietf.org/doc/html/rfc8089) — the no-authority `file:` forms behind `adv-file-url`.

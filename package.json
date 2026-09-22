@@ -1,0 +1,21 @@
+{
+  "name": "@modelcontextprotocol/ext-skills",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Documentation for the MCP Skills extension",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "mermaid": "^11.17.0",
+    "vitepress": "^1.6.4",
+    "vitepress-plugin-mermaid": "^2.0.17"
+  }
+}
