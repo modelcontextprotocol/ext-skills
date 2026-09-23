@@ -37,6 +37,207 @@ Added `skill://` discovery to VS Code and verified it against the [Hugging Face 
 - Resource templates parsed but not materialized (need the completion API).
 - No `resources/subscribe`, so mid-session skill updates are missed.
 
+## Transport of an `io.modelcontextprotocol/` frontmatter `metadata` key over SEP-2640 (Issue #126, item 4)
+
+**Date:** 2026-09-03
+
+**Implementation:**
+
+- **Repository (server):** [tobi-oye/skills-over-mcp-demo](https://github.com/tobi-oye/skills-over-mcp-demo), branch [`experiment/io-mcp-metadata-namespace`](https://github.com/tobi-oye/skills-over-mcp-demo/tree/experiment/io-mcp-metadata-namespace) at [`bb21190`](https://github.com/tobi-oye/skills-over-mcp-demo/commit/bb21190820a6b5f71462b657b0cbb48ae3b1070f) — one commit on top of [olaservo/skills-over-mcp-demo](https://github.com/olaservo/skills-over-mcp-demo) `main` at [`abf2262`](https://github.com/olaservo/skills-over-mcp-demo/commit/abf22626e4390d2d072e7fa2dcba194f302299aa). Serves skills with [`@olaservo/ext-skills`](https://www.npmjs.com/package/@olaservo/ext-skills) 0.13.0 on the v2 TypeScript SDK.
+- **Repository (host):** [tobi-oye/vscode](https://github.com/tobi-oye/vscode), branch [`experiment/io-mcp-metadata-namespace`](https://github.com/tobi-oye/vscode/tree/experiment/io-mcp-metadata-namespace) at [`3af5423`](https://github.com/tobi-oye/vscode/commit/3af54231743), a [microsoft/vscode](https://github.com/microsoft/vscode) fork. Two commits above `feature/sep2640-content-binding` ([PR #3](https://github.com/tobi-oye/vscode/pull/3)) at [`d913b5a`](https://github.com/tobi-oye/vscode/commit/d913b5a7480fddd956a2aa988ee0ec9102424c9d): [`4d9bf00`](https://github.com/tobi-oye/vscode/commit/4d9bf00a126) adds frontmatter identity verification at read time and listing-cache handling, and [`3af5423`](https://github.com/tobi-oye/vscode/commit/3af54231743) is the experiment itself, isolated in one module and marked non-production.
+- **Specification tested against:** [SEP-2640](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/sep/skills-extension/seps/2640-skills-extension.md) on the canonical `sep/skills-extension` branch at [`a3e147c`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/a3e147ca2710f68214247aecc729731ee1ae8d03/seps/2640-skills-extension.md) (2026-08-25). Agent Skills specification at [`69ef37e`](https://github.com/agentskills/agentskills/blob/69ef37e9424c0a7ea9dd2293b559e43ec8176379/docs/specification.mdx).
+- **Author:** Tobi Oyewole ([@tobi-oye](https://github.com/tobi-oye))
+- **Relevant artifacts:** server fixture `skills/namespace-detection-demo/SKILL.md` and `src/metadata-namespace.test.ts`; host module `src/vs/workbench/contrib/mcp/common/mcpSkillMetadataNamespace.ts`, its hook in `mcpSkillDiscovery.ts`, and `src/vs/workbench/contrib/mcp/test/common/mcpSkillMetadataNamespace.test.ts`. Both experiment branches above are pushed at the commits given; those are the exact tested trees.
+
+**Approach tested:** Not an approach from [approaches.md](approaches.md). This exercises one sentence of SEP-2640's [Frontmatter](sep-draft-skills-extension.md#frontmatter) rules — "keys prefixed with `io.modelcontextprotocol/` are reserved for metadata defined by MCP extensions … Implementations SHOULD ignore keys under this prefix that they do not recognize" — to produce working evidence for [#126](https://github.com/modelcontextprotocol/experimental-ext-skills/issues/126) item 4, the proposal to reserve the same prefix on the Agent Skills side.
+
+The experimental frontmatter, exactly as served:
+
+```yaml
+---
+name: namespace-detection-demo
+description: Demonstrates transport of MCP-reserved Agent Skills metadata.
+metadata:
+  io.modelcontextprotocol/test-marker: "detected-by-vscode"
+---
+```
+
+`io.modelcontextprotocol/test-marker` is a test fixture only. It is not a proposed property, it carries no production semantics, and nothing in either implementation acts on it beyond writing a log line.
+
+**Setup:**
+
+- **Clients tested:** Code - OSS Dev 1.133.0, source build of the host branch above, run interactively against the server over stdio. The same host code was also driven under the unit-test harness (`scripts/test.sh`, Electron renderer) for the cases the live run does not cover. Node 24.18.0.
+- **Models tested:** None. By design no LLM is on the evidence path; protocol responses, assertions and deterministic logs are the evidence. The interactive session was used to observe discovery, not to prompt a model.
+- **Configuration notes:** For the live run the server was launched by the host from a workspace `.vscode/mcp.json` (`type: stdio`, `node dist/index.js --dice-roller`, server name `skills-demo-local`), with `chat.useAgentSkills: true`. The host negotiated protocol `2025-11-25`. Server-side unit tests run in-process (the v2 SDK's `createMcpHandler` behind a `fetch` shim) and a separate stdio capture negotiated `2026-07-28`. macOS 25.5.0 arm64.
+
+**What was tested:**
+
+1. **Server, parsing:** the slash-containing key survives YAML parsing at discovery (`discoverSkills`), landing as a single object key rather than a nested path.
+2. **Server, listing:** `skills/list` and `skills/get` return `frontmatter.metadata` unchanged.
+3. **Server, retrieval:** `resources/read` of the `SKILL.md` still passes the client's digest and frontmatter identity checks.
+4. **Host, live:** the running editor connected to the server, listed its skills, and recognized the key — the full path, one process pair, nothing captured or replayed in between.
+5. **Host, four cases** (each: discovery succeeds; the detector's log output; the fetched `SKILL.md` still passes the host's frontmatter identity check, which gates loading):
+   1. `io.modelcontextprotocol/test-marker: "detected-by-vscode"` present.
+   2. Only `com.example/test-marker: "detected-by-vscode"` present.
+   3. `io.modelcontextprotocol/unknown-test-key` present.
+   4. No `metadata` field.
+
+**Results:**
+
+**What worked:** Everything listed above, including the live run end to end. No change to the Agent Skills reference parser, the `@olaservo/ext-skills` SDK, or VS Code's YAML parser was needed; the server change is a fixture directory plus tests, and the host change is one log-only module hooked in at discovery.
+
+| # | Case | Discovery | Host log | Load (frontmatter identity) |
+| :-- | :-- | :-- | :-- | :-- |
+| 1 | `io.modelcontextprotocol/test-marker` = `detected-by-vscode` | succeeds | one `info` line, detection | passes |
+| 2 | only `com.example/test-marker` | succeeds | nothing (detector does not activate) | passes |
+| 3 | `io.modelcontextprotocol/unknown-test-key` | succeeds | one `trace` line, "ignoring 1 unrecognized … key(s)" | passes |
+| 4 | no `metadata` | succeeds | nothing | passes |
+
+Case 1 was confirmed both live and under test; cases 2–4 are unit tests. Test totals: server 7 new tests (28 total, all pass) and the existing stdio conformance suite passes with the fixture listed; host 13 new tests (41 total across the two skill test files, all pass).
+
+**What didn't:** Nothing in scope failed.
+
+**What was surprising:**
+
+- **The detection line follows the wire call, not the context rebuild.** In the live session two `skills/list` calls produced two detection lines, but a third contribution of the same four skills to agent skills — 4.4 seconds after the first — produced none, because the host served that one from its listing cache without re-running discovery. Anything a host derives from reserved metadata therefore inherits the listing cache's lifetime, which is worth knowing for any future key that is meant to influence behaviour rather than just be logged.
+- **The host's identity check makes a reserved key load-bearing whether or not the host understands it.** "Unrecognized" turned out to mean the host can read the key and its value but has no implementation for its semantics — which is not the same as leaving it out of verification. Three cases, all tested:
+
+  | Listing vs fetched `SKILL.md` | Verification | Behaviour |
+  | :-- | :-- | :-- |
+  | Unrecognized key, same value in both | passes | none assigned |
+  | Unrecognized key, value differs or is absent from the file | **fails**, skill does not load | none assigned |
+  | Recognized key, same value in both | passes | host may then act on it |
+
+  So "ignore keys you do not recognize" needs to say *do not interpret or act on them*, not *do not compare them*. Suggested SEP wording:
+
+  > Implementations SHOULD NOT interpret or act on keys under this prefix that they do not recognize. They MUST still preserve those keys and include them in frontmatter identity verification.
+
+  Without the second sentence a host could reasonably strip unknown reserved keys before comparing, which would let a server advertise one value and serve another unchallenged.
+- `resources/read` from this server returns `contents[].uri` and `text` with no `mimeType`. Unrelated to the experiment, not investigated.
+
+**Requirements or design questions addressed:**
+
+- [#126](https://github.com/modelcontextprotocol/experimental-ext-skills/issues/126) item 4, the reservation agreed on 2026-06-16 ([meeting notes §2](https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/2941)): shows the technical half is already satisfiable with shipped parsers and listings.
+- Complements the `_meta` scoping decision in [decisions.md](../decisions.md) ([PR #60](https://github.com/modelcontextprotocol/experimental-ext-skills/pull/60)) and the two-extension-point wording in the [glossary](glossary.md): this is the frontmatter `metadata` half, not `_meta`.
+
+**Evidence and reproduction:**
+
+**Live run.** The host started the server, negotiated `2025-11-25`, and received the extension declaration:
+
+```
+17:48:09.550  Starting server skills-demo-local
+17:48:09.914  [server -> editor] "capabilities":{"resources":{"listChanged":true},
+              "extensions":{"io.modelcontextprotocol/skills":{"directoryRead":true}} …
+17:48:45.530  [editor -> server] {"jsonrpc":"2.0","id":3,"method":"skills/list","params":{}}
+```
+
+The entry that came back on the wire, verbatim:
+
+```json
+{
+  "uri": "skill://namespace-detection-demo/SKILL.md",
+  "frontmatter": {
+    "name": "namespace-detection-demo",
+    "description": "Demonstrates transport of MCP-reserved Agent Skills metadata.",
+    "metadata": {
+      "io.modelcontextprotocol/test-marker": "detected-by-vscode"
+    }
+  },
+  "resources": [
+    {
+      "uri": "skill://namespace-detection-demo/SKILL.md",
+      "digest": "sha256:e0a12713375870136ea66d96bde4b672e8cc6fa3a2f7a326b0c3be617003c9d9",
+      "size": 875
+    }
+  ]
+}
+```
+
+Four milliseconds later, the host's own log (`window1/renderer.log`) — the deterministic detection line, followed by the pre-existing discovery lines:
+
+```
+17:48:45.534 [info] [mcp-skills-experiment] io.modelcontextprotocol/test-marker detected on skill "namespace-detection-demo" from "skills-demo-local" (value "detected-by-vscode")
+17:48:45.534 [info] [mcp-skills] "skills-demo-local" served 4 skill(s): tabletop-dice, mcp-glossary, namespace-detection-demo, release-notes-writer
+17:48:45.534 [info] [mcp-skills] contributing 4 skill(s) to agent skills
+17:48:49.932 [info] [mcp-skills] "skills-demo-local" served 4 skill(s): tabletop-dice, mcp-glossary, namespace-detection-demo, release-notes-writer
+17:48:49.932 [info] [mcp-skills] contributing 4 skill(s) to agent skills
+17:51:13.142 [info] [mcp-skills-experiment] io.modelcontextprotocol/test-marker detected on skill "namespace-detection-demo" from "skills-demo-local" (value "detected-by-vscode")
+```
+
+Method totals for the session: `initialize` ×1, `skills/list` ×2, `tools/list` ×1. The 17:48:49 pair has no detection line and no wire call behind it — that is the cached listing described above. The listing carried no `ttlMs`/`cacheScope`, since SEP-2549 scopes those to 2026-07-28+ and this host negotiates `2025-11-25`.
+
+**Case 3's log line**, from the harness, for comparison:
+
+```
+[trace] [mcp-skills-experiment] ignoring 1 unrecognized io.modelcontextprotocol/ metadata key(s) on skill "unknown-reserved" from "skills-over-mcp-demo": io.modelcontextprotocol/unknown-test-key
+```
+
+Cases 2 and 4 produce no experiment output; the tests assert the captured log is empty.
+
+**Server, on its own.** The fixture is on the experiment branch only — the public Space still serves the previous catalog. `skills/get` for the same URI returns an identical `frontmatter` object, and `resources/read` returns the `SKILL.md` whose 875 bytes hash to the listed digest.
+
+```
+git clone https://github.com/tobi-oye/skills-over-mcp-demo && cd skills-over-mcp-demo
+git checkout experiment/io-mcp-metadata-namespace
+npm ci
+npm test          # vitest: src/metadata-namespace.test.ts
+npm run smoke     # builds, then runs the stdio conformance checks (fixture must be listed)
+```
+
+**Host, live.** Build the fork, point a workspace at the built server, and open it:
+
+```
+git clone --filter=blob:none https://github.com/tobi-oye/vscode && cd vscode
+git checkout experiment/io-mcp-metadata-namespace
+npm ci && npm run transpile-client
+./scripts/code.sh /path/to/workspace
+```
+
+with `.vscode/mcp.json` in that workspace:
+
+```json
+{
+  "servers": {
+    "skills-demo-local": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["/path/to/skills-over-mcp-demo/dist/index.js", "--dice-roller"]
+    }
+  }
+}
+```
+
+Set `chat.useAgentSkills: true`, start the server from the MCP view, and open a chat so skills are contributed to context. The detection line appears in the window log:
+
+```
+tail -f "$(ls -dt ~/Library/Application\ Support/code-oss-dev/logs/* | head -1)/window1/renderer.log" | grep mcp-skills
+```
+
+**Host, remaining cases:**
+
+```
+./scripts/test.sh --run src/vs/workbench/contrib/mcp/test/common/mcpSkillMetadataNamespace.test.ts
+```
+
+**Limitations:**
+
+- **The live run covered discovery, not loading.** No `resources/read` was issued, so the "still loads" column rests on the tests and the server-side verified read.
+- **Only case 1 ran live.** The other three are unit tests against the same discovery entry point.
+- **The live host negotiated `2025-11-25`.** The 2026-07-28 listing attributes (`ttlMs`, `cacheScope`) were exercised server-side only.
+- **Two YAML parsers were exercised** — VS Code's and the `yaml` npm package — with string values only. Other parsers may treat a key containing `.` and `/` differently.
+
+**What this does and does not show:**
+
+- It shows that transport, preservation and host recognition of an `io.modelcontextprotocol/`-prefixed frontmatter `metadata` key are technically possible today, end to end in a running host, with no parser changes.
+- It does **not** by itself show that the namespace should be reserved. Reservation is a governance and interoperability decision for the Agent Skills project.
+- `io.modelcontextprotocol/test-marker` is not a proposed production property.
+- This concerns `SKILL.md` frontmatter `metadata`, not MCP protocol `_meta`.
+- The existing `io.modelcontextprotocol.skills/` convention for `_meta` on skill resources ([skill-meta-keys.md](skill-meta-keys.md)) is a separate mechanism and is unaffected.
+
+**Sources and attribution:** Server and SDK by [Ola Hungerford](https://github.com/olaservo). Fixture, tests, host module and this write-up by [Tobi Oyewole](https://github.com/tobi-oye), drafted with Claude Code (Anthropic) and reviewed by the author. Motivating discussion: [#126](https://github.com/modelcontextprotocol/experimental-ext-skills/issues/126) by [@olaservo](https://github.com/olaservo).
+
+---
+
 ## McpGraph: Skills in MCP Server Repo
 
 **Date:** Not documented
