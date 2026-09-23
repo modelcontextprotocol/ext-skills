@@ -118,7 +118,7 @@ Case 1 was confirmed both live and under test; cases 2–4 are unit tests. Test 
 **Requirements or design questions addressed:**
 
 - [#126](https://github.com/modelcontextprotocol/experimental-ext-skills/issues/126) item 4, the reservation agreed on 2026-06-16 ([meeting notes §2](https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/2941)): shows the technical half is already satisfiable with shipped parsers and listings.
-- Complements the `_meta` scoping decision in [decisions.md](decisions.md) ([PR #60](https://github.com/modelcontextprotocol/experimental-ext-skills/pull/60)) and the two-extension-point wording in the [glossary](glossary.md): this is the frontmatter `metadata` half, not `_meta`.
+- Complements the `_meta` scoping decision in [decisions.md](../decisions.md) ([PR #60](https://github.com/modelcontextprotocol/experimental-ext-skills/pull/60)) and the two-extension-point wording in the [glossary](glossary.md): this is the frontmatter `metadata` half, not `_meta`.
 
 **Evidence and reproduction:**
 
