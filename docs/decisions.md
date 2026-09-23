@@ -18,7 +18,7 @@ For background on the ADR format, see [adr.github.io](https://adr.github.io/).
 
 **References:**
 - [Feb 13 meeting notes](https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/2248) (Key Decisions & Agreements)
-- [Problem Statement](problem-statement.md)
+- [Problem Statement](archive/problem-statement.md)
 
 ---
 
@@ -82,7 +82,7 @@ For background on the ADR format, see [adr.github.io](https://adr.github.io/).
 **References:**
 - [Issue #14](https://github.com/modelcontextprotocol/experimental-ext-skills/issues/14)
 - [PR #17](https://github.com/modelcontextprotocol/experimental-ext-skills/pull/17)
-- [Approaches doc](approaches.md)
+- [Approaches doc](archive/approaches.md)
 
 ---
 
@@ -116,7 +116,7 @@ For background on the ADR format, see [adr.github.io](https://adr.github.io/).
 - [PR #60](https://github.com/modelcontextprotocol/experimental-ext-skills/pull/60)
 - [Issue #55](https://github.com/modelcontextprotocol/experimental-ext-skills/issues/55)
 - [Discord discussion](https://discord.com/channels/1358869848138059966/1482008994062274610)
-- [Using `_meta` for Skill Resources](skill-meta-keys.md)
+- [Using `_meta` for Skill Resources](archive/skill-meta-keys.md)
 
 ---
 
@@ -124,7 +124,7 @@ For background on the ADR format, see [adr.github.io](https://adr.github.io/).
 
 **Status:** Superseded in part — three of the bullets below were changed in SEP-2640 v1: enumeration moved from a `skill://index.json` resource to a `skills/list` method, the no-nesting constraint was reversed (nested skills are permitted, gated on fresh activation consent), and `skill://` was made non-privileged rather than the marker of what counts as a skill. See the 2026-07-16 v1 scope entry below, items 2, 6, and 8. The URI structure itself carries forward unchanged: explicit `SKILL.md`, final path segment equal to the skill `name`, optional organizational prefix, authority segment without special semantics.
 
-**Context:** Several independent MCP implementations (FastMCP 3.0, NimbleBrain, skilljack-mcp, skills-over-mcp, etc.) had converged on using Resources to represent skills using either `skill://` or domain-specific URI schemes, but diverged on the rest of the URI structure. This included variations around whether to use an authority segment, whether `SKILL.md` is explicit in the URI, how to address sub-resources, and how the URI path relates to the skill's frontmatter `name`. A survey of these patterns was published in [`skill-uri-scheme.md`](skill-uri-scheme.md) and informed the draft [Skills Extension SEP (#69)](https://github.com/modelcontextprotocol/experimental-ext-skills/pull/69). The path↔name relationship went through two drafts before settling: the first required a single path segment equal to the `name`, which broke for servers needing hierarchy (e.g., `acme/billing/refunds` vs. `acme/support/refunds`); a second draft fully decoupled path from `name`, which was too loose — a URI like `skill://a/b/c/SKILL.md` revealed nothing about what the skill was called without a frontmatter round trip.
+**Context:** Several independent MCP implementations (FastMCP 3.0, NimbleBrain, skilljack-mcp, skills-over-mcp, etc.) had converged on using Resources to represent skills using either `skill://` or domain-specific URI schemes, but diverged on the rest of the URI structure. This included variations around whether to use an authority segment, whether `SKILL.md` is explicit in the URI, how to address sub-resources, and how the URI path relates to the skill's frontmatter `name`. A survey of these patterns was published in [`skill-uri-scheme.md`](archive/skill-uri-scheme.md) and informed the draft [Skills Extension SEP (#69)](https://github.com/modelcontextprotocol/experimental-ext-skills/pull/69). The path↔name relationship went through two drafts before settling: the first required a single path segment equal to the `name`, which broke for servers needing hierarchy (e.g., `acme/billing/refunds` vs. `acme/support/refunds`); a second draft fully decoupled path from `name`, which was too loose — a URI like `skill://a/b/c/SKILL.md` revealed nothing about what the skill was called without a frontmatter round trip.
 
 **Decision:** Adopt `skill://<skill-path>/SKILL.md` as the recommended URI convention for skill resources over MCP, with:
 
@@ -143,7 +143,7 @@ For background on the ADR format, see [adr.github.io](https://adr.github.io/).
 - [PR #70](https://github.com/modelcontextprotocol/experimental-ext-skills/pull/70) — URI scheme refinements (merged 2026-04-16)
 - [Issue #44](https://github.com/modelcontextprotocol/experimental-ext-skills/issues/44) — URI scheme discussion
 - [Draft Skills Extension SEP (#69)](https://github.com/modelcontextprotocol/experimental-ext-skills/pull/69)
-- [Skill URI Scheme Proposal](skill-uri-scheme.md)
+- [Skill URI Scheme Proposal](archive/skill-uri-scheme.md)
 
 ---
 
@@ -251,7 +251,7 @@ For background on the ADR format, see [adr.github.io](https://adr.github.io/).
 
 ### 2026-06-09: Directory enumeration via a dedicated `resources/directory/read` method
 
-**Status:** Proposed — amended 2026-07-16: retained in SEP-2640 v1 as an optional feature gated behind the `directoryRead` capability setting
+**Status:** Accepted — amended 2026-07-16: retained in SEP-2640 v1 as an optional feature gated behind the `directoryRead` capability setting
 
 **Context:** A skill is a directory of files, and hosts that materialize a skill (or otherwise walk its contents) need to enumerate the files under a skill root without already knowing every URI. An earlier SEP draft did this with a scoped `resources/list(uri="skill://…")` call, but the base MCP spec does not guarantee scoped `resources/list`, leaving this extension with a protocol dependency it could not rely on (the SEP's "Why an Index Resource Rather Than `resources/list`?" section records the move away from that approach). The 2026-06-02 Working Session listed "try to get `resources/list(uri)` into the protocol" as an action item; the MCP core maintainer (dsp) was on board, leaving the WG to spec the mechanism. The design was worked out over the following week in the SEP feedback thread and landed in [SEP-2640](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2640) on 2026-06-09.
 
@@ -281,7 +281,7 @@ Returning metadata-only (URIs + descriptive fields, no contents) keeps the call 
 
 ### 2026-07-15: Add `skills/get` for single-skill entry retrieval
 
-**Status:** Proposed
+**Status:** Accepted
 
 **Context:** 
 
@@ -303,7 +303,7 @@ Aditya (@aditya-scio) raised the gap in [SEP-2640 review](https://github.com/mod
 
 ### 2026-07-16: Scope SEP-2640 down to a v1: required `skills/list` + `skills/get`, per-file digests, no archives
 
-**Status:** Proposed
+**Status:** Accepted
 
 **Context:** At the [June 24, 2026 core-maintainer meeting](https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/2976) the vote on SEP-2640 was deferred with structural concerns: archive delivery was the main sticking point (unpacking complexity and risk, and giving up the governance advantages MCP provides), `skill://index.json` was flagged as a proprietary format outside the official skill spec that complicates permissions and TTL handling, and the proposal was seen as conflating "serve skills over MCP" with a general distribution mechanism, with script-execution risk in the background. The [June 30, 2026 WG session](https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/2994) resolved to scope the extension down to the minimal shape the core maintainers would accept — per the lead maintainer's guidance, break it into something small, land it, and layer complexity afterward — deferring archives and resolving the smaller open items (index transport, name conflicts). A [core-maintainer alignment document](https://docs.google.com/document/d/1llJ667kyIu5ZA_-A8U1AntWUxMW65iXaLT-3elfi3J4/edit) was reviewed with the CMs in early July, and the rework landed on the SEP branch as a commit series between July 8 and July 15, 2026. This entry consolidates that v1 shape into a single record for WG review.
 
@@ -332,3 +332,37 @@ Keeping optionality to a single feature flag responds to the CM position that op
 - [Core-maintainer alignment document](https://docs.google.com/document/d/1llJ667kyIu5ZA_-A8U1AntWUxMW65iXaLT-3elfi3J4/edit) — reviewed with the CMs early July 2026.
 - [Supporting-file digests thread](https://discord.com/channels/1358869848138059966/1524467339674910901) — design discussion behind the per-file `resources` manifest (Peter Alexander, Cliff Hall, Aditya, Peder), 2026-07-08 through 07-10; registry/CVE-style provenance ideas raised there were explicitly deferred beyond v1.
 - [PR #108](https://github.com/modelcontextprotocol/experimental-ext-skills/pull/108) — companion threat-model document, in review.
+
+---
+
+### 2026-09-08: Stable spec page: caching attributes on `skills/list` and `skills/get`, and the `resources` capability dependency
+
+**Status:** Accepted — applied to `specification/stable/skills.mdx` in [PR #139](https://github.com/modelcontextprotocol/ext-skills/pull/139) (merged 2026-09-10), before SEP-2640 was marked Final
+
+**Context:** [`specification/stable/skills.mdx`](../specification/stable/skills.mdx) ([PR #138](https://github.com/modelcontextprotocol/ext-skills/pull/138)) renders SEP-2640 as a spec page written against base protocol revision `2026-07-28`. Review by @panyam against the traceability extraction maintained for the conformance suite ([conformance#330](https://github.com/modelcontextprotocol/conformance/pull/330)) found three places where the page diverged from, or went beyond, the SEP text without recording it:
+
+1. `ListSkillsResult` was declared as `extends PaginatedResult`. In the base schema `PaginatedResult` carries only `nextCursor`; `ttlMs` and `cacheScope` live on `CacheableResult`, where both are required, and the base list results extend both. As written the page dropped the caching attributes the SEP says `skills/list` carries.
+2. SEP-2640 says of `skills/get`: "whether the result should also carry the base protocol's caching attributes (`ttlMs` and `cacheScope`), as `resources/read` results do, is left open." The page's `GetSkillResult extends Result` closed that question in the negative without saying so.
+3. The page added "a server declaring this extension MUST also declare the `resources` capability", which has no counterpart sentence in the SEP. A server conformant to the SEP text alone could read as non-conformant to the page.
+
+The page also did not state its protocol-revision baseline, so dropping the SEP's "in protocol versions 2026-07-28 and later" conditional was not visibly justified.
+
+**Decision:**
+
+1. `ListSkillsResult extends PaginatedResult, CacheableResult`. `ttlMs` and `cacheScope` are required on `skills/list` results, as on `tools/list` and `resources/list`. The page states its `2026-07-28` baseline in a Protocol Revision section instead of carrying the SEP's per-version conditional.
+2. `GetSkillResult extends CacheableResult`. `ttlMs` and `cacheScope` are required on `skills/get` results, as on `resources/read`. This resolves the question SEP-2640 left open.
+3. The `resources`-capability requirement stays, worded as a consequence of the base Resources specification (a server that serves `resources/read` declares the `resources` capability) rather than as a free-standing rule. The conformance suite adds a check for it.
+
+**Rationale:**
+
+(1) is what the SEP intended by "carries the base protocol's list-caching attributes ... as defined for `tools/list` and `resources/list`"; the page named the wrong base type. Making the fields required rather than conditional follows from the page targeting `2026-07-28` or later, where `CacheableResult` makes them required on every list result.
+
+(2) `skills/get` is a single-item fetch whose closest base analogue, `resources/read`, is already a `CacheableResult`. Giving the entry a `ttlMs` gives hosts a server-supplied hint for how long to treat a held entry as current before re-calling `skills/get`, and keeps every result type in the extension uniform with the base protocol. Neither field is an integrity property. Digest verification, the held-entry rules, and content-bound approval are unaffected: a host acting on a skill still verifies every read against the held entry regardless of `ttlMs`, and a changed `resources` set still revokes approval regardless of how the refreshed entry was obtained.
+
+(3) A server cannot serve skill files without implementing `resources/read`, and the base specification already requires such a server to declare `resources`. Stating it on the page makes the dependency checkable by the conformance suite without adding an obligation a base-conformant server does not already have.
+
+**References:**
+- [PR #138 review comment](https://github.com/modelcontextprotocol/ext-skills/pull/138#issuecomment-5545405326) from @panyam raising these points.
+- [conformance#330](https://github.com/modelcontextprotocol/conformance/pull/330), the SEP-2640 conformance suite.
+- [SEP-2549](https://modelcontextprotocol.io/seps/2549-TTL-for-list-results), which defines `CacheableResult`.
+- SEP-2640, "Retrieval via `skills/get`", final semantics bullet (the "left open" sentence this entry resolves).
