@@ -1,1 +1,4 @@
 .claude/settings.local.json
+node_modules/
+.vitepress/cache/
+.vitepress/dist/

@@ -1,5 +1,7 @@
 # Approaches Being Explored
 
+> **Historical document.** Frozen during development of SEP-2640; statements of current status and requirements below describe that draft-era context. See the [stable specification](../../specification/stable/skills.mdx) for current requirements and the [archive index](README.md) for context.
+
 > ℹ️ The design space has largely converged on the convention approach (Approach 6), now formalized as [SEP-2640](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2640). This document is kept as a map of the alternatives that were considered; for the current direction, see the SEP.
 
 > These are not mutually exclusive solutions.
