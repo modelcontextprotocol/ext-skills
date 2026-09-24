@@ -52,7 +52,7 @@ export type {
   DirectoryReadHandlerOptions,
 } from "./directory.js";
 
-export { SKILLS_EXTENSION_ID } from "./resource-extensions.js";
+export { SKILLS_EXTENSION_ID, SKILLS_CLIENT_CAPABILITIES } from "./resource-extensions.js";
 export type { SkillsExtensionCapability } from "./resource-extensions.js";
 
 export {

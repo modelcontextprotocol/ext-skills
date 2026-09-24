@@ -20,7 +20,7 @@ npm install @olaservo/ext-skills @modelcontextprotocol/client
 |---|---|
 | `@olaservo/ext-skills` | Shared types, protocol method schemas, URI utilities, constants |
 | `@olaservo/ext-skills/server` | Server-side: discover skills, register resources + `skills/list` / `skills/get` handlers |
-| `@olaservo/ext-skills/client` | Client-side: list/get entries, verified reads, catalogs, directory enumeration |
+| `@olaservo/ext-skills/client` | Client-side: advertise the extension, list/get entries, verified reads, catalogs, directory enumeration |
 
 ## Protocol surface (SEP-2640 v1)
 
@@ -183,6 +183,22 @@ registerSkillResources(server, skillMap, "./skills");
 ```
 
 ## Client usage
+
+### Advertise the extension
+
+Pass `SKILLS_CLIENT_CAPABILITIES` when constructing the MCP SDK `Client`:
+
+```typescript
+import { Client } from "@modelcontextprotocol/client";
+import { SKILLS_CLIENT_CAPABILITIES } from "@olaservo/ext-skills/client";
+
+const client = new Client(
+  { name: "my-client", version: "1.0.0" },
+  { capabilities: SKILLS_CLIENT_CAPABILITIES },
+);
+```
+
+SEP-2640 gates the `skills/*` methods on the server's declaration and defines no client-side setting, so this is not required to use the methods. The base protocol's extension negotiation expects both parties to advertise an extension they support, and servers use the client's declaration to choose a fallback: a server that also offers a skill-loading tool for hosts without the extension can withhold it from a host that loads skills itself. MCP Inspector and MCPJam declare it.
 
 ### Quick start
 

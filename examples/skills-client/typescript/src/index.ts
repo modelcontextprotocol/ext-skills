@@ -27,6 +27,7 @@ import { Client } from "@modelcontextprotocol/client";
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
 import {
   READ_RESOURCE_TOOL,
+  SKILLS_CLIENT_CAPABILITIES,
   serverSupportsSkills,
   serverSupportsDirectoryRead,
   listSkills,
@@ -81,12 +82,17 @@ async function main(): Promise<void> {
   // newest protocol revision the server offers — 2026-07-28 against the
   // bundled serveStdio server. (On stdio the probe rides a short-lived
   // sibling process; the session process is spawned once, after.)
+  // Advertise the extension so a server that also serves a skill-loading
+  // tool for plain hosts knows this client loads skills itself.
   const client = new Client(
     {
       name: "skills-sep-example-client",
       version: "0.2.0",
     },
-    { versionNegotiation: { mode: "auto" } },
+    {
+      versionNegotiation: { mode: "auto" },
+      capabilities: SKILLS_CLIENT_CAPABILITIES,
+    },
   );
 
   await client.connect(transport);

@@ -1,6 +1,6 @@
 {
   "name": "@olaservo/ext-skills",
-  "version": "0.16.0",
+  "version": "0.17.0",
   "description": "SDK for the Skills Extension SEP",
   "type": "module",
   "main": "dist/index.js",

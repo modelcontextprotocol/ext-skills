@@ -56,3 +56,7 @@ export {
   SkillsGetResultSchema,
 } from "../skills-methods.js";
 export type { DirectoryChild, DirectoryReadResult } from "../directory.js";
+export {
+  SKILLS_EXTENSION_ID,
+  SKILLS_CLIENT_CAPABILITIES,
+} from "../resource-extensions.js";

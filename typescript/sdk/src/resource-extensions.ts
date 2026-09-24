@@ -13,6 +13,21 @@
 export const SKILLS_EXTENSION_ID = "io.modelcontextprotocol/skills";
 
 /**
+ * Client capabilities that advertise this extension, for the `capabilities`
+ * option of the MCP SDK `Client`.
+ *
+ * SEP-2640 gates `skills/list` and `skills/get` on the server's declaration
+ * and defines no client-side setting. The base protocol's extension
+ * negotiation still expects both parties to advertise an extension they
+ * support, and servers use the client's declaration to pick a fallback: a
+ * server that offers a skill-loading tool for plain hosts can withhold it
+ * from a host that loads skills itself. MCP Inspector and MCPJam declare it.
+ */
+export const SKILLS_CLIENT_CAPABILITIES = {
+  extensions: { [SKILLS_EXTENSION_ID]: {} },
+} as const;
+
+/**
  * The skills extension capability object a server advertises in its
  * `initialize` response (or `server/discover` result on protocol
  * 2026-07-28). An empty object means "supports the extension with no
