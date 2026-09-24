@@ -28,6 +28,7 @@ import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
 import {
   READ_RESOURCE_TOOL,
   SKILLS_CLIENT_CAPABILITIES,
+  manifestOf,
   serverSupportsSkills,
   serverSupportsDirectoryRead,
   listSkills,
@@ -218,7 +219,7 @@ async function main(): Promise<void> {
     // 5. Verified supporting-file read + unlisted-file rule
     // -----------------------------------------------------------------------
     header("5. readSkillResource() — Manifest-Bound Supporting Files");
-    const templateUri = refunds.resources?.find((r) =>
+    const templateUri = manifestOf(refunds)?.find((r) =>
       r.uri.includes("templates/"),
     )?.uri;
     if (templateUri) {
