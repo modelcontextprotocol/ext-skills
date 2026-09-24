@@ -63,6 +63,7 @@ export const SkillResourceRefSchema = z.looseObject({
  * (the `skill` object). `frontmatter` is the verbatim SKILL.md frontmatter
  * as JSON; `resources` is required and is either a complete file manifest
  * or the string `"dynamic"`. An entry with no `resources` is invalid.
+ * `_meta` is optional custom metadata the server attached to the entry.
  */
 export const SkillEntrySchema = z.looseObject({
   uri: z.string(),
@@ -71,6 +72,7 @@ export const SkillEntrySchema = z.looseObject({
     z.array(SkillResourceRefSchema),
     z.literal(DYNAMIC_RESOURCES),
   ]),
+  _meta: z.record(z.string(), z.unknown()).optional(),
 });
 
 /** Params schema for `skills/list` — an optional pagination cursor. */

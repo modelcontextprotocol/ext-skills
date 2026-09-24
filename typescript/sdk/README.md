@@ -169,7 +169,7 @@ All resources include `annotations` with `audience`, `priority`, and `lastModifi
 
 ### Custom `_meta` per skill
 
-Per [`skill-meta-keys.md`](../../docs/skill-meta-keys.md), most skills do **not** need `_meta` — name, description, version, allowed-tools, and other skill-level semantics belong in frontmatter (the resource body), not duplicated on the resource. The SDK reflects this: it never auto-projects frontmatter into `_meta`. When you need transport-layer metadata that has no frontmatter equivalent, set it on the discovered `SkillMetadata.meta`:
+Per [`skill-meta-keys.md`](../../docs/skill-meta-keys.md), most skills do **not** need `_meta` — name, description, version, allowed-tools, and other skill-level semantics belong in frontmatter (the resource body), not duplicated on the resource. The SDK reflects this: it never auto-projects frontmatter into `_meta`. When you need transport-layer metadata that has no frontmatter equivalent, set it on the discovered `SkillMetadata.meta`. The same object is emitted as `_meta` on the `SKILL.md` resource and on the skill's entry in `skills/list` and `skills/get`, so a host holding the entry sees it without a resource read. SEP-2640 assigns entry `_meta` no semantics; a detached credential over the `resources` manifest is one use.
 
 ```typescript
 const skillMap = discoverSkills("./skills");

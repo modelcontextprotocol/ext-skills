@@ -50,6 +50,15 @@ export interface SkillEntry {
    * An entry with no `resources` at all is invalid.
    */
   resources: SkillResourceRef[] | "dynamic";
+  /**
+   * Custom metadata on the entry, mirrored from `SkillMetadata.meta` (the
+   * same object the `SKILL.md` resource carries as `_meta`). SEP-2640
+   * assigns entry `_meta` no semantics; it is the place for annotations
+   * that describe the entry rather than the file, such as a detached
+   * credential over the `resources` manifest. Absent unless the server
+   * set `meta`.
+   */
+  _meta?: Record<string, unknown>;
 }
 
 /**
@@ -170,7 +179,8 @@ export interface SkillMetadata {
    */
   listed?: boolean;
   /**
-   * Custom MCP resource `_meta` for this skill's `SKILL.md` resource.
+   * Custom `_meta` for this skill, emitted on the `SKILL.md` resource
+   * registration and on the skill's entry in `skills/list` and `skills/get`.
    *
    * Per `docs/skill-meta-keys.md`, most skills do NOT need `_meta` — name,
    * description, version, allowed-tools, and other skill-level semantics

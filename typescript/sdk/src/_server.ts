@@ -566,6 +566,8 @@ export function loadDocument(
  * The `resources` manifest is complete: it lists `SKILL.md` itself (an entry
  * matching the skill's top-level `uri`) plus every supporting file, each
  * with the SHA-256 digest and byte size computed at discovery time.
+ * `SkillMetadata.meta`, when set, is carried as the entry's `_meta`, the
+ * same object the `SKILL.md` resource registration carries.
  */
 export function buildSkillEntry(skill: SkillMetadata): SkillEntry {
   const skillUri = buildSkillUri(skill.skillPath);
@@ -580,6 +582,7 @@ export function buildSkillEntry(skill: SkillMetadata): SkillEntry {
         size: doc.size,
       })),
     ],
+    ...(skill.meta ? { _meta: skill.meta } : {}),
   };
 }
 

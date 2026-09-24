@@ -65,7 +65,7 @@ There is no `resources/list` fallback: scanning for `skill://` URIs would infer 
 
 ## `_meta` policy
 
-The SDK never auto-projects frontmatter into resource `_meta`. Per `docs/skill-meta-keys.md`, skill-level semantics belong in frontmatter — the resource content — not duplicated on the resource. `SkillMetadata.meta` is the opt-in surface for transport-layer concerns; the SDK only sets `_meta` when the caller fills this field.
+The SDK never auto-projects frontmatter into resource `_meta`. Per `docs/skill-meta-keys.md`, skill-level semantics belong in frontmatter — the resource content — not duplicated on the resource. `SkillMetadata.meta` is the opt-in surface for transport-layer concerns; the SDK only sets `_meta` when the caller fills this field. When set, the same object goes on the `SKILL.md` resource registration and on the entry (`buildSkillEntry`), so `skills/list` and `skills/get` carry it too. The SEP assigns entry `_meta` no semantics.
 
 ## Defaults policy
 

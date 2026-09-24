@@ -384,6 +384,37 @@ describe("buildSkillEntry", () => {
       { uri: "skill://acme/billing/refunds/examples/email.md", digest: DIGEST_B, size: 5 },
     ]);
   });
+
+  it("omits _meta when the skill has no meta", () => {
+    const entry = buildSkillEntry(skill({ name: "a", skillPath: "a" }));
+    expect("_meta" in entry).toBe(false);
+  });
+
+  it("carries SkillMetadata.meta as the entry _meta", () => {
+    const meta = { "org.example/credential": "data:application/octet-stream;base64,AA==" };
+    const entry = buildSkillEntry(skill({ name: "a", skillPath: "a", meta }));
+    expect(entry._meta).toEqual(meta);
+  });
+});
+
+describe("entry _meta on the skills methods", () => {
+  const meta = { "org.example/credential": "data:application/octet-stream;base64,AA==" };
+  const map = mapOf(
+    skill({ name: "sealed", skillPath: "sealed", meta }),
+    skill({ name: "plain", skillPath: "plain" }),
+  );
+
+  it("skills/list carries _meta only on entries whose skill set meta", async () => {
+    const result = await makeSkillsListHandler(map)({});
+    const byUri = new Map(result.skills.map((e) => [e.uri, e]));
+    expect(byUri.get("skill://sealed/SKILL.md")?._meta).toEqual(meta);
+    expect("_meta" in byUri.get("skill://plain/SKILL.md")!).toBe(false);
+  });
+
+  it("skills/get carries the same _meta", async () => {
+    const result = await makeSkillsGetHandler(map)({ uri: "skill://sealed/SKILL.md" });
+    expect(result.skill._meta).toEqual(meta);
+  });
 });
 
 describe("warnIfOverLimits", () => {
