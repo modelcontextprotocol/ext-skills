@@ -29,6 +29,7 @@ To add or update a row, open a PR. Keep notes to one line.
 | [hf-mcp-server](https://github.com/huggingface/hf-mcp-server) | | TypeScript | `v1` | Hugging Face. `skills/list`, `skills/get`, `directoryRead`. HTTP transports only |
 | [github-stars-contrib-mcp-server](https://github.com/svg153/github-stars-contrib-mcp-server) | `community` | Python | `v1` ([#144](https://github.com/modelcontextprotocol/ext-skills/issues/144)) | Passes the [conformance suite](https://github.com/modelcontextprotocol/conformance) server scenarios |
 | [github-mcp-server](https://github.com/github/github-mcp-server/pull/2428) | | Go | `prototype` | Demo branch, not for merge |
+| [Brewale](https://brewale.dev/docs#skills-over-mcp) | | TypeScript | `v1` | Hosted. Org, project and personal skills with per-user access; `directoryRead`; passes the conformance server scenarios |
 
 ## Hosts (including agent harnesses, IDEs, and web applications)
 
