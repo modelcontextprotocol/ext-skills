@@ -28,9 +28,9 @@ This extension is identified as: `io.modelcontextprotocol/skills`.
 
 ## Protocol Revision
 
-This page specifies the extension against base protocol revision `2026-07-28` or later. Type names it references without defining (`Result`, `PaginatedRequest`, `PaginatedResult`, `CacheableResult`, `Resource`, `Cursor`) are those of the base schema at that revision.
+This page specifies the extension against base protocol revision `2026-07-28` or later. Type names it references without defining (`MetaObject`, `JSONRPCRequest`, `JSONRPCResultResponse`, `RequestParams`, `PaginatedRequest`, `PaginatedRequestParams`, `PaginatedResult`, `CacheableResult`, `Resource`) are those of the base schema at that revision.
 
-For brevity, request examples omit `_meta`. Every request **MUST** include the required [request metadata](https://modelcontextprotocol.io/specification/2026-07-28/basic/index#_meta).
+Every request **MUST** include the required [request metadata](https://modelcontextprotocol.io/specification/2026-07-28/basic/index#_meta) in `params._meta`. The request types below require it, and the request examples show it.
 
 ## Capability Negotiation
 
@@ -184,6 +184,12 @@ interface Skill {
    * that stable digests cannot be published.
    */
   resources: SkillResource[] | "dynamic";
+
+  /**
+   * See the base protocol's notes on `_meta` usage. Keys defined by this
+   * extension use the `io.modelcontextprotocol.skills/` prefix.
+   */
+  _meta?: MetaObject;
 }
 ```
 
@@ -257,7 +263,16 @@ interface ListSkillsRequest extends PaginatedRequest {
   "jsonrpc": "2.0",
   "id": 4,
   "method": "skills/list",
-  "params": {}
+  "params": {
+    "_meta": {
+      "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+      "io.modelcontextprotocol/clientInfo": {
+        "name": "ExampleClient",
+        "version": "1.0.0"
+      },
+      "io.modelcontextprotocol/clientCapabilities": {}
+    }
+  }
 }
 ```
 
@@ -266,6 +281,10 @@ interface ListSkillsRequest extends PaginatedRequest {
 ```typescript
 interface ListSkillsResult extends PaginatedResult, CacheableResult {
   skills: Skill[];
+}
+
+interface ListSkillsResultResponse extends JSONRPCResultResponse {
+  result: ListSkillsResult;
 }
 ```
 
@@ -343,12 +362,14 @@ A server declaring this extension **MUST** implement the `skills/get` method, wh
 ### Request
 
 ```typescript
-interface GetSkillRequest extends Request {
+interface GetSkillRequestParams extends RequestParams {
+  /** URI of the skill's SKILL.md. */
+  uri: string;
+}
+
+interface GetSkillRequest extends JSONRPCRequest {
   method: "skills/get";
-  params: {
-    /** URI of the skill's SKILL.md. */
-    uri: string;
-  };
+  params: GetSkillRequestParams;
 }
 ```
 
@@ -358,6 +379,14 @@ interface GetSkillRequest extends Request {
   "id": 5,
   "method": "skills/get",
   "params": {
+    "_meta": {
+      "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+      "io.modelcontextprotocol/clientInfo": {
+        "name": "ExampleClient",
+        "version": "1.0.0"
+      },
+      "io.modelcontextprotocol/clientCapabilities": {}
+    },
     "uri": "skill://pdf-processing/SKILL.md"
   }
 }
@@ -368,6 +397,10 @@ interface GetSkillRequest extends Request {
 ```typescript
 interface GetSkillResult extends CacheableResult {
   skill: Skill;
+}
+
+interface GetSkillResultResponse extends JSONRPCResultResponse {
+  result: GetSkillResult;
 }
 ```
 
@@ -489,13 +522,14 @@ A _directory resource_ is a resource whose `mimeType` is `inode/directory`. In a
 ### Request
 
 ```typescript
+interface ReadResourceDirectoryRequestParams extends PaginatedRequestParams {
+  /** URI of the directory resource to read. */
+  uri: string;
+}
+
 interface ReadResourceDirectoryRequest extends PaginatedRequest {
   method: "resources/directory/read";
-  params: {
-    /** URI of the directory resource to read. */
-    uri: string;
-    cursor?: Cursor;
-  };
+  params: ReadResourceDirectoryRequestParams;
 }
 ```
 
@@ -505,6 +539,14 @@ interface ReadResourceDirectoryRequest extends PaginatedRequest {
   "id": 7,
   "method": "resources/directory/read",
   "params": {
+    "_meta": {
+      "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+      "io.modelcontextprotocol/clientInfo": {
+        "name": "ExampleClient",
+        "version": "1.0.0"
+      },
+      "io.modelcontextprotocol/clientCapabilities": {}
+    },
     "uri": "skill://pdf-processing/templates"
   }
 }
@@ -513,9 +555,13 @@ interface ReadResourceDirectoryRequest extends PaginatedRequest {
 ### Response
 
 ```typescript
-interface ReadResourceDirectoryResult extends PaginatedResult {
+interface ReadResourceDirectoryResult extends PaginatedResult, CacheableResult {
   /** Resource metadata of the directory's direct children. */
   resources: Resource[];
+}
+
+interface ReadResourceDirectoryResultResponse extends JSONRPCResultResponse {
+  result: ReadResourceDirectoryResult;
 }
 ```
 
@@ -541,7 +587,9 @@ interface ReadResourceDirectoryResult extends PaginatedResult {
         "name": "regional",
         "mimeType": "inode/directory"
       }
-    ]
+    ],
+    "ttlMs": 300000,
+    "cacheScope": "public"
   }
 }
 ```
@@ -554,6 +602,7 @@ Semantics:
 - The result contains every direct child of the directory. Files carry their ordinary `Resource` metadata and subdirectories are listed as directory resources (`mimeType: "inode/directory"`). The listing is not recursive, and clients descend by calling the method again on a child directory.
 - An empty directory yields an empty `resources` array.
 - Pagination mirrors `resources/list`. When the result includes `nextCursor`, the client passes it back as `cursor` to retrieve the next page.
+- `ReadResourceDirectoryResult` extends `CacheableResult`, so `ttlMs` and `cacheScope` are **REQUIRED**, as they are on `resources/list`, and carry the same semantics. They describe the freshness of the directory listing, not of the held entry, and do not alter [Directory Reads and the Held Entry](#directory-reads-and-the-held-entry).
 - A server that declares `directoryRead` **MUST** support the method for every directory within the skill namespaces it serves as individual files.
 - The method itself is not skill-specific, and a server **MAY** support it on any directory resource it serves, under any scheme.
 
@@ -580,7 +629,16 @@ Consider a host connected to a server it labels `docs-server`, which declares th
   "jsonrpc": "2.0",
   "id": 2,
   "method": "skills/list",
-  "params": {}
+  "params": {
+    "_meta": {
+      "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+      "io.modelcontextprotocol/clientInfo": {
+        "name": "ExampleClient",
+        "version": "1.0.0"
+      },
+      "io.modelcontextprotocol/clientCapabilities": {}
+    }
+  }
 }
 ```
 
@@ -652,6 +710,14 @@ Later the model asks to load the skill. The host obtains user approval, binding 
   "id": 3,
   "method": "resources/read",
   "params": {
+    "_meta": {
+      "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+      "io.modelcontextprotocol/clientInfo": {
+        "name": "ExampleClient",
+        "version": "1.0.0"
+      },
+      "io.modelcontextprotocol/clientCapabilities": {}
+    },
     "uri": "skill://pdf-processing/SKILL.md"
   }
 }
@@ -686,6 +752,14 @@ The instructions reference `templates/`. The model lists the directory, and the 
   "id": 4,
   "method": "resources/directory/read",
   "params": {
+    "_meta": {
+      "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+      "io.modelcontextprotocol/clientInfo": {
+        "name": "ExampleClient",
+        "version": "1.0.0"
+      },
+      "io.modelcontextprotocol/clientCapabilities": {}
+    },
     "uri": "skill://pdf-processing/templates"
   }
 }
@@ -713,7 +787,9 @@ The instructions reference `templates/`. The model lists the directory, and the 
         "name": "credit-note.md",
         "mimeType": "text/markdown"
       }
-    ]
+    ],
+    "ttlMs": 300000,
+    "cacheScope": "public"
   }
 }
 ```
@@ -737,6 +813,14 @@ To make `credit-note.md` available, the host refreshes the entry:
   "id": 6,
   "method": "skills/get",
   "params": {
+    "_meta": {
+      "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+      "io.modelcontextprotocol/clientInfo": {
+        "name": "ExampleClient",
+        "version": "1.0.0"
+      },
+      "io.modelcontextprotocol/clientCapabilities": {}
+    },
     "uri": "skill://pdf-processing/SKILL.md"
   }
 }

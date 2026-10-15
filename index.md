@@ -9,15 +9,15 @@ title: Overview
 
 <!--@include: ./specification/stable/skills.mdx{35,79}-->
 
-<!--@include: ./specification/stable/skills.mdx{243,246}-->
+<!--@include: ./specification/stable/skills.mdx{249,252}-->
 
-<!--@include: ./specification/stable/skills.mdx{339,342}-->
+<!--@include: ./specification/stable/skills.mdx{358,361}-->
 
-<!--@include: ./specification/stable/skills.mdx{429,442}-->
+<!--@include: ./specification/stable/skills.mdx{462,475}-->
 
-<!--@include: ./specification/stable/skills.mdx{481,484}-->
+<!--@include: ./specification/stable/skills.mdx{514,517}-->
 
-<!--@include: ./specification/stable/skills.mdx{443,446}-->
+<!--@include: ./specification/stable/skills.mdx{476,479}-->
 
 For verification requirements and the skill-loading lifecycle, see
 [Integrity and Verification](/specification/stable/skills#integrity-and-verification).

@@ -366,3 +366,45 @@ The page also did not state its protocol-revision baseline, so dropping the SEP'
 - [conformance#330](https://github.com/modelcontextprotocol/conformance/pull/330), the SEP-2640 conformance suite.
 - [SEP-2549](https://modelcontextprotocol.io/seps/2549-TTL-for-list-results), which defines `CacheableResult`.
 - SEP-2640, "Retrieval via `skills/get`", final semantics bullet (the "left open" sentence this entry resolves).
+
+---
+
+### 2026-10-11: Align the spec page's types and examples with the `2026-07-28` base schema
+
+**Status:** Proposed. On acceptance, applied to `specification/stable/skills.mdx` by [PR #157](https://github.com/modelcontextprotocol/ext-skills/pull/157), as the 2026-09-08 and [PR #147](https://github.com/modelcontextprotocol/ext-skills/pull/147) corrections were, rather than through a draft revision.
+
+**Context:** [`specification/stable/skills.mdx`](../specification/stable/skills.mdx) states that its referenced types are those of the `2026-07-28` base schema and that every request **MUST** carry the required request metadata (`_meta`). [Issue #156](https://github.com/modelcontextprotocol/ext-skills/issues/156) reports that `ReadResourceDirectoryRequest` does not compile against that schema: it extends `PaginatedRequest` but declares an inline `params` without the `_meta` that `PaginatedRequestParams` inherits from `RequestParams` (`TS2430`).
+
+Auditing the whole page against the base schema's conventions found further departures:
+
+1. `GetSkillRequest` extends the open `Request` type with an inline `params: { uri }`, so a `skills/get` request without `_meta` type-checks. The base schema's concrete requests extend `JSONRPCRequest` with a named params interface.
+2. `ReadResourceDirectoryResult` extends only `PaginatedResult`. Every base list-shaped result (`resources/list`, `resources/templates/list`, `tools/list`, `prompts/list`) also extends `CacheableResult`, making `ttlMs` and `cacheScope` required. It is the only paginated result on the page without them.
+3. The base schema defines a `*ResultResponse` type for each method. The page defines none.
+4. Base entity types (`Resource`, `Tool`, `Prompt`) carry an optional `_meta: MetaObject`. `Skill` does not.
+5. Request examples omit `_meta`, where every base request example includes the required `io.modelcontextprotocol/protocolVersion` and `io.modelcontextprotocol/clientCapabilities` (and `clientInfo`).
+6. The page uses `Request` without listing it among the base types it references.
+
+**Decision:** Bring the page into line with the base schema's conventions, accepting that some changes tighten what a conformant implementation sends:
+
+1. `skills/get`: `GetSkillRequestParams extends RequestParams` with `uri`; `GetSkillRequest extends JSONRPCRequest`; `GetSkillResultResponse.result` is `GetSkillResult`. The method does not take input responses (see Rationale).
+2. `resources/directory/read`: `ReadResourceDirectoryRequestParams extends PaginatedRequestParams` with `uri`; `ReadResourceDirectoryResult extends PaginatedResult, CacheableResult`, so `ttlMs` and `cacheScope` are **REQUIRED**. It stays list-shaped and does not take input responses, matching the base list methods.
+3. Add `ListSkillsResultResponse`, `GetSkillResultResponse` and `ReadResourceDirectoryResultResponse`.
+4. Add optional `_meta?: MetaObject` to `Skill`. Keys defined by this extension use the `io.modelcontextprotocol.skills/` prefix.
+5. Every request example carries the full required `_meta`, and the "examples omit `_meta` for brevity" sentence is replaced. Directory-read result examples carry `ttlMs` and `cacheScope`.
+6. The Protocol Revision sentence lists every base type the page references.
+
+**Rationale:** The page targets `2026-07-28` and says so, so its types should be the ones an implementer gets by extending that schema in the usual way. Where the page and the base schema disagree, implementers generating types from both get incompatible shapes, and conformance tooling cannot check the extension's methods the way it checks base methods.
+
+Changes that alter conformance, rather than only correcting the rendering:
+
+- **`ttlMs` and `cacheScope` become required on `resources/directory/read` results.** A server that omits them is non-conformant under the new text. This mirrors the 2026-09-08 decision for `skills/list` and `skills/get`.
+- **`_meta` on requests** was already required by the page's text; only the types and examples change.
+
+`skills/get` does not take input responses. In the base schema only content-producing methods (`resources/read`, `prompts/get`, `tools/call`) do; `skills/get` returns metadata, and a server needing input before releasing content can request it on `resources/read`.
+
+The wire format of a successful exchange is otherwise unchanged. `skills/list` already matched the base convention and is unchanged apart from its response type.
+
+**References:**
+- [Issue #156](https://github.com/modelcontextprotocol/ext-skills/issues/156) from @paulbalandan, which reports the compile error and proposes named params interfaces for both requests.
+- Base schema `2026-07-28`: `RequestParams`, `RequestMetaObject`, `PaginatedRequestParams` and `CacheableResult`.
+- [2026-09-08 entry](#2026-09-08-stable-spec-page-caching-attributes-on-skills-list-and-skills-get-and-the-resources-capability-dependency), the previous alignment of the page's types with the base schema.
