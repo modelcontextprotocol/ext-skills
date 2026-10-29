@@ -1,10 +1,10 @@
 # Archive
 
-Documents the Working Group produced while designing the Skills extension, frozen once [SEP-2640](https://modelcontextprotocol.io/seps/2640-skills-extension) was marked Final (2026-09-13). They are kept for history and so the [decision log](../decisions.md) can link to the material it cites. Nothing here is normative; the specification is [`specification/stable/skills.mdx`](../../specification/stable/skills.mdx).
+Documents the Working Group produced while designing the Skills extension, frozen once [SEP-2640](https://modelcontextprotocol.io/seps/2640-skills-extension) was marked Final (2026-09-13). They are kept for history and so the [decision log](../decisions.md) can link to the material it cites. Nothing here is normative; the specification is [`specification/beta/skills.mdx`](../../specification/beta/skills.mdx).
 
 | Document | What it was | Superseded by |
 | :--- | :--- | :--- |
-| [SEP-2640 baseline copy](sep-draft-skills-extension.md) | Verbatim copy of the SEP text pinned at an August 2026 draft commit, kept so discussion could quote stable text | The published [SEP-2640](https://modelcontextprotocol.io/seps/2640-skills-extension) and the [stable specification](../../specification/stable/skills.mdx) |
+| [SEP-2640 baseline copy](sep-draft-skills-extension.md) | Verbatim copy of the SEP text pinned at an August 2026 draft commit, kept so discussion could quote stable text | The published [SEP-2640](https://modelcontextprotocol.io/seps/2640-skills-extension) and the [specification](../../specification/beta/skills.mdx) |
 | [Why Skills Over MCP?](why-and-when.md) | Value proposition and decision guide written while the approach was being argued for | SEP-2640 Motivation; the README |
 | [Use Cases](use-cases.md) | Use cases that drove the design | SEP-2640 Motivation |
 | [Approaches](approaches.md) | Map of the six approaches considered before converging on the convention approach | Decision log entries 2026-02-21 and 2026-02-26; SEP-2640 |
