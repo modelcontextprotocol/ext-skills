@@ -1,6 +1,6 @@
 # Why Skills Over MCP?
 
-> **Historical document.** Frozen during development of SEP-2640; statements of current status and requirements below describe that draft-era context. See the [stable specification](../../specification/stable/skills.mdx) for current requirements and the [archive index](README.md) for context.
+> **Historical document.** Frozen during development of SEP-2640; statements of current status and requirements below describe that draft-era context. See the [specification](../../specification/beta/skills.mdx) for current requirements and the [archive index](README.md) for context.
 
 > The value proposition for distributing agent skills through MCP, and a guide for when it applies.
 

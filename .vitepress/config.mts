@@ -26,7 +26,7 @@ export default withMermaid(
           if (state.env.relativePath === "index.md") {
             state.src = state.src.replace(
               /\]\(#([^)]+)\)/g,
-              "](/specification/stable/skills#$1)",
+              "](/specification/beta/skills#$1)",
             );
           }
         });
@@ -42,7 +42,7 @@ export default withMermaid(
     themeConfig: {
       outline: [2, 3],
       nav: [
-        { text: "Specification", link: "/specification/stable/skills" },
+        { text: "Specification", link: "/specification/beta/skills" },
         {
           text: "SEP-2640",
           link: "https://modelcontextprotocol.io/seps/2640-skills-extension",
@@ -56,7 +56,7 @@ export default withMermaid(
         "/specification/": [
           {
             text: "Specification",
-            items: [{ text: "Stable", link: "/specification/stable/skills" }],
+            items: [{ text: "Beta", link: "/specification/beta/skills" }],
           },
         ],
       },
@@ -64,7 +64,7 @@ export default withMermaid(
       search: { provider: "local" },
       editLink: {
         pattern:
-          "https://github.com/modelcontextprotocol/ext-skills/edit/main/specification/stable/skills.mdx",
+          "https://github.com/modelcontextprotocol/ext-skills/edit/main/specification/beta/skills.mdx",
       },
     },
   }),

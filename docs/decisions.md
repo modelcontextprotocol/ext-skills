@@ -339,7 +339,7 @@ Keeping optionality to a single feature flag responds to the CM position that op
 
 **Status:** Accepted — applied to `specification/stable/skills.mdx` in [PR #139](https://github.com/modelcontextprotocol/ext-skills/pull/139) (merged 2026-09-10), before SEP-2640 was marked Final
 
-**Context:** [`specification/stable/skills.mdx`](../specification/stable/skills.mdx) ([PR #138](https://github.com/modelcontextprotocol/ext-skills/pull/138)) renders SEP-2640 as a spec page written against base protocol revision `2026-07-28`. Review by @panyam against the traceability extraction maintained for the conformance suite ([conformance#330](https://github.com/modelcontextprotocol/conformance/pull/330)) found three places where the page diverged from, or went beyond, the SEP text without recording it:
+**Context:** [`specification/beta/skills.mdx`](../specification/beta/skills.mdx) ([PR #138](https://github.com/modelcontextprotocol/ext-skills/pull/138)) renders SEP-2640 as a spec page written against base protocol revision `2026-07-28`. Review by @panyam against the traceability extraction maintained for the conformance suite ([conformance#330](https://github.com/modelcontextprotocol/conformance/pull/330)) found three places where the page diverged from, or went beyond, the SEP text without recording it:
 
 1. `ListSkillsResult` was declared as `extends PaginatedResult`. In the base schema `PaginatedResult` carries only `nextCursor`; `ttlMs` and `cacheScope` live on `CacheableResult`, where both are required, and the base list results extend both. As written the page dropped the caching attributes the SEP says `skills/list` carries.
 2. SEP-2640 says of `skills/get`: "whether the result should also carry the base protocol's caching attributes (`ttlMs` and `cacheScope`), as `resources/read` results do, is left open." The page's `GetSkillResult extends Result` closed that question in the negative without saying so.
@@ -371,9 +371,9 @@ The page also did not state its protocol-revision baseline, so dropping the SEP'
 
 ### 2026-10-11: Align the spec page's types and examples with the `2026-07-28` base schema
 
-**Status:** Proposed. On acceptance, applied to `specification/stable/skills.mdx` by [PR #157](https://github.com/modelcontextprotocol/ext-skills/pull/157), as the 2026-09-08 and [PR #147](https://github.com/modelcontextprotocol/ext-skills/pull/147) corrections were, rather than through a draft revision.
+**Status:** Proposed. On acceptance, applied to `specification/beta/skills.mdx` by [PR #157](https://github.com/modelcontextprotocol/ext-skills/pull/157), as the 2026-09-08 and [PR #147](https://github.com/modelcontextprotocol/ext-skills/pull/147) corrections were, rather than through a draft revision.
 
-**Context:** [`specification/stable/skills.mdx`](../specification/stable/skills.mdx) states that its referenced types are those of the `2026-07-28` base schema and that every request **MUST** carry the required request metadata (`_meta`). [Issue #156](https://github.com/modelcontextprotocol/ext-skills/issues/156) reports that `ReadResourceDirectoryRequest` does not compile against that schema: it extends `PaginatedRequest` but declares an inline `params` without the `_meta` that `PaginatedRequestParams` inherits from `RequestParams` (`TS2430`).
+**Context:** [`specification/beta/skills.mdx`](../specification/beta/skills.mdx) states that its referenced types are those of the `2026-07-28` base schema and that every request **MUST** carry the required request metadata (`_meta`). [Issue #156](https://github.com/modelcontextprotocol/ext-skills/issues/156) reports that `ReadResourceDirectoryRequest` does not compile against that schema: it extends `PaginatedRequest` but declares an inline `params` without the `_meta` that `PaginatedRequestParams` inherits from `RequestParams` (`TS2430`).
 
 Auditing the whole page against the base schema's conventions found further departures:
 
