@@ -7,12 +7,8 @@ This extension is maintained by the **Skills Over MCP Working Group**.
 ## Extension Maintainers
 
 - [Ola Hungerford](https://github.com/olaservo)
-- [Peter Alexander](https://github.com/pja-ant)
+- [Peter Alexander](https://github.com/poita)
 - [Sambhav Kothari](https://github.com/sambhav)
-
-## Sponsor
-
-- [Peter Alexander](https://github.com/pja-ant)
 
 ## About This Document
 
