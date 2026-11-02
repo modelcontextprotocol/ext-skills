@@ -9,12 +9,20 @@
     "node": ">=22"
   },
   "scripts": {
+    "generate:schemas": "node scripts/schema.mjs --write",
+    "fetch:spec-types": "node scripts/fetch-spec-types.mjs",
+    "check:schema": "tsc --noEmit && node scripts/schema.mjs && node --test scripts/schema.test.mjs",
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview"
   },
   "devDependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "mdast-util-from-markdown": "2.0.2",
     "mermaid": "^11.17.0",
+    "typescript": "6.0.3",
+    "typescript-json-schema": "0.68.0",
     "vitepress": "^1.6.4",
     "vitepress-plugin-mermaid": "^2.0.17"
   }

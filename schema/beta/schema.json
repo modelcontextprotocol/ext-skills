@@ -1,0 +1,2127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://modelcontextprotocol.io/ext-skills/beta/schema.json",
+  "title": "MCP Skills Extension (Beta)",
+  "description": "Wire types for io.modelcontextprotocol/skills, based on MCP 2026-07-28. Validate a named $defs entry, not the schema container itself.",
+  "$defs": {
+    "SkillResource": {
+      "description": "A file belonging to a skill, with the digest and size of its content.",
+      "type": "object",
+      "properties": {
+        "uri": {
+          "description": "Resource URI of the file.",
+          "type": "string"
+        },
+        "digest": {
+          "description": "SHA-256 digest of the file's raw bytes, formatted as `sha256:{hex}`\nwhere {hex} is 64 lowercase hexadecimal characters.",
+          "type": "string"
+        },
+        "size": {
+          "description": "Length in bytes of the file's raw content (the same bytes that `digest` covers).",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "digest",
+        "size",
+        "uri"
+      ]
+    },
+    "Skill": {
+      "description": "The entry for a single skill.",
+      "type": "object",
+      "properties": {
+        "uri": {
+          "description": "Resource URI of the skill's SKILL.md, readable via resources/read.",
+          "type": "string"
+        },
+        "frontmatter": {
+          "description": "The skill's SKILL.md YAML frontmatter, rendered verbatim as a JSON object.\n`name` and `description` are always present; every other field the author\nwrote passes through unchanged.",
+          "type": "object",
+          "additionalProperties": {},
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "description",
+            "name"
+          ]
+        },
+        "resources": {
+          "description": "The skill's files: a complete enumeration of SKILL.md and every supporting\nfile, or the string \"dynamic\" when the skill's content is generated such\nthat stable digests cannot be published.",
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/SkillResource"
+              }
+            },
+            {
+              "const": "dynamic",
+              "type": "string"
+            }
+          ]
+        },
+        "_meta": {
+          "description": "See the base protocol's notes on `_meta` usage. Keys defined by this\nextension use the `io.modelcontextprotocol.skills/` prefix.",
+          "$ref": "#/$defs/MetaObject"
+        }
+      },
+      "required": [
+        "frontmatter",
+        "resources",
+        "uri"
+      ]
+    },
+    "ListSkillsRequest": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "skills/list"
+        },
+        "params": {
+          "$ref": "#/$defs/PaginatedRequestParams"
+        },
+        "jsonrpc": {
+          "type": "string",
+          "const": "2.0"
+        },
+        "id": {
+          "$ref": "#/$defs/RequestId"
+        }
+      },
+      "required": [
+        "id",
+        "jsonrpc",
+        "method",
+        "params"
+      ]
+    },
+    "ListSkillsResult": {
+      "type": "object",
+      "properties": {
+        "skills": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Skill"
+          }
+        },
+        "nextCursor": {
+          "description": "An opaque token representing the pagination position after the last returned result.\nIf present, there may be more results available.",
+          "type": "string"
+        },
+        "_meta": {
+          "description": "Extends {@link MetaObject} with additional result-specific fields. All key naming rules from `MetaObject` apply.",
+          "$ref": "#/$defs/ResultMetaObject"
+        },
+        "resultType": {
+          "description": "Indicates the type of the result, which allows the client to determine\nhow to parse the result object.\n\nServers implementing this protocol version MUST include this field.\nFor backward compatibility, when a client receives a result from a\nserver implementing an earlier protocol version (which does not include\n`resultType`), the client MUST treat the absent field as `\"complete\"`.",
+          "type": "string"
+        },
+        "ttlMs": {
+          "description": "A hint from the server indicating how long (in milliseconds) the\nclient MAY cache this response before re-fetching. Semantics are\nanalogous to HTTP Cache-Control max-age.\n\n- If 0, The response SHOULD be considered immediately stale,\n  The client MAY re-fetch every time the result is needed.\n- If positive, the client SHOULD consider the result fresh for this many\n  milliseconds after receiving the response.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "cacheScope": {
+          "description": "Indicates the intended scope of the cached response, analogous to HTTP\n`Cache-Control: public` vs `Cache-Control: private`.\n\n- `\"public\"`: The response does not contain user-specific data. Any\n  client or intermediary (e.g., shared gateway, caching proxy) MAY cache\n  the response and serve it across authorization contexts.\n- `\"private\"`: The response MAY be cached and reused only within the\n  same authorization context. Caches MUST NOT be shared across\n  authorization contexts (e.g., a different access token requires a\n  different cache).",
+          "enum": [
+            "private",
+            "public"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "cacheScope",
+        "resultType",
+        "skills",
+        "ttlMs"
+      ]
+    },
+    "ListSkillsResultResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/$defs/ListSkillsResult"
+        },
+        "jsonrpc": {
+          "type": "string",
+          "const": "2.0"
+        },
+        "id": {
+          "$ref": "#/$defs/RequestId"
+        }
+      },
+      "required": [
+        "id",
+        "jsonrpc",
+        "result"
+      ]
+    },
+    "GetSkillRequestParams": {
+      "type": "object",
+      "properties": {
+        "uri": {
+          "description": "URI of the skill's SKILL.md.",
+          "type": "string"
+        },
+        "_meta": {
+          "$ref": "#/$defs/RequestMetaObject"
+        }
+      },
+      "required": [
+        "_meta",
+        "uri"
+      ]
+    },
+    "GetSkillRequest": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "skills/get"
+        },
+        "params": {
+          "$ref": "#/$defs/GetSkillRequestParams"
+        },
+        "jsonrpc": {
+          "type": "string",
+          "const": "2.0"
+        },
+        "id": {
+          "$ref": "#/$defs/RequestId"
+        }
+      },
+      "required": [
+        "id",
+        "jsonrpc",
+        "method",
+        "params"
+      ]
+    },
+    "GetSkillResult": {
+      "type": "object",
+      "properties": {
+        "skill": {
+          "$ref": "#/$defs/Skill"
+        },
+        "ttlMs": {
+          "description": "A hint from the server indicating how long (in milliseconds) the\nclient MAY cache this response before re-fetching. Semantics are\nanalogous to HTTP Cache-Control max-age.\n\n- If 0, The response SHOULD be considered immediately stale,\n  The client MAY re-fetch every time the result is needed.\n- If positive, the client SHOULD consider the result fresh for this many\n  milliseconds after receiving the response.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "cacheScope": {
+          "description": "Indicates the intended scope of the cached response, analogous to HTTP\n`Cache-Control: public` vs `Cache-Control: private`.\n\n- `\"public\"`: The response does not contain user-specific data. Any\n  client or intermediary (e.g., shared gateway, caching proxy) MAY cache\n  the response and serve it across authorization contexts.\n- `\"private\"`: The response MAY be cached and reused only within the\n  same authorization context. Caches MUST NOT be shared across\n  authorization contexts (e.g., a different access token requires a\n  different cache).",
+          "enum": [
+            "private",
+            "public"
+          ],
+          "type": "string"
+        },
+        "_meta": {
+          "description": "Extends {@link MetaObject} with additional result-specific fields. All key naming rules from `MetaObject` apply.",
+          "$ref": "#/$defs/ResultMetaObject"
+        },
+        "resultType": {
+          "description": "Indicates the type of the result, which allows the client to determine\nhow to parse the result object.\n\nServers implementing this protocol version MUST include this field.\nFor backward compatibility, when a client receives a result from a\nserver implementing an earlier protocol version (which does not include\n`resultType`), the client MUST treat the absent field as `\"complete\"`.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cacheScope",
+        "resultType",
+        "skill",
+        "ttlMs"
+      ]
+    },
+    "GetSkillResultResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/$defs/GetSkillResult"
+        },
+        "jsonrpc": {
+          "type": "string",
+          "const": "2.0"
+        },
+        "id": {
+          "$ref": "#/$defs/RequestId"
+        }
+      },
+      "required": [
+        "id",
+        "jsonrpc",
+        "result"
+      ]
+    },
+    "ReadResourceDirectoryRequestParams": {
+      "type": "object",
+      "properties": {
+        "uri": {
+          "description": "URI of the directory resource to read.",
+          "type": "string"
+        },
+        "cursor": {
+          "description": "An opaque token representing the current pagination position.\nIf provided, the server should return results starting after this cursor.",
+          "type": "string"
+        },
+        "_meta": {
+          "$ref": "#/$defs/RequestMetaObject"
+        }
+      },
+      "required": [
+        "_meta",
+        "uri"
+      ]
+    },
+    "ReadResourceDirectoryRequest": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "resources/directory/read"
+        },
+        "params": {
+          "$ref": "#/$defs/ReadResourceDirectoryRequestParams"
+        },
+        "jsonrpc": {
+          "type": "string",
+          "const": "2.0"
+        },
+        "id": {
+          "$ref": "#/$defs/RequestId"
+        }
+      },
+      "required": [
+        "id",
+        "jsonrpc",
+        "method",
+        "params"
+      ]
+    },
+    "ReadResourceDirectoryResult": {
+      "type": "object",
+      "properties": {
+        "resources": {
+          "description": "Resource metadata of the directory's direct children.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Resource"
+          }
+        },
+        "nextCursor": {
+          "description": "An opaque token representing the pagination position after the last returned result.\nIf present, there may be more results available.",
+          "type": "string"
+        },
+        "_meta": {
+          "description": "Extends {@link MetaObject} with additional result-specific fields. All key naming rules from `MetaObject` apply.",
+          "$ref": "#/$defs/ResultMetaObject"
+        },
+        "resultType": {
+          "description": "Indicates the type of the result, which allows the client to determine\nhow to parse the result object.\n\nServers implementing this protocol version MUST include this field.\nFor backward compatibility, when a client receives a result from a\nserver implementing an earlier protocol version (which does not include\n`resultType`), the client MUST treat the absent field as `\"complete\"`.",
+          "type": "string"
+        },
+        "ttlMs": {
+          "description": "A hint from the server indicating how long (in milliseconds) the\nclient MAY cache this response before re-fetching. Semantics are\nanalogous to HTTP Cache-Control max-age.\n\n- If 0, The response SHOULD be considered immediately stale,\n  The client MAY re-fetch every time the result is needed.\n- If positive, the client SHOULD consider the result fresh for this many\n  milliseconds after receiving the response.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "cacheScope": {
+          "description": "Indicates the intended scope of the cached response, analogous to HTTP\n`Cache-Control: public` vs `Cache-Control: private`.\n\n- `\"public\"`: The response does not contain user-specific data. Any\n  client or intermediary (e.g., shared gateway, caching proxy) MAY cache\n  the response and serve it across authorization contexts.\n- `\"private\"`: The response MAY be cached and reused only within the\n  same authorization context. Caches MUST NOT be shared across\n  authorization contexts (e.g., a different access token requires a\n  different cache).",
+          "enum": [
+            "private",
+            "public"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "cacheScope",
+        "resources",
+        "resultType",
+        "ttlMs"
+      ]
+    },
+    "ReadResourceDirectoryResultResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/$defs/ReadResourceDirectoryResult"
+        },
+        "jsonrpc": {
+          "type": "string",
+          "const": "2.0"
+        },
+        "id": {
+          "$ref": "#/$defs/RequestId"
+        }
+      },
+      "required": [
+        "id",
+        "jsonrpc",
+        "result"
+      ]
+    },
+    "ReadResourceRequest": {
+      "description": "Sent from the client to the server, to read a specific resource URI.",
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "resources/read"
+        },
+        "params": {
+          "$ref": "#/$defs/ReadResourceRequestParams"
+        },
+        "jsonrpc": {
+          "type": "string",
+          "const": "2.0"
+        },
+        "id": {
+          "$ref": "#/$defs/RequestId"
+        }
+      },
+      "required": [
+        "id",
+        "jsonrpc",
+        "method",
+        "params"
+      ]
+    },
+    "ReadResourceResultResponse": {
+      "description": "A successful response from the server for a {@link ReadResourceRequestresources/read} request.",
+      "type": "object",
+      "properties": {
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/InputRequiredResult"
+            },
+            {
+              "$ref": "#/$defs/ReadResourceResult"
+            }
+          ]
+        },
+        "jsonrpc": {
+          "type": "string",
+          "const": "2.0"
+        },
+        "id": {
+          "$ref": "#/$defs/RequestId"
+        }
+      },
+      "required": [
+        "id",
+        "jsonrpc",
+        "result"
+      ]
+    },
+    "JSONRPCErrorResponse": {
+      "description": "A response to a request that indicates an error occurred.",
+      "type": "object",
+      "properties": {
+        "jsonrpc": {
+          "type": "string",
+          "const": "2.0"
+        },
+        "id": {
+          "description": "A uniquely identifying ID for a request in JSON-RPC.",
+          "type": [
+            "string",
+            "integer"
+          ]
+        },
+        "error": {
+          "$ref": "#/$defs/Error"
+        }
+      },
+      "required": [
+        "error",
+        "jsonrpc"
+      ]
+    },
+    "MetaObject": {
+      "description": "Represents the contents of a `_meta` field, which clients and servers use to attach additional metadata to their interactions.\n\nCertain key names are reserved by MCP for protocol-level metadata; implementations MUST NOT make assumptions about values at these keys. Additionally, specific schema definitions may reserve particular names for purpose-specific metadata, as declared in those definitions.\n\nValid keys have two segments:\n\n**Prefix:**\n- Optional — if specified, MUST be a series of _labels_ separated by dots (`.`), followed by a slash (`/`).\n- Labels MUST start with a letter and end with a letter or digit. Interior characters may be letters, digits, or hyphens (`-`).\n- Implementations SHOULD use reverse DNS notation (e.g., `com.example/` rather than `example.com/`).\n- Any prefix where the second label is `modelcontextprotocol` or `mcp` is **reserved** for MCP use. For example: `io.modelcontextprotocol/`, `dev.mcp/`, `org.modelcontextprotocol.api/`, and `com.mcp.tools/` are all reserved. However, `com.example.mcp/` is NOT reserved, as the second label is `example`.\n\n**Name:**\n- Unless empty, MUST start and end with an alphanumeric character (`[a-z0-9A-Z]`).\n- Interior characters may be alphanumeric, hyphens (`-`), underscores (`_`), or dots (`.`).",
+      "type": "object"
+    },
+    "PaginatedRequestParams": {
+      "description": "Common params for paginated requests.",
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "description": "An opaque token representing the current pagination position.\nIf provided, the server should return results starting after this cursor.",
+          "type": "string"
+        },
+        "_meta": {
+          "$ref": "#/$defs/RequestMetaObject"
+        }
+      },
+      "required": [
+        "_meta"
+      ]
+    },
+    "RequestMetaObject": {
+      "description": "Extends {@link MetaObject} with additional request-specific fields. All key naming rules from `MetaObject` apply.",
+      "type": "object",
+      "properties": {
+        "progressToken": {
+          "description": "If specified, the caller is requesting out-of-band progress notifications for this request (as represented by {@link ProgressNotificationnotifications/progress}). The value of this parameter is an opaque token that will be attached to any subsequent notifications. The receiver is not obligated to provide these notifications.",
+          "type": [
+            "string",
+            "integer"
+          ]
+        },
+        "io.modelcontextprotocol/protocolVersion": {
+          "description": "The MCP Protocol Version being used for this request. Required.\n\nFor the HTTP transport, this value MUST match the `MCP-Protocol-Version`\nheader; otherwise the server MUST return a `400 Bad Request`. If the\nserver does not support the requested version, it MUST return an\n{@link UnsupportedProtocolVersionError}.",
+          "type": "string"
+        },
+        "io.modelcontextprotocol/clientInfo": {
+          "description": "Identifies the client software making the request. Clients SHOULD\ninclude this field on every request unless specifically configured not\nto do so.\n\nThe {@link Implementation} schema requires `name` and `version`; other\nfields are optional.\n\nThe value is self-reported by the client and is not verified by the\nprotocol. It is intended for display, logging, and debugging. Servers\nSHOULD NOT use it to change their behavior, and SHOULD NOT rely on it for\nsecurity decisions.",
+          "$ref": "#/$defs/Implementation"
+        },
+        "io.modelcontextprotocol/clientCapabilities": {
+          "$ref": "#/$defs/ClientCapabilities",
+          "description": "The client's capabilities for this specific request. Required.\n\nCapabilities are declared per-request rather than once at initialization;\nan empty object means the client supports no optional capabilities.\nServers MUST NOT infer capabilities from prior requests."
+        },
+        "io.modelcontextprotocol/logLevel": {
+          "description": "The desired log level for this request. Optional.\n\nIf absent, the server MUST NOT send any {@link LoggingMessageNotificationnotifications/message}\nnotifications for this request. The client opts in to log messages by\nexplicitly setting a level. Replaces the former `logging/setLevel` RPC.",
+          "enum": [
+            "alert",
+            "critical",
+            "debug",
+            "emergency",
+            "error",
+            "info",
+            "notice",
+            "warning"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "io.modelcontextprotocol/clientCapabilities",
+        "io.modelcontextprotocol/protocolVersion"
+      ]
+    },
+    "Implementation": {
+      "description": "Describes the MCP implementation.",
+      "type": "object",
+      "properties": {
+        "version": {
+          "description": "The version of this implementation.",
+          "type": "string"
+        },
+        "description": {
+          "description": "An optional human-readable description of what this implementation does.\n\nThis can be used by clients or servers to provide context about their purpose\nand capabilities. For example, a server might describe the types of resources\nor tools it provides, while a client might describe its intended use case.",
+          "type": "string"
+        },
+        "websiteUrl": {
+          "description": "An optional URL of the website for this implementation.",
+          "format": "uri",
+          "type": "string"
+        },
+        "name": {
+          "description": "Intended for programmatic or logical use, but used as a display name in past specs or fallback (if title isn't present).",
+          "type": "string"
+        },
+        "title": {
+          "description": "Intended for UI and end-user contexts — optimized to be human-readable and easily understood,\neven by those unfamiliar with domain-specific terminology.\n\nIf not provided, the name should be used for display (except for {@link Tool},\nwhere `annotations.title` should be given precedence over using `name`,\nif present).",
+          "type": "string"
+        },
+        "icons": {
+          "description": "Optional set of sized icons that the client can display in a user interface.\n\nClients that support rendering icons MUST support at least the following MIME types:\n- `image/png` - PNG images (safe, universal compatibility)\n- `image/jpeg` (and `image/jpg`) - JPEG images (safe, universal compatibility)\n\nClients that support rendering icons SHOULD also support:\n- `image/svg+xml` - SVG images (scalable but requires security precautions)\n- `image/webp` - WebP images (modern, efficient format)",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Icon"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ]
+    },
+    "Icon": {
+      "description": "An optionally-sized icon that can be displayed in a user interface.",
+      "type": "object",
+      "properties": {
+        "src": {
+          "description": "A standard URI pointing to an icon resource. May be an HTTP/HTTPS URL or a\n`data:` URI with Base64-encoded image data.\n\nConsumers SHOULD take steps to ensure URLs serving icons are from the\nsame domain as the client/server or a trusted domain.\n\nConsumers SHOULD take appropriate precautions when consuming SVGs as they can contain\nexecutable JavaScript.",
+          "format": "uri",
+          "type": "string"
+        },
+        "mimeType": {
+          "description": "Optional MIME type override if the source MIME type is missing or generic.\nFor example: `\"image/png\"`, `\"image/jpeg\"`, or `\"image/svg+xml\"`.",
+          "type": "string"
+        },
+        "sizes": {
+          "description": "Optional array of strings that specify sizes at which the icon can be used.\nEach string should be in WxH format (e.g., `\"48x48\"`, `\"96x96\"`) or `\"any\"` for scalable formats like SVG.\n\nIf not provided, the client should assume that the icon can be used at any size.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "theme": {
+          "description": "Optional specifier for the theme this icon is designed for. `\"light\"` indicates\nthe icon is designed to be used with a light background, and `\"dark\"` indicates\nthe icon is designed to be used with a dark background.\n\nIf not provided, the client should assume the icon can be used with any theme.",
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "src"
+      ]
+    },
+    "ClientCapabilities": {
+      "description": "Capabilities a client may support. Known capabilities are defined here, in this schema, but this is not a closed set: any client can define its own, additional capabilities.",
+      "type": "object",
+      "properties": {
+        "experimental": {
+          "description": "Experimental, non-standard capabilities that the client supports.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/JSONObject"
+          }
+        },
+        "roots": {
+          "description": "Present if the client supports listing roots.",
+          "type": "object",
+          "properties": {}
+        },
+        "sampling": {
+          "description": "Present if the client supports sampling from an LLM.",
+          "type": "object",
+          "properties": {
+            "context": {
+              "description": "Whether the client supports context inclusion via `includeContext` parameter.\nIf not declared, servers SHOULD only use `includeContext: \"none\"` (or omit it).",
+              "$ref": "#/$defs/JSONObject"
+            },
+            "tools": {
+              "description": "Whether the client supports tool use via `tools` and `toolChoice` parameters.",
+              "$ref": "#/$defs/JSONObject"
+            }
+          }
+        },
+        "elicitation": {
+          "description": "Present if the client supports elicitation from the server.",
+          "type": "object",
+          "properties": {
+            "form": {
+              "$ref": "#/$defs/JSONObject"
+            },
+            "url": {
+              "$ref": "#/$defs/JSONObject"
+            }
+          }
+        },
+        "extensions": {
+          "description": "Optional MCP extensions that the client supports. Keys are extension identifiers\n(e.g., \"io.modelcontextprotocol/oauth-client-credentials\"), and values are\nper-extension settings objects. An empty object indicates support with no settings.\n\nKeys MUST follow the {@link MetaObject`_meta` key naming rules}, with a\nmandatory prefix.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/JSONObject"
+          }
+        }
+      }
+    },
+    "JSONValue": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/JSONObject"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/JSONValue"
+          }
+        },
+        {
+          "type": [
+            "null",
+            "string",
+            "integer",
+            "boolean"
+          ]
+        }
+      ]
+    },
+    "JSONObject": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/JSONValue"
+      }
+    },
+    "RequestId": {
+      "description": "A uniquely identifying ID for a request in JSON-RPC.",
+      "type": [
+        "string",
+        "integer"
+      ]
+    },
+    "ResultMetaObject": {
+      "description": "Extends {@link MetaObject} with additional result-specific fields. All key naming rules from `MetaObject` apply.",
+      "type": "object",
+      "properties": {
+        "io.modelcontextprotocol/serverInfo": {
+          "description": "Identifies the server software producing the response. Servers SHOULD\ninclude this field on every response unless specifically configured not\nto do so.\n\nThe {@link Implementation} schema requires `name` and `version`; other\nfields are optional.\n\nThe value is self-reported by the server and is not verified by the\nprotocol. It is intended for display, logging, and debugging. Clients\nSHOULD NOT use it to change their behavior, and SHOULD NOT rely on it for\nsecurity decisions.",
+          "$ref": "#/$defs/Implementation"
+        }
+      }
+    },
+    "Resource": {
+      "description": "A known resource that the server is capable of reading.",
+      "type": "object",
+      "properties": {
+        "uri": {
+          "description": "The URI of this resource.",
+          "format": "uri",
+          "type": "string"
+        },
+        "description": {
+          "description": "A description of what this resource represents.\n\nThis can be used by clients to improve the LLM's understanding of available resources. It can be thought of like a \"hint\" to the model.",
+          "type": "string"
+        },
+        "mimeType": {
+          "description": "The MIME type of this resource, if known.",
+          "type": "string"
+        },
+        "annotations": {
+          "description": "Optional annotations for the client.",
+          "$ref": "#/$defs/Annotations"
+        },
+        "size": {
+          "description": "The size of the raw resource content, in bytes (i.e., before base64 encoding or any tokenization), if known.\n\nThis can be used by Hosts to display file sizes and estimate context window usage.",
+          "type": "integer"
+        },
+        "_meta": {
+          "description": "Represents the contents of a `_meta` field, which clients and servers use to attach additional metadata to their interactions.\n\nCertain key names are reserved by MCP for protocol-level metadata; implementations MUST NOT make assumptions about values at these keys. Additionally, specific schema definitions may reserve particular names for purpose-specific metadata, as declared in those definitions.\n\nValid keys have two segments:\n\n**Prefix:**\n- Optional — if specified, MUST be a series of _labels_ separated by dots (`.`), followed by a slash (`/`).\n- Labels MUST start with a letter and end with a letter or digit. Interior characters may be letters, digits, or hyphens (`-`).\n- Implementations SHOULD use reverse DNS notation (e.g., `com.example/` rather than `example.com/`).\n- Any prefix where the second label is `modelcontextprotocol` or `mcp` is **reserved** for MCP use. For example: `io.modelcontextprotocol/`, `dev.mcp/`, `org.modelcontextprotocol.api/`, and `com.mcp.tools/` are all reserved. However, `com.example.mcp/` is NOT reserved, as the second label is `example`.\n\n**Name:**\n- Unless empty, MUST start and end with an alphanumeric character (`[a-z0-9A-Z]`).\n- Interior characters may be alphanumeric, hyphens (`-`), underscores (`_`), or dots (`.`).",
+          "$ref": "#/$defs/MetaObject"
+        },
+        "name": {
+          "description": "Intended for programmatic or logical use, but used as a display name in past specs or fallback (if title isn't present).",
+          "type": "string"
+        },
+        "title": {
+          "description": "Intended for UI and end-user contexts — optimized to be human-readable and easily understood,\neven by those unfamiliar with domain-specific terminology.\n\nIf not provided, the name should be used for display (except for {@link Tool},\nwhere `annotations.title` should be given precedence over using `name`,\nif present).",
+          "type": "string"
+        },
+        "icons": {
+          "description": "Optional set of sized icons that the client can display in a user interface.\n\nClients that support rendering icons MUST support at least the following MIME types:\n- `image/png` - PNG images (safe, universal compatibility)\n- `image/jpeg` (and `image/jpg`) - JPEG images (safe, universal compatibility)\n\nClients that support rendering icons SHOULD also support:\n- `image/svg+xml` - SVG images (scalable but requires security precautions)\n- `image/webp` - WebP images (modern, efficient format)",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Icon"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "uri"
+      ]
+    },
+    "Annotations": {
+      "description": "Optional annotations for the client. The client can use annotations to inform how objects are used or displayed",
+      "type": "object",
+      "properties": {
+        "audience": {
+          "description": "Describes who the intended audience of this object or data is.\n\nIt can include multiple entries to indicate content useful for multiple audiences (e.g., `[\"user\", \"assistant\"]`).",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Role"
+          }
+        },
+        "priority": {
+          "description": "Describes how important this data is for operating the server.\n\nA value of 1 means \"most important,\" and indicates that the data is\neffectively required, while 0 means \"least important,\" and indicates that\nthe data is entirely optional.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "lastModified": {
+          "description": "The moment the resource was last modified, as an ISO 8601 formatted string.\n\nShould be an ISO 8601 formatted string (e.g., \"2025-01-12T15:00:58Z\").\n\nExamples: last activity timestamp in an open file, timestamp when the resource\nwas attached, etc.",
+          "type": "string"
+        }
+      }
+    },
+    "Role": {
+      "description": "The sender or recipient of messages and data in a conversation.",
+      "enum": [
+        "assistant",
+        "user"
+      ],
+      "type": "string"
+    },
+    "ReadResourceRequestParams": {
+      "description": "Parameters for a `resources/read` request.",
+      "type": "object",
+      "properties": {
+        "uri": {
+          "description": "The URI of the resource. The URI can use any protocol; it is up to the server how to interpret it.",
+          "format": "uri",
+          "type": "string"
+        },
+        "_meta": {
+          "$ref": "#/$defs/RequestMetaObject"
+        },
+        "inputResponses": {
+          "description": "A map of client responses to server-initiated requests.\nKeys correspond to the keys in the {@link InputRequests} map;\nvalues are the client's result for each request.",
+          "$ref": "#/$defs/InputResponses"
+        },
+        "requestState": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "_meta",
+        "uri"
+      ]
+    },
+    "InputResponses": {
+      "description": "A map of client responses to server-initiated requests.\nKeys correspond to the keys in the {@link InputRequests} map;\nvalues are the client's result for each request.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/InputResponse"
+      }
+    },
+    "InputResponse": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CreateMessageResult"
+        },
+        {
+          "$ref": "#/$defs/ListRootsResult"
+        },
+        {
+          "$ref": "#/$defs/ElicitResult"
+        }
+      ]
+    },
+    "CreateMessageResult": {
+      "description": "The result returned by the client for a {@link CreateMessageRequestsampling/createMessage} request.\nThe client should inform the user before returning the sampled message, to allow them\nto inspect the response (human in the loop) and decide whether to allow the server to see it.",
+      "type": "object",
+      "properties": {
+        "model": {
+          "description": "The name of the model that generated the message.",
+          "type": "string"
+        },
+        "stopReason": {
+          "description": "The reason why sampling stopped, if known.\n\nStandard values:\n- `\"endTurn\"`: Natural end of the assistant's turn\n- `\"stopSequence\"`: A stop sequence was encountered\n- `\"maxTokens\"`: Maximum token limit was reached\n- `\"toolUse\"`: The model wants to use one or more tools\n\nThis field is an open string to allow for provider-specific stop reasons.",
+          "type": "string"
+        },
+        "role": {
+          "$ref": "#/$defs/Role"
+        },
+        "content": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TextContent"
+            },
+            {
+              "$ref": "#/$defs/ImageContent"
+            },
+            {
+              "$ref": "#/$defs/AudioContent"
+            },
+            {
+              "$ref": "#/$defs/ToolUseContent"
+            },
+            {
+              "$ref": "#/$defs/ToolResultContent"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/SamplingMessageContentBlock"
+              }
+            }
+          ]
+        },
+        "_meta": {
+          "description": "Represents the contents of a `_meta` field, which clients and servers use to attach additional metadata to their interactions.\n\nCertain key names are reserved by MCP for protocol-level metadata; implementations MUST NOT make assumptions about values at these keys. Additionally, specific schema definitions may reserve particular names for purpose-specific metadata, as declared in those definitions.\n\nValid keys have two segments:\n\n**Prefix:**\n- Optional — if specified, MUST be a series of _labels_ separated by dots (`.`), followed by a slash (`/`).\n- Labels MUST start with a letter and end with a letter or digit. Interior characters may be letters, digits, or hyphens (`-`).\n- Implementations SHOULD use reverse DNS notation (e.g., `com.example/` rather than `example.com/`).\n- Any prefix where the second label is `modelcontextprotocol` or `mcp` is **reserved** for MCP use. For example: `io.modelcontextprotocol/`, `dev.mcp/`, `org.modelcontextprotocol.api/`, and `com.mcp.tools/` are all reserved. However, `com.example.mcp/` is NOT reserved, as the second label is `example`.\n\n**Name:**\n- Unless empty, MUST start and end with an alphanumeric character (`[a-z0-9A-Z]`).\n- Interior characters may be alphanumeric, hyphens (`-`), underscores (`_`), or dots (`.`).",
+          "$ref": "#/$defs/MetaObject"
+        }
+      },
+      "required": [
+        "content",
+        "model",
+        "role"
+      ]
+    },
+    "TextContent": {
+      "description": "Text provided to or from an LLM.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "text"
+        },
+        "text": {
+          "description": "The text content of the message.",
+          "type": "string"
+        },
+        "annotations": {
+          "description": "Optional annotations for the client.",
+          "$ref": "#/$defs/Annotations"
+        },
+        "_meta": {
+          "description": "Represents the contents of a `_meta` field, which clients and servers use to attach additional metadata to their interactions.\n\nCertain key names are reserved by MCP for protocol-level metadata; implementations MUST NOT make assumptions about values at these keys. Additionally, specific schema definitions may reserve particular names for purpose-specific metadata, as declared in those definitions.\n\nValid keys have two segments:\n\n**Prefix:**\n- Optional — if specified, MUST be a series of _labels_ separated by dots (`.`), followed by a slash (`/`).\n- Labels MUST start with a letter and end with a letter or digit. Interior characters may be letters, digits, or hyphens (`-`).\n- Implementations SHOULD use reverse DNS notation (e.g., `com.example/` rather than `example.com/`).\n- Any prefix where the second label is `modelcontextprotocol` or `mcp` is **reserved** for MCP use. For example: `io.modelcontextprotocol/`, `dev.mcp/`, `org.modelcontextprotocol.api/`, and `com.mcp.tools/` are all reserved. However, `com.example.mcp/` is NOT reserved, as the second label is `example`.\n\n**Name:**\n- Unless empty, MUST start and end with an alphanumeric character (`[a-z0-9A-Z]`).\n- Interior characters may be alphanumeric, hyphens (`-`), underscores (`_`), or dots (`.`).",
+          "$ref": "#/$defs/MetaObject"
+        }
+      },
+      "required": [
+        "text",
+        "type"
+      ]
+    },
+    "ImageContent": {
+      "description": "An image provided to or from an LLM.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "image"
+        },
+        "data": {
+          "description": "The base64-encoded image data.",
+          "format": "byte",
+          "type": "string"
+        },
+        "mimeType": {
+          "description": "The MIME type of the image. Different providers may support different image types.",
+          "type": "string"
+        },
+        "annotations": {
+          "description": "Optional annotations for the client.",
+          "$ref": "#/$defs/Annotations"
+        },
+        "_meta": {
+          "description": "Represents the contents of a `_meta` field, which clients and servers use to attach additional metadata to their interactions.\n\nCertain key names are reserved by MCP for protocol-level metadata; implementations MUST NOT make assumptions about values at these keys. Additionally, specific schema definitions may reserve particular names for purpose-specific metadata, as declared in those definitions.\n\nValid keys have two segments:\n\n**Prefix:**\n- Optional — if specified, MUST be a series of _labels_ separated by dots (`.`), followed by a slash (`/`).\n- Labels MUST start with a letter and end with a letter or digit. Interior characters may be letters, digits, or hyphens (`-`).\n- Implementations SHOULD use reverse DNS notation (e.g., `com.example/` rather than `example.com/`).\n- Any prefix where the second label is `modelcontextprotocol` or `mcp` is **reserved** for MCP use. For example: `io.modelcontextprotocol/`, `dev.mcp/`, `org.modelcontextprotocol.api/`, and `com.mcp.tools/` are all reserved. However, `com.example.mcp/` is NOT reserved, as the second label is `example`.\n\n**Name:**\n- Unless empty, MUST start and end with an alphanumeric character (`[a-z0-9A-Z]`).\n- Interior characters may be alphanumeric, hyphens (`-`), underscores (`_`), or dots (`.`).",
+          "$ref": "#/$defs/MetaObject"
+        }
+      },
+      "required": [
+        "data",
+        "mimeType",
+        "type"
+      ]
+    },
+    "AudioContent": {
+      "description": "Audio provided to or from an LLM.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "audio"
+        },
+        "data": {
+          "description": "The base64-encoded audio data.",
+          "format": "byte",
+          "type": "string"
+        },
+        "mimeType": {
+          "description": "The MIME type of the audio. Different providers may support different audio types.",
+          "type": "string"
+        },
+        "annotations": {
+          "description": "Optional annotations for the client.",
+          "$ref": "#/$defs/Annotations"
+        },
+        "_meta": {
+          "description": "Represents the contents of a `_meta` field, which clients and servers use to attach additional metadata to their interactions.\n\nCertain key names are reserved by MCP for protocol-level metadata; implementations MUST NOT make assumptions about values at these keys. Additionally, specific schema definitions may reserve particular names for purpose-specific metadata, as declared in those definitions.\n\nValid keys have two segments:\n\n**Prefix:**\n- Optional — if specified, MUST be a series of _labels_ separated by dots (`.`), followed by a slash (`/`).\n- Labels MUST start with a letter and end with a letter or digit. Interior characters may be letters, digits, or hyphens (`-`).\n- Implementations SHOULD use reverse DNS notation (e.g., `com.example/` rather than `example.com/`).\n- Any prefix where the second label is `modelcontextprotocol` or `mcp` is **reserved** for MCP use. For example: `io.modelcontextprotocol/`, `dev.mcp/`, `org.modelcontextprotocol.api/`, and `com.mcp.tools/` are all reserved. However, `com.example.mcp/` is NOT reserved, as the second label is `example`.\n\n**Name:**\n- Unless empty, MUST start and end with an alphanumeric character (`[a-z0-9A-Z]`).\n- Interior characters may be alphanumeric, hyphens (`-`), underscores (`_`), or dots (`.`).",
+          "$ref": "#/$defs/MetaObject"
+        }
+      },
+      "required": [
+        "data",
+        "mimeType",
+        "type"
+      ]
+    },
+    "ToolUseContent": {
+      "description": "A request from the assistant to call a tool.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "tool_use"
+        },
+        "id": {
+          "description": "A unique identifier for this tool use.\n\nThis ID is used to match tool results to their corresponding tool uses.",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the tool to call.",
+          "type": "string"
+        },
+        "input": {
+          "description": "The arguments to pass to the tool, conforming to the tool's input schema.",
+          "type": "object",
+          "additionalProperties": {}
+        },
+        "_meta": {
+          "description": "Optional metadata about the tool use. Clients SHOULD preserve this field when\nincluding tool uses in subsequent sampling requests to enable caching optimizations.",
+          "$ref": "#/$defs/MetaObject"
+        }
+      },
+      "required": [
+        "id",
+        "input",
+        "name",
+        "type"
+      ]
+    },
+    "ToolResultContent": {
+      "description": "The result of a tool use, provided by the user back to the assistant.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "tool_result"
+        },
+        "toolUseId": {
+          "description": "The ID of the tool use this result corresponds to.\n\nThis MUST match the ID from a previous {@link ToolUseContent}.",
+          "type": "string"
+        },
+        "content": {
+          "description": "The unstructured result content of the tool use.\n\nThis has the same format as {@link CallToolResult.content} and can include text, images,\naudio, resource links, and embedded resources.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ContentBlock"
+          }
+        },
+        "structuredContent": {
+          "description": "An optional structured result value.\n\nThis can be any JSON value (object, array, string, number, boolean, or null).\nIf the tool defined an {@link Tool.outputSchema}, this SHOULD conform to that schema."
+        },
+        "isError": {
+          "description": "Whether the tool use resulted in an error.\n\nIf true, the content typically describes the error that occurred.\nDefault: false",
+          "type": "boolean"
+        },
+        "_meta": {
+          "description": "Optional metadata about the tool result. Clients SHOULD preserve this field when\nincluding tool results in subsequent sampling requests to enable caching optimizations.",
+          "$ref": "#/$defs/MetaObject"
+        }
+      },
+      "required": [
+        "content",
+        "toolUseId",
+        "type"
+      ]
+    },
+    "ContentBlock": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/TextContent"
+        },
+        {
+          "$ref": "#/$defs/ImageContent"
+        },
+        {
+          "$ref": "#/$defs/AudioContent"
+        },
+        {
+          "$ref": "#/$defs/ResourceLink"
+        },
+        {
+          "$ref": "#/$defs/EmbeddedResource"
+        }
+      ]
+    },
+    "ResourceLink": {
+      "description": "A resource that the server is capable of reading, included in a prompt or tool call result.\n\nNote: resource links returned by tools are not guaranteed to appear in the results of {@link ListResourcesRequestresources/list} requests.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "resource_link"
+        },
+        "uri": {
+          "description": "The URI of this resource.",
+          "format": "uri",
+          "type": "string"
+        },
+        "description": {
+          "description": "A description of what this resource represents.\n\nThis can be used by clients to improve the LLM's understanding of available resources. It can be thought of like a \"hint\" to the model.",
+          "type": "string"
+        },
+        "mimeType": {
+          "description": "The MIME type of this resource, if known.",
+          "type": "string"
+        },
+        "annotations": {
+          "description": "Optional annotations for the client.",
+          "$ref": "#/$defs/Annotations"
+        },
+        "size": {
+          "description": "The size of the raw resource content, in bytes (i.e., before base64 encoding or any tokenization), if known.\n\nThis can be used by Hosts to display file sizes and estimate context window usage.",
+          "type": "integer"
+        },
+        "_meta": {
+          "description": "Represents the contents of a `_meta` field, which clients and servers use to attach additional metadata to their interactions.\n\nCertain key names are reserved by MCP for protocol-level metadata; implementations MUST NOT make assumptions about values at these keys. Additionally, specific schema definitions may reserve particular names for purpose-specific metadata, as declared in those definitions.\n\nValid keys have two segments:\n\n**Prefix:**\n- Optional — if specified, MUST be a series of _labels_ separated by dots (`.`), followed by a slash (`/`).\n- Labels MUST start with a letter and end with a letter or digit. Interior characters may be letters, digits, or hyphens (`-`).\n- Implementations SHOULD use reverse DNS notation (e.g., `com.example/` rather than `example.com/`).\n- Any prefix where the second label is `modelcontextprotocol` or `mcp` is **reserved** for MCP use. For example: `io.modelcontextprotocol/`, `dev.mcp/`, `org.modelcontextprotocol.api/`, and `com.mcp.tools/` are all reserved. However, `com.example.mcp/` is NOT reserved, as the second label is `example`.\n\n**Name:**\n- Unless empty, MUST start and end with an alphanumeric character (`[a-z0-9A-Z]`).\n- Interior characters may be alphanumeric, hyphens (`-`), underscores (`_`), or dots (`.`).",
+          "$ref": "#/$defs/MetaObject"
+        },
+        "name": {
+          "description": "Intended for programmatic or logical use, but used as a display name in past specs or fallback (if title isn't present).",
+          "type": "string"
+        },
+        "title": {
+          "description": "Intended for UI and end-user contexts — optimized to be human-readable and easily understood,\neven by those unfamiliar with domain-specific terminology.\n\nIf not provided, the name should be used for display (except for {@link Tool},\nwhere `annotations.title` should be given precedence over using `name`,\nif present).",
+          "type": "string"
+        },
+        "icons": {
+          "description": "Optional set of sized icons that the client can display in a user interface.\n\nClients that support rendering icons MUST support at least the following MIME types:\n- `image/png` - PNG images (safe, universal compatibility)\n- `image/jpeg` (and `image/jpg`) - JPEG images (safe, universal compatibility)\n\nClients that support rendering icons SHOULD also support:\n- `image/svg+xml` - SVG images (scalable but requires security precautions)\n- `image/webp` - WebP images (modern, efficient format)",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Icon"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "type",
+        "uri"
+      ]
+    },
+    "EmbeddedResource": {
+      "description": "The contents of a resource, embedded into a prompt or tool call result.\n\nIt is up to the client how best to render embedded resources for the benefit\nof the LLM and/or the user.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "resource"
+        },
+        "resource": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TextResourceContents"
+            },
+            {
+              "$ref": "#/$defs/BlobResourceContents"
+            }
+          ]
+        },
+        "annotations": {
+          "description": "Optional annotations for the client.",
+          "$ref": "#/$defs/Annotations"
+        },
+        "_meta": {
+          "description": "Represents the contents of a `_meta` field, which clients and servers use to attach additional metadata to their interactions.\n\nCertain key names are reserved by MCP for protocol-level metadata; implementations MUST NOT make assumptions about values at these keys. Additionally, specific schema definitions may reserve particular names for purpose-specific metadata, as declared in those definitions.\n\nValid keys have two segments:\n\n**Prefix:**\n- Optional — if specified, MUST be a series of _labels_ separated by dots (`.`), followed by a slash (`/`).\n- Labels MUST start with a letter and end with a letter or digit. Interior characters may be letters, digits, or hyphens (`-`).\n- Implementations SHOULD use reverse DNS notation (e.g., `com.example/` rather than `example.com/`).\n- Any prefix where the second label is `modelcontextprotocol` or `mcp` is **reserved** for MCP use. For example: `io.modelcontextprotocol/`, `dev.mcp/`, `org.modelcontextprotocol.api/`, and `com.mcp.tools/` are all reserved. However, `com.example.mcp/` is NOT reserved, as the second label is `example`.\n\n**Name:**\n- Unless empty, MUST start and end with an alphanumeric character (`[a-z0-9A-Z]`).\n- Interior characters may be alphanumeric, hyphens (`-`), underscores (`_`), or dots (`.`).",
+          "$ref": "#/$defs/MetaObject"
+        }
+      },
+      "required": [
+        "resource",
+        "type"
+      ]
+    },
+    "TextResourceContents": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "description": "The text of the item. This must only be set if the item can actually be represented as text (not binary data).",
+          "type": "string"
+        },
+        "uri": {
+          "description": "The URI of this resource.",
+          "format": "uri",
+          "type": "string"
+        },
+        "mimeType": {
+          "description": "The MIME type of this resource, if known.",
+          "type": "string"
+        },
+        "_meta": {
+          "description": "Represents the contents of a `_meta` field, which clients and servers use to attach additional metadata to their interactions.\n\nCertain key names are reserved by MCP for protocol-level metadata; implementations MUST NOT make assumptions about values at these keys. Additionally, specific schema definitions may reserve particular names for purpose-specific metadata, as declared in those definitions.\n\nValid keys have two segments:\n\n**Prefix:**\n- Optional — if specified, MUST be a series of _labels_ separated by dots (`.`), followed by a slash (`/`).\n- Labels MUST start with a letter and end with a letter or digit. Interior characters may be letters, digits, or hyphens (`-`).\n- Implementations SHOULD use reverse DNS notation (e.g., `com.example/` rather than `example.com/`).\n- Any prefix where the second label is `modelcontextprotocol` or `mcp` is **reserved** for MCP use. For example: `io.modelcontextprotocol/`, `dev.mcp/`, `org.modelcontextprotocol.api/`, and `com.mcp.tools/` are all reserved. However, `com.example.mcp/` is NOT reserved, as the second label is `example`.\n\n**Name:**\n- Unless empty, MUST start and end with an alphanumeric character (`[a-z0-9A-Z]`).\n- Interior characters may be alphanumeric, hyphens (`-`), underscores (`_`), or dots (`.`).",
+          "$ref": "#/$defs/MetaObject"
+        }
+      },
+      "required": [
+        "text",
+        "uri"
+      ]
+    },
+    "BlobResourceContents": {
+      "type": "object",
+      "properties": {
+        "blob": {
+          "description": "A base64-encoded string representing the binary data of the item.",
+          "format": "byte",
+          "type": "string"
+        },
+        "uri": {
+          "description": "The URI of this resource.",
+          "format": "uri",
+          "type": "string"
+        },
+        "mimeType": {
+          "description": "The MIME type of this resource, if known.",
+          "type": "string"
+        },
+        "_meta": {
+          "description": "Represents the contents of a `_meta` field, which clients and servers use to attach additional metadata to their interactions.\n\nCertain key names are reserved by MCP for protocol-level metadata; implementations MUST NOT make assumptions about values at these keys. Additionally, specific schema definitions may reserve particular names for purpose-specific metadata, as declared in those definitions.\n\nValid keys have two segments:\n\n**Prefix:**\n- Optional — if specified, MUST be a series of _labels_ separated by dots (`.`), followed by a slash (`/`).\n- Labels MUST start with a letter and end with a letter or digit. Interior characters may be letters, digits, or hyphens (`-`).\n- Implementations SHOULD use reverse DNS notation (e.g., `com.example/` rather than `example.com/`).\n- Any prefix where the second label is `modelcontextprotocol` or `mcp` is **reserved** for MCP use. For example: `io.modelcontextprotocol/`, `dev.mcp/`, `org.modelcontextprotocol.api/`, and `com.mcp.tools/` are all reserved. However, `com.example.mcp/` is NOT reserved, as the second label is `example`.\n\n**Name:**\n- Unless empty, MUST start and end with an alphanumeric character (`[a-z0-9A-Z]`).\n- Interior characters may be alphanumeric, hyphens (`-`), underscores (`_`), or dots (`.`).",
+          "$ref": "#/$defs/MetaObject"
+        }
+      },
+      "required": [
+        "blob",
+        "uri"
+      ]
+    },
+    "SamplingMessageContentBlock": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/TextContent"
+        },
+        {
+          "$ref": "#/$defs/ImageContent"
+        },
+        {
+          "$ref": "#/$defs/AudioContent"
+        },
+        {
+          "$ref": "#/$defs/ToolUseContent"
+        },
+        {
+          "$ref": "#/$defs/ToolResultContent"
+        }
+      ]
+    },
+    "ListRootsResult": {
+      "description": "The result returned by the client for a {@link ListRootsRequestroots/list} request.\nThis result contains an array of {@link Root} objects, each representing a root directory\nor file that the server can operate on.",
+      "type": "object",
+      "properties": {
+        "roots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Root"
+          }
+        }
+      },
+      "required": [
+        "roots"
+      ]
+    },
+    "Root": {
+      "description": "Represents a root directory or file that the server can operate on.",
+      "type": "object",
+      "properties": {
+        "uri": {
+          "description": "The URI identifying the root. This *must* start with `file://` for now.\nThis restriction may be relaxed in future versions of the protocol to allow\nother URI schemes.",
+          "format": "uri",
+          "type": "string"
+        },
+        "name": {
+          "description": "An optional name for the root. This can be used to provide a human-readable\nidentifier for the root, which may be useful for display purposes or for\nreferencing the root in other parts of the application.",
+          "type": "string"
+        },
+        "_meta": {
+          "description": "Represents the contents of a `_meta` field, which clients and servers use to attach additional metadata to their interactions.\n\nCertain key names are reserved by MCP for protocol-level metadata; implementations MUST NOT make assumptions about values at these keys. Additionally, specific schema definitions may reserve particular names for purpose-specific metadata, as declared in those definitions.\n\nValid keys have two segments:\n\n**Prefix:**\n- Optional — if specified, MUST be a series of _labels_ separated by dots (`.`), followed by a slash (`/`).\n- Labels MUST start with a letter and end with a letter or digit. Interior characters may be letters, digits, or hyphens (`-`).\n- Implementations SHOULD use reverse DNS notation (e.g., `com.example/` rather than `example.com/`).\n- Any prefix where the second label is `modelcontextprotocol` or `mcp` is **reserved** for MCP use. For example: `io.modelcontextprotocol/`, `dev.mcp/`, `org.modelcontextprotocol.api/`, and `com.mcp.tools/` are all reserved. However, `com.example.mcp/` is NOT reserved, as the second label is `example`.\n\n**Name:**\n- Unless empty, MUST start and end with an alphanumeric character (`[a-z0-9A-Z]`).\n- Interior characters may be alphanumeric, hyphens (`-`), underscores (`_`), or dots (`.`).",
+          "$ref": "#/$defs/MetaObject"
+        }
+      },
+      "required": [
+        "uri"
+      ]
+    },
+    "ElicitResult": {
+      "description": "The result returned by the client for an {@link ElicitRequestelicitation/create} request.",
+      "type": "object",
+      "properties": {
+        "action": {
+          "description": "The user action in response to the elicitation.\n- `\"accept\"`: User submitted the form/confirmed the action\n- `\"decline\"`: User explicitly declined the action\n- `\"cancel\"`: User dismissed without making an explicit choice",
+          "enum": [
+            "accept",
+            "cancel",
+            "decline"
+          ],
+          "type": "string"
+        },
+        "content": {
+          "description": "The submitted form data, only present when action is `\"accept\"` and mode was `\"form\"`.\nContains values matching the requested schema.\nOmitted for out-of-band mode responses.",
+          "type": "object",
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": [
+                  "string",
+                  "integer",
+                  "boolean"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "action"
+      ]
+    },
+    "InputRequiredResult": {
+      "description": "An InputRequiredResult sent by the server to indicate that additional input is needed\nbefore the request can be completed.\n\nAt least one of `inputRequests` or `requestState` MUST be present.",
+      "type": "object",
+      "properties": {
+        "inputRequests": {
+          "description": "A map of server-initiated requests that the client must fulfill.\nKeys are server-assigned identifiers; values are the request objects.",
+          "$ref": "#/$defs/InputRequests"
+        },
+        "requestState": {
+          "type": "string"
+        },
+        "_meta": {
+          "description": "Extends {@link MetaObject} with additional result-specific fields. All key naming rules from `MetaObject` apply.",
+          "$ref": "#/$defs/ResultMetaObject"
+        },
+        "resultType": {
+          "description": "Indicates the type of the result, which allows the client to determine\nhow to parse the result object.\n\nServers implementing this protocol version MUST include this field.\nFor backward compatibility, when a client receives a result from a\nserver implementing an earlier protocol version (which does not include\n`resultType`), the client MUST treat the absent field as `\"complete\"`.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "resultType"
+      ]
+    },
+    "InputRequests": {
+      "description": "A map of server-initiated requests that the client must fulfill.\nKeys are server-assigned identifiers; values are the request objects.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/InputRequest"
+      }
+    },
+    "InputRequest": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CreateMessageRequest"
+        },
+        {
+          "$ref": "#/$defs/ListRootsRequest"
+        },
+        {
+          "$ref": "#/$defs/ElicitRequest"
+        }
+      ]
+    },
+    "CreateMessageRequest": {
+      "description": "A request from the server to sample an LLM via the client. The client has full discretion over which model to select. The client should also inform the user before beginning sampling, to allow them to inspect the request (human in the loop) and decide whether to approve it.",
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "sampling/createMessage"
+        },
+        "params": {
+          "$ref": "#/$defs/CreateMessageRequestParams"
+        }
+      },
+      "required": [
+        "method",
+        "params"
+      ]
+    },
+    "CreateMessageRequestParams": {
+      "description": "Parameters for a `sampling/createMessage` request.",
+      "type": "object",
+      "properties": {
+        "messages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SamplingMessage"
+          }
+        },
+        "modelPreferences": {
+          "description": "The server's preferences for which model to select. The client MAY ignore these preferences.",
+          "$ref": "#/$defs/ModelPreferences"
+        },
+        "systemPrompt": {
+          "description": "An optional system prompt the server wants to use for sampling. The client MAY modify or omit this prompt.",
+          "type": "string"
+        },
+        "includeContext": {
+          "description": "A request to include context from one or more MCP servers (including the caller), to be attached to the prompt.\nThe client MAY ignore this request.\n\nDefault is `\"none\"`. The values `\"thisServer\"` and `\"allServers\"` are deprecated (SEP-2596): servers SHOULD\nomit this field or use `\"none\"`, and SHOULD only use the deprecated values if the client declares\n{@link ClientCapabilities.sampling.context}.",
+          "enum": [
+            "allServers",
+            "none",
+            "thisServer"
+          ],
+          "type": "string"
+        },
+        "temperature": {
+          "type": "number"
+        },
+        "maxTokens": {
+          "description": "The requested maximum number of tokens to sample (to prevent runaway completions).\n\nThe client MAY choose to sample fewer tokens than the requested maximum.",
+          "type": "integer"
+        },
+        "stopSequences": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "metadata": {
+          "description": "Optional metadata to pass through to the LLM provider. The format of this metadata is provider-specific.",
+          "$ref": "#/$defs/JSONObject"
+        },
+        "tools": {
+          "description": "Tools that the model may use during generation.\nThe client MUST return an error if this field is provided but {@link ClientCapabilities.sampling.tools} is not declared.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Tool"
+          }
+        },
+        "toolChoice": {
+          "description": "Controls how the model uses tools.\nThe client MUST return an error if this field is provided but {@link ClientCapabilities.sampling.tools} is not declared.\nDefault is `{ mode: \"auto\" }`.",
+          "$ref": "#/$defs/ToolChoice"
+        }
+      },
+      "required": [
+        "maxTokens",
+        "messages"
+      ]
+    },
+    "SamplingMessage": {
+      "description": "Describes a message issued to or received from an LLM API.",
+      "type": "object",
+      "properties": {
+        "role": {
+          "$ref": "#/$defs/Role"
+        },
+        "content": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TextContent"
+            },
+            {
+              "$ref": "#/$defs/ImageContent"
+            },
+            {
+              "$ref": "#/$defs/AudioContent"
+            },
+            {
+              "$ref": "#/$defs/ToolUseContent"
+            },
+            {
+              "$ref": "#/$defs/ToolResultContent"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/SamplingMessageContentBlock"
+              }
+            }
+          ]
+        },
+        "_meta": {
+          "description": "Represents the contents of a `_meta` field, which clients and servers use to attach additional metadata to their interactions.\n\nCertain key names are reserved by MCP for protocol-level metadata; implementations MUST NOT make assumptions about values at these keys. Additionally, specific schema definitions may reserve particular names for purpose-specific metadata, as declared in those definitions.\n\nValid keys have two segments:\n\n**Prefix:**\n- Optional — if specified, MUST be a series of _labels_ separated by dots (`.`), followed by a slash (`/`).\n- Labels MUST start with a letter and end with a letter or digit. Interior characters may be letters, digits, or hyphens (`-`).\n- Implementations SHOULD use reverse DNS notation (e.g., `com.example/` rather than `example.com/`).\n- Any prefix where the second label is `modelcontextprotocol` or `mcp` is **reserved** for MCP use. For example: `io.modelcontextprotocol/`, `dev.mcp/`, `org.modelcontextprotocol.api/`, and `com.mcp.tools/` are all reserved. However, `com.example.mcp/` is NOT reserved, as the second label is `example`.\n\n**Name:**\n- Unless empty, MUST start and end with an alphanumeric character (`[a-z0-9A-Z]`).\n- Interior characters may be alphanumeric, hyphens (`-`), underscores (`_`), or dots (`.`).",
+          "$ref": "#/$defs/MetaObject"
+        }
+      },
+      "required": [
+        "content",
+        "role"
+      ]
+    },
+    "ModelPreferences": {
+      "description": "The server's preferences for model selection, requested of the client during sampling.\n\nBecause LLMs can vary along multiple dimensions, choosing the \"best\" model is\nrarely straightforward.  Different models excel in different areas—some are\nfaster but less capable, others are more capable but more expensive, and so\non. This interface allows servers to express their priorities across multiple\ndimensions to help clients make an appropriate selection for their use case.\n\nThese preferences are always advisory. The client MAY ignore them. It is also\nup to the client to decide how to interpret these preferences and how to\nbalance them against other considerations.",
+      "type": "object",
+      "properties": {
+        "hints": {
+          "description": "Optional hints to use for model selection.\n\nIf multiple hints are specified, the client MUST evaluate them in order\n(such that the first match is taken).\n\nThe client SHOULD prioritize these hints over the numeric priorities, but\nMAY still use the priorities to select from ambiguous matches.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ModelHint"
+          }
+        },
+        "costPriority": {
+          "description": "How much to prioritize cost when selecting a model. A value of 0 means cost\nis not important, while a value of 1 means cost is the most important\nfactor.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "speedPriority": {
+          "description": "How much to prioritize sampling speed (latency) when selecting a model. A\nvalue of 0 means speed is not important, while a value of 1 means speed is\nthe most important factor.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "intelligencePriority": {
+          "description": "How much to prioritize intelligence and capabilities when selecting a\nmodel. A value of 0 means intelligence is not important, while a value of 1\nmeans intelligence is the most important factor.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "ModelHint": {
+      "description": "Hints to use for model selection.\n\nKeys not declared here are currently left unspecified by the spec and are up\nto the client to interpret.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "A hint for a model name.\n\nThe client SHOULD treat this as a substring of a model name; for example:\n - `claude-3-5-sonnet` should match `claude-3-5-sonnet-20241022`\n - `sonnet` should match `claude-3-5-sonnet-20241022`, `claude-3-sonnet-20240229`, etc.\n - `claude` should match any Claude model\n\nThe client MAY also map the string to a different provider's model name or a different model family, as long as it fills a similar niche; for example:\n - `gemini-1.5-flash` could match `claude-3-haiku-20240307`",
+          "type": "string"
+        }
+      }
+    },
+    "Tool": {
+      "description": "Definition for a tool the client can call.",
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "A human-readable description of the tool.\n\nThis can be used by clients to improve the LLM's understanding of available tools. It can be thought of like a \"hint\" to the model.",
+          "type": "string"
+        },
+        "inputSchema": {
+          "description": "A JSON Schema object defining the expected parameters for the tool.\n\nTool arguments are always JSON objects, so `type: \"object\"` is required at the root.\nBeyond that, any JSON Schema 2020-12 keyword may appear alongside `type` — including\ncomposition keywords (`oneOf`, `anyOf`, `allOf`, `not`), conditional keywords\n(`if`/`then`/`else`), reference keywords (`$ref`, `$defs`, `$anchor`), and any other\nstandard validation or annotation keywords.\n\nProperty schemas may carry an `x-mcp-header` annotation to mirror the\nargument value into an HTTP header on the Streamable HTTP transport. See\nthe Streamable HTTP transport specification for the validity and\nextraction rules.\n\nDefaults to JSON Schema 2020-12 when no explicit `$schema` is provided.",
+          "type": "object",
+          "additionalProperties": {},
+          "properties": {
+            "$schema": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "const": "object"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        },
+        "outputSchema": {
+          "description": "An optional JSON Schema object defining the structure of the tool's output returned in\nthe structuredContent field of a {@link CallToolResult}. This can be any valid JSON Schema 2020-12.\n\nDefaults to JSON Schema 2020-12 when no explicit `$schema` is provided.",
+          "type": "object",
+          "additionalProperties": {},
+          "properties": {
+            "$schema": {
+              "type": "string"
+            }
+          }
+        },
+        "annotations": {
+          "description": "Optional additional tool information.\n\nDisplay name precedence order is: `title`, `annotations.title`, then `name`.",
+          "$ref": "#/$defs/ToolAnnotations"
+        },
+        "_meta": {
+          "description": "Represents the contents of a `_meta` field, which clients and servers use to attach additional metadata to their interactions.\n\nCertain key names are reserved by MCP for protocol-level metadata; implementations MUST NOT make assumptions about values at these keys. Additionally, specific schema definitions may reserve particular names for purpose-specific metadata, as declared in those definitions.\n\nValid keys have two segments:\n\n**Prefix:**\n- Optional — if specified, MUST be a series of _labels_ separated by dots (`.`), followed by a slash (`/`).\n- Labels MUST start with a letter and end with a letter or digit. Interior characters may be letters, digits, or hyphens (`-`).\n- Implementations SHOULD use reverse DNS notation (e.g., `com.example/` rather than `example.com/`).\n- Any prefix where the second label is `modelcontextprotocol` or `mcp` is **reserved** for MCP use. For example: `io.modelcontextprotocol/`, `dev.mcp/`, `org.modelcontextprotocol.api/`, and `com.mcp.tools/` are all reserved. However, `com.example.mcp/` is NOT reserved, as the second label is `example`.\n\n**Name:**\n- Unless empty, MUST start and end with an alphanumeric character (`[a-z0-9A-Z]`).\n- Interior characters may be alphanumeric, hyphens (`-`), underscores (`_`), or dots (`.`).",
+          "$ref": "#/$defs/MetaObject"
+        },
+        "name": {
+          "description": "Intended for programmatic or logical use, but used as a display name in past specs or fallback (if title isn't present).",
+          "type": "string"
+        },
+        "title": {
+          "description": "Intended for UI and end-user contexts — optimized to be human-readable and easily understood,\neven by those unfamiliar with domain-specific terminology.\n\nIf not provided, the name should be used for display (except for {@link Tool},\nwhere `annotations.title` should be given precedence over using `name`,\nif present).",
+          "type": "string"
+        },
+        "icons": {
+          "description": "Optional set of sized icons that the client can display in a user interface.\n\nClients that support rendering icons MUST support at least the following MIME types:\n- `image/png` - PNG images (safe, universal compatibility)\n- `image/jpeg` (and `image/jpg`) - JPEG images (safe, universal compatibility)\n\nClients that support rendering icons SHOULD also support:\n- `image/svg+xml` - SVG images (scalable but requires security precautions)\n- `image/webp` - WebP images (modern, efficient format)",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Icon"
+          }
+        }
+      },
+      "required": [
+        "inputSchema",
+        "name"
+      ]
+    },
+    "ToolAnnotations": {
+      "description": "Additional properties describing a {@link Tool} to clients.\n\nNOTE: all properties in `ToolAnnotations` are **hints**.\nThey are not guaranteed to provide a faithful description of\ntool behavior (including descriptive properties like `title`).\n\nClients should never make tool use decisions based on `ToolAnnotations`\nreceived from untrusted servers.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "A human-readable title for the tool.",
+          "type": "string"
+        },
+        "readOnlyHint": {
+          "description": "If true, the tool does not modify its environment.\n\nDefault: false",
+          "type": "boolean"
+        },
+        "destructiveHint": {
+          "description": "If true, the tool may perform destructive updates to its environment.\nIf false, the tool performs only additive updates.\n\n(This property is meaningful only when `readOnlyHint == false`)\n\nDefault: true",
+          "type": "boolean"
+        },
+        "idempotentHint": {
+          "description": "If true, calling the tool repeatedly with the same arguments\nwill have no additional effect on its environment.\n\n(This property is meaningful only when `readOnlyHint == false`)\n\nDefault: false",
+          "type": "boolean"
+        },
+        "openWorldHint": {
+          "description": "If true, this tool may interact with an \"open world\" of external\nentities. If false, the tool's domain of interaction is closed.\nFor example, the world of a web search tool is open, whereas that\nof a memory tool is not.\n\nDefault: true",
+          "type": "boolean"
+        }
+      }
+    },
+    "ToolChoice": {
+      "description": "Controls tool selection behavior for sampling requests.",
+      "type": "object",
+      "properties": {
+        "mode": {
+          "description": "Controls the tool use ability of the model:\n- `\"auto\"`: Model decides whether to use tools (default)\n- `\"required\"`: Model MUST use at least one tool before completing\n- `\"none\"`: Model MUST NOT use any tools",
+          "enum": [
+            "auto",
+            "none",
+            "required"
+          ],
+          "type": "string"
+        }
+      }
+    },
+    "ListRootsRequest": {
+      "description": "Sent from the server to request a list of root URIs from the client. Roots allow\nservers to ask for specific directories or files to operate on. A common example\nfor roots is providing a set of repositories or directories a server should operate\non.\n\nThis request is typically used when the server needs to understand the file system\nstructure or access specific locations that the client has permission to read from.",
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "roots/list"
+        },
+        "params": {
+          "type": "object",
+          "properties": {
+            "_meta": {
+              "description": "Represents the contents of a `_meta` field, which clients and servers use to attach additional metadata to their interactions.\n\nCertain key names are reserved by MCP for protocol-level metadata; implementations MUST NOT make assumptions about values at these keys. Additionally, specific schema definitions may reserve particular names for purpose-specific metadata, as declared in those definitions.\n\nValid keys have two segments:\n\n**Prefix:**\n- Optional — if specified, MUST be a series of _labels_ separated by dots (`.`), followed by a slash (`/`).\n- Labels MUST start with a letter and end with a letter or digit. Interior characters may be letters, digits, or hyphens (`-`).\n- Implementations SHOULD use reverse DNS notation (e.g., `com.example/` rather than `example.com/`).\n- Any prefix where the second label is `modelcontextprotocol` or `mcp` is **reserved** for MCP use. For example: `io.modelcontextprotocol/`, `dev.mcp/`, `org.modelcontextprotocol.api/`, and `com.mcp.tools/` are all reserved. However, `com.example.mcp/` is NOT reserved, as the second label is `example`.\n\n**Name:**\n- Unless empty, MUST start and end with an alphanumeric character (`[a-z0-9A-Z]`).\n- Interior characters may be alphanumeric, hyphens (`-`), underscores (`_`), or dots (`.`).",
+              "$ref": "#/$defs/MetaObject"
+            }
+          }
+        }
+      },
+      "required": [
+        "method"
+      ]
+    },
+    "ElicitRequest": {
+      "description": "A request from the server to elicit additional information from the user via the client.",
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "elicitation/create"
+        },
+        "params": {
+          "$ref": "#/$defs/ElicitRequestParams"
+        }
+      },
+      "required": [
+        "method",
+        "params"
+      ]
+    },
+    "ElicitRequestParams": {
+      "description": "The parameters for a request to elicit additional information from the user via the client.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ElicitRequestFormParams"
+        },
+        {
+          "$ref": "#/$defs/ElicitRequestURLParams"
+        }
+      ]
+    },
+    "ElicitRequestFormParams": {
+      "description": "The parameters for a request to elicit non-sensitive information from the user via a form in the client.",
+      "type": "object",
+      "properties": {
+        "mode": {
+          "description": "The elicitation mode.",
+          "const": "form",
+          "type": "string"
+        },
+        "message": {
+          "description": "The message to present to the user describing what information is being requested.",
+          "type": "string"
+        },
+        "requestedSchema": {
+          "description": "A restricted subset of JSON Schema.\nOnly top-level properties are allowed, without nesting.",
+          "type": "object",
+          "properties": {
+            "$schema": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "const": "object"
+            },
+            "properties": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/$defs/PrimitiveSchemaDefinition"
+              }
+            },
+            "required": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "properties",
+            "type"
+          ]
+        }
+      },
+      "required": [
+        "message",
+        "requestedSchema"
+      ]
+    },
+    "PrimitiveSchemaDefinition": {
+      "description": "Restricted schema definitions that only allow primitive types\nwithout nested objects or arrays.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/StringSchema"
+        },
+        {
+          "$ref": "#/$defs/NumberSchema"
+        },
+        {
+          "$ref": "#/$defs/BooleanSchema"
+        },
+        {
+          "$ref": "#/$defs/UntitledSingleSelectEnumSchema"
+        },
+        {
+          "$ref": "#/$defs/TitledSingleSelectEnumSchema"
+        },
+        {
+          "$ref": "#/$defs/UntitledMultiSelectEnumSchema"
+        },
+        {
+          "$ref": "#/$defs/TitledMultiSelectEnumSchema"
+        },
+        {
+          "$ref": "#/$defs/LegacyTitledEnumSchema"
+        }
+      ]
+    },
+    "StringSchema": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "minLength": {
+          "type": "integer"
+        },
+        "maxLength": {
+          "type": "integer"
+        },
+        "format": {
+          "enum": [
+            "date",
+            "date-time",
+            "email",
+            "uri"
+          ],
+          "type": "string"
+        },
+        "default": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "NumberSchema": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "integer",
+            "number"
+          ],
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "minimum": {
+          "type": "number"
+        },
+        "maximum": {
+          "type": "number"
+        },
+        "default": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "BooleanSchema": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "boolean"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "default": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "UntitledSingleSelectEnumSchema": {
+      "description": "Schema for single-selection enumeration without display titles for options.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "string"
+        },
+        "title": {
+          "description": "Optional title for the enum field.",
+          "type": "string"
+        },
+        "description": {
+          "description": "Optional description for the enum field.",
+          "type": "string"
+        },
+        "enum": {
+          "description": "Array of enum values to choose from.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "default": {
+          "description": "Optional default value.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "enum",
+        "type"
+      ]
+    },
+    "TitledSingleSelectEnumSchema": {
+      "description": "Schema for single-selection enumeration with display titles for each option.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "string"
+        },
+        "title": {
+          "description": "Optional title for the enum field.",
+          "type": "string"
+        },
+        "description": {
+          "description": "Optional description for the enum field.",
+          "type": "string"
+        },
+        "oneOf": {
+          "description": "Array of enum options with values and display labels.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "const": {
+                "description": "The enum value.",
+                "type": "string"
+              },
+              "title": {
+                "description": "Display label for this option.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "const",
+              "title"
+            ]
+          }
+        },
+        "default": {
+          "description": "Optional default value.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "oneOf",
+        "type"
+      ]
+    },
+    "UntitledMultiSelectEnumSchema": {
+      "description": "Schema for multiple-selection enumeration without display titles for options.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "array"
+        },
+        "title": {
+          "description": "Optional title for the enum field.",
+          "type": "string"
+        },
+        "description": {
+          "description": "Optional description for the enum field.",
+          "type": "string"
+        },
+        "minItems": {
+          "description": "Minimum number of items to select.",
+          "type": "integer"
+        },
+        "maxItems": {
+          "description": "Maximum number of items to select.",
+          "type": "integer"
+        },
+        "items": {
+          "description": "Schema for the array items.",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "string"
+            },
+            "enum": {
+              "description": "Array of enum values to choose from.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "enum",
+            "type"
+          ]
+        },
+        "default": {
+          "description": "Optional default value.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "items",
+        "type"
+      ]
+    },
+    "TitledMultiSelectEnumSchema": {
+      "description": "Schema for multiple-selection enumeration with display titles for each option.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "array"
+        },
+        "title": {
+          "description": "Optional title for the enum field.",
+          "type": "string"
+        },
+        "description": {
+          "description": "Optional description for the enum field.",
+          "type": "string"
+        },
+        "minItems": {
+          "description": "Minimum number of items to select.",
+          "type": "integer"
+        },
+        "maxItems": {
+          "description": "Maximum number of items to select.",
+          "type": "integer"
+        },
+        "items": {
+          "description": "Schema for array items with enum options and display labels.",
+          "type": "object",
+          "properties": {
+            "anyOf": {
+              "description": "Array of enum options with values and display labels.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "const": {
+                    "description": "The constant enum value.",
+                    "type": "string"
+                  },
+                  "title": {
+                    "description": "Display title for this option.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "const",
+                  "title"
+                ]
+              }
+            }
+          },
+          "required": [
+            "anyOf"
+          ]
+        },
+        "default": {
+          "description": "Optional default value.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "items",
+        "type"
+      ]
+    },
+    "LegacyTitledEnumSchema": {
+      "description": "Use {@link TitledSingleSelectEnumSchema} instead.\nThis interface will be removed in a future version.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "enum": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "enumNames": {
+          "description": "(Legacy) Display names for enum values.\nNon-standard according to JSON schema 2020-12.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "default": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "enum",
+        "type"
+      ]
+    },
+    "ElicitRequestURLParams": {
+      "description": "The parameters for a request to elicit information from the user via a URL in the client.",
+      "type": "object",
+      "properties": {
+        "mode": {
+          "description": "The elicitation mode.",
+          "type": "string",
+          "const": "url"
+        },
+        "message": {
+          "description": "The message to present to the user explaining why the interaction is needed.",
+          "type": "string"
+        },
+        "url": {
+          "description": "The URL that the user should navigate to.",
+          "format": "uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "message",
+        "mode",
+        "url"
+      ]
+    },
+    "ReadResourceResult": {
+      "description": "The result returned by the server for a {@link ReadResourceRequestresources/read} request.",
+      "type": "object",
+      "properties": {
+        "contents": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/TextResourceContents"
+              },
+              {
+                "$ref": "#/$defs/BlobResourceContents"
+              }
+            ]
+          }
+        },
+        "ttlMs": {
+          "description": "A hint from the server indicating how long (in milliseconds) the\nclient MAY cache this response before re-fetching. Semantics are\nanalogous to HTTP Cache-Control max-age.\n\n- If 0, The response SHOULD be considered immediately stale,\n  The client MAY re-fetch every time the result is needed.\n- If positive, the client SHOULD consider the result fresh for this many\n  milliseconds after receiving the response.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "cacheScope": {
+          "description": "Indicates the intended scope of the cached response, analogous to HTTP\n`Cache-Control: public` vs `Cache-Control: private`.\n\n- `\"public\"`: The response does not contain user-specific data. Any\n  client or intermediary (e.g., shared gateway, caching proxy) MAY cache\n  the response and serve it across authorization contexts.\n- `\"private\"`: The response MAY be cached and reused only within the\n  same authorization context. Caches MUST NOT be shared across\n  authorization contexts (e.g., a different access token requires a\n  different cache).",
+          "enum": [
+            "private",
+            "public"
+          ],
+          "type": "string"
+        },
+        "_meta": {
+          "description": "Extends {@link MetaObject} with additional result-specific fields. All key naming rules from `MetaObject` apply.",
+          "$ref": "#/$defs/ResultMetaObject"
+        },
+        "resultType": {
+          "description": "Indicates the type of the result, which allows the client to determine\nhow to parse the result object.\n\nServers implementing this protocol version MUST include this field.\nFor backward compatibility, when a client receives a result from a\nserver implementing an earlier protocol version (which does not include\n`resultType`), the client MUST treat the absent field as `\"complete\"`.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cacheScope",
+        "contents",
+        "resultType",
+        "ttlMs"
+      ]
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "The error type that occurred.",
+          "type": "integer"
+        },
+        "message": {
+          "description": "A short description of the error. The message SHOULD be limited to a concise single sentence.",
+          "type": "string"
+        },
+        "data": {
+          "description": "Additional information about the error. The value of this member is defined by the sender (e.g. detailed error information, nested errors etc.)."
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ]
+    }
+  }
+}
