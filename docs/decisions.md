@@ -408,3 +408,41 @@ The wire format of a successful exchange is otherwise unchanged. `skills/list` a
 - [Issue #156](https://github.com/modelcontextprotocol/ext-skills/issues/156) from @paulbalandan, which reports the compile error and proposes named params interfaces for both requests.
 - Base schema `2026-07-28`: `RequestParams`, `RequestMetaObject`, `PaginatedRequestParams` and `CacheableResult`.
 - [2026-09-08 entry](#2026-09-08-stable-spec-page-caching-attributes-on-skills-list-and-skills-get-and-the-resources-capability-dependency), the previous alignment of the page's types with the base schema.
+
+---
+
+### 2026-11-02: Publish machine-readable Skills extension types and validate examples in CI
+
+**Status:** Proposed
+
+**Context:** [Issue #158](https://github.com/modelcontextprotocol/ext-skills/issues/158)
+requests standalone types and JSON Schema for SDK authors. The released page
+defines its types in TypeScript blocks, but implementers cannot consume those
+as a schema artifact. The issue records a server omitting directory-read cache
+attributes while its own tests passed. PR #157 corrected the page's types; an
+automated check is needed to keep implementations and examples aligned.
+
+**Decision:** Publish `schema/beta/schema.ts` and generated `schema.json`, matching
+the current `specification/beta/skills.mdx` revision. Use the identifier
+`https://modelcontextprotocol.io/ext-skills/beta/schema.json` and JSON Schema
+2020-12 with named `$defs`, following the core schema's generator and integer
+convention. Vendor the referenced `2026-07-28` base types at an explicit commit
+so generation and validation are reproducible without network access.
+
+Keep the released page normative and unchanged. Check its TypeScript declarations
+against the exported interfaces, regenerate and compare the JSON artifact, and
+validate every JSON message example in CI. Include positive and negative
+directory-result fixtures to require both `ttlMs` and `cacheScope`. Subsequent
+wire changes still follow the existing draft/release process; this proposal
+neither changes the released wire format nor establishes a new release policy.
+
+**Rationale:** A reusable schema lets implementations test the published shapes
+instead of only testing what they already emit. A separate schema job catches
+drift regardless of the development tool used. Structural validation does not
+establish semantic or security conformance: prose-only constraints, integrity,
+and approval handling remain outside these generated types.
+
+**References:**
+- [Issue #158](https://github.com/modelcontextprotocol/ext-skills/issues/158), standalone schema request and implementation evidence.
+- [PR #157](https://github.com/modelcontextprotocol/ext-skills/pull/157), type and example alignment with the base schema.
+- [Tasks schema layout](https://github.com/modelcontextprotocol/ext-tasks/tree/main/schema), separate extension and base type artifacts.
