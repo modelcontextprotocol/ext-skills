@@ -52,7 +52,7 @@ The TypeScript SDK ships the extension in v2.4.0 and FastMCP in v4.1.2; the Pyth
 | [OpenL Tablets](https://github.com/openl-tablets/openl-tablets) | | TypeScript | `v1` | On the TypeScript SDK's extension ([#2414](https://github.com/openl-tablets/openl-tablets/pull/2414)) |
 | [mcpskills](https://github.com/Cali0707/mcpskills) | `community` | Go | `v1` | Reference server on the Go SDK over Streamable HTTP, with OAuth and group-based access |
 | [kernel-mcp-server](https://github.com/kernel/kernel-mcp-server) | | TypeScript | `in progress` ([#260](https://github.com/kernel/kernel-mcp-server/pull/260)) | Ships the `kernel-mcp` skill from [kernel/skills](https://github.com/kernel/skills) |
-| [Glean MCP server](https://docs.glean.com/user-guide/mcp/usage) | | Go | `v1` | Hosted. Serves each user's policy-filtered Glean Skills; no `directoryRead`. Behind a per-deployment flag |
+| [Glean MCP server](https://docs.glean.com/user-guide/mcp/usage) | | Go | `v1` | Hosted. Serves each user's policy-filtered Glean Skills; no `directoryRead` |
 
 ## Hosts (including agent harnesses, IDEs, and web applications)
 
