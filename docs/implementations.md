@@ -52,6 +52,7 @@ The TypeScript SDK ships the extension in v2.4.0 and FastMCP in v4.1.2; the Pyth
 | [OpenL Tablets](https://github.com/openl-tablets/openl-tablets) | | TypeScript | `v1` | On the TypeScript SDK's extension ([#2414](https://github.com/openl-tablets/openl-tablets/pull/2414)) |
 | [mcpskills](https://github.com/Cali0707/mcpskills) | `community` | Go | `v1` | Reference server on the Go SDK over Streamable HTTP, with OAuth and group-based access |
 | [kernel-mcp-server](https://github.com/kernel/kernel-mcp-server) | | TypeScript | `in progress` ([#260](https://github.com/kernel/kernel-mcp-server/pull/260)) | Ships the `kernel-mcp` skill from [kernel/skills](https://github.com/kernel/skills) |
+| [Glean (MCP server)](https://docs.glean.com/user-guide/mcp/usage) | | Go | `v1` | Hosted. Serves each user's policy-filtered Glean Skills; no `directoryRead` |
 
 ## Hosts (including agent harnesses, IDEs, and web applications)
 
@@ -73,3 +74,4 @@ The TypeScript SDK ships the extension in v2.4.0 and FastMCP in v4.1.2; the Pyth
 | [opencode](https://github.com/anomalyco/opencode) | | `in progress` ([#52298](https://github.com/anomalyco/opencode/pull/52298)) | Community PR, no maintainer reply yet |
 | [Hermes Agent](https://github.com/NousResearch/hermes-agent) | | `in progress` ([#137746](https://github.com/NousResearch/hermes-agent/pull/137746)) | Community PR, no maintainer reply yet |
 | [agent-harness](https://github.com/ar27111994/agent-harness) | `community` | `planned` ([#492](https://github.com/ar27111994/agent-harness/issues/492)) | Digest-pinned skill store |
+| [Glean (MCP client)](https://www.glean.com) | | `v1` | Admins import a connected server's skills via `skills/list`, verifying digests; static snapshot |
