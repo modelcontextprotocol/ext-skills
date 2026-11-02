@@ -74,4 +74,4 @@ The TypeScript SDK ships the extension in v2.4.0 and FastMCP in v4.1.2; the Pyth
 | [opencode](https://github.com/anomalyco/opencode) | | `in progress` ([#52298](https://github.com/anomalyco/opencode/pull/52298)) | Community PR, no maintainer reply yet |
 | [Hermes Agent](https://github.com/NousResearch/hermes-agent) | | `in progress` ([#137746](https://github.com/NousResearch/hermes-agent/pull/137746)) | Community PR, no maintainer reply yet |
 | [agent-harness](https://github.com/ar27111994/agent-harness) | `community` | `planned` ([#492](https://github.com/ar27111994/agent-harness/issues/492)) | Digest-pinned skill store |
-| [Glean](https://www.glean.com) | | `v1` | Admins import a connected server's skills via `skills/list`, verifying digests |
+| [Glean](https://www.glean.com) | | `v1` | Admins import a connected server's skills via `skills/list`, verifying digests; static snapshot |
