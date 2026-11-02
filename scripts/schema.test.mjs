@@ -1,3 +1,4 @@
+import { modernSchema } from "./schema.mjs";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
@@ -220,4 +221,33 @@ test("missing or unmapped examples cannot silently pass", () => {
   assert.throws(() =>
     checkDeclarations("```typescript\ninterface {\n```", types),
   );
+});
+
+test("schema conversion preserves property names and literal data", () => {
+  const input = {
+    definitions: {
+      Example: {
+        type: "object",
+        properties: {
+          definitions: { const: "#/definitions/Example" },
+          enum: { $ref: "#/definitions/Base" },
+        },
+        examples: [{ $ref: "#/definitions/literal" }],
+        allOf: [{ $ref: "#/definitions/Base" }],
+      },
+      Base: { type: "object" },
+    },
+  };
+  const converted = modernSchema(input);
+  assert.deepEqual(
+    converted.$defs.Example.properties.definitions,
+    input.definitions.Example.properties.definitions,
+  );
+  assert.equal(converted.$defs.Example.properties.enum.$ref, "#/$defs/Base");
+  assert.deepEqual(
+    converted.$defs.Example.examples,
+    input.definitions.Example.examples,
+  );
+  assert.equal(converted.$defs.Example.allOf[0].$ref, "#/$defs/Base");
+  assert.ok(!("definitions" in converted));
 });

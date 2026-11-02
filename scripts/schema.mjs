@@ -113,6 +113,41 @@ export function checkDeclarations(markdown, types) {
   return [...published.keys()];
 }
 
+// The generator puts definitions at the root. Rewrite reference values only:
+// global text replacement also corrupts properties called "definitions" and
+// string constants containing "#/definitions/".
+export function modernSchema(generated) {
+  function references(value) {
+    if (Array.isArray(value)) return value.map(references);
+    if (value === null || typeof value !== "object") return value;
+    return Object.fromEntries(
+      Object.entries(value).map(([key, child]) => [
+        key,
+        [
+          "properties",
+          "patternProperties",
+          "$defs",
+          "definitions",
+          "dependentSchemas",
+        ].includes(key)
+          ? Object.fromEntries(
+              Object.entries(child).map(([name, schema]) => [
+                name,
+                references(schema),
+              ]),
+            )
+          : ["const", "enum", "default", "examples"].includes(key)
+            ? child
+            : key === "$ref" && typeof child === "string"
+              ? child.replace(/^#\/definitions\//, "#/$defs/")
+              : references(child),
+      ]),
+    );
+  }
+  const { definitions, ...rest } = generated;
+  return { ...references(rest), $defs: references(definitions) };
+}
+
 export function generateSchema(names) {
   const program = TJS.getProgramFromFiles([fileURLToPath(typesPath)], {
     strictNullChecks: true,
@@ -132,11 +167,7 @@ export function generateSchema(names) {
     "ReadResourceResultResponse",
     "JSONRPCErrorResponse",
   ]);
-  const modern = JSON.parse(
-    JSON.stringify(generated)
-      .replaceAll('"definitions":', '"$defs":')
-      .replaceAll("#/definitions/", "#/$defs/"),
-  );
+  const modern = modernSchema(generated);
   delete modern.$schema;
   return {
     $schema: "https://json-schema.org/draft/2020-12/schema",
@@ -207,16 +238,16 @@ function main() {
     readFileSync(typesPath, "utf8"),
   );
   const content = JSON.stringify(generateSchema(names), null, 2) + "\n";
+  const count = validateExamples(
+    readFileSync(specPath, "utf8"),
+    JSON.parse(content),
+  );
   if (process.argv.includes("--write")) {
     writeFileSync(schemaPath, content);
     console.log("Generated schema/beta/schema.json");
   } else if (readFileSync(schemaPath, "utf8") !== content) {
     throw new Error("schema.json is out of date. Run npm run generate:schemas");
   }
-  const count = validateExamples(
-    readFileSync(specPath, "utf8"),
-    JSON.parse(content),
-  );
   console.log(
     `Checked ${names.length} type declarations and ${count} JSON examples`,
   );
