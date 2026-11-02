@@ -226,6 +226,20 @@ export function validateExamples(markdown, schema) {
         `${location} (${name}): ${JSON.stringify(validate.errors)}`,
       );
     }
+    // The base response union also includes InputRequiredResult, whose
+    // resultType is not a literal discriminator. A complete response must
+    // satisfy the success branch even if that permissive alternative matches.
+    if (
+      name === "ReadResourceResultResponse" &&
+      message.result.resultType === "complete"
+    ) {
+      const validateResult = getValidator("ReadResourceResult");
+      if (!validateResult(message.result)) {
+        throw new Error(
+          `${location} (ReadResourceResult): ${JSON.stringify(validateResult.errors)}`,
+        );
+      }
+    }
     count++;
   }
   if (!count) throw new Error("No JSON examples found");

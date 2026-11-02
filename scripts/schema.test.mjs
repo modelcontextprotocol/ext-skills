@@ -251,3 +251,44 @@ test("schema conversion preserves property names and literal data", () => {
   assert.equal(converted.$defs.Example.allOf[0].$ref, "#/$defs/Base");
   assert.ok(!("definitions" in converted));
 });
+
+const readRequest = jsonExamples.find((message) => message.method === "resources/read");
+const readResponse = jsonExamples.find(
+  (message) => message.id === readRequest.id && "result" in message,
+);
+const readExamples = (response) =>
+  [readRequest, response]
+    .map((message) => "```json\n" + JSON.stringify(message) + "\n```")
+    .join("\n");
+
+for (const [label, patch] of [
+  ["invalid contents", { contents: "bad" }],
+  ["invalid content item", { contents: [{ uri: 123, text: false }] }],
+  ["negative ttlMs", { ttlMs: -1 }],
+  ["invalid cacheScope", { cacheScope: "bad" }],
+  ["missing contents", { contents: undefined }],
+  ["missing ttlMs", { ttlMs: undefined }],
+  ["missing cacheScope", { cacheScope: undefined }],
+  ["review reproducer", { contents: "bad", ttlMs: -1, cacheScope: "bad" }],
+]) {
+  test(`complete resource-read example rejects ${label}`, () => {
+    const response = structuredClone(readResponse);
+    Object.assign(response.result, patch);
+    assert.throws(
+      () => validateExamples(readExamples(response), schema),
+      /skills\.mdx:\d+ \(ReadResourceResult\)/,
+    );
+  });
+}
+
+test("resource-read example retains envelope validation and input-required support", () => {
+  assert.equal(validateExamples(readExamples(readResponse), schema), 2);
+  assert.equal(validateExamples(readExamples({
+    ...readResponse,
+    result: { resultType: "input_required", requestState: "opaque" },
+  }), schema), 2);
+  assert.throws(
+    () => validateExamples(readExamples({ ...readResponse, jsonrpc: "1.0" }), schema),
+    /ReadResourceResultResponse/,
+  );
+});
