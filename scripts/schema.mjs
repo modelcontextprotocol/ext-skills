@@ -259,7 +259,10 @@ function main() {
   if (process.argv.includes("--write")) {
     writeFileSync(schemaPath, content);
     console.log("Generated schema/beta/schema.json");
-  } else if (readFileSync(schemaPath, "utf8") !== content) {
+  } else if (
+    // A Windows checkout with core.autocrlf has CRLF line endings.
+    readFileSync(schemaPath, "utf8").replaceAll("\r\n", "\n") !== content
+  ) {
     throw new Error("schema.json is out of date. Run npm run generate:schemas");
   }
   console.log(

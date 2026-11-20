@@ -415,34 +415,19 @@ The wire format of a successful exchange is otherwise unchanged. `skills/list` a
 
 **Status:** Proposed
 
-**Context:** [Issue #158](https://github.com/modelcontextprotocol/ext-skills/issues/158)
-requests standalone types and JSON Schema for SDK authors. The released page
-defines its types in TypeScript blocks, but implementers cannot consume those
-as a schema artifact. The issue records a server omitting directory-read cache
-attributes while its own tests passed. PR #157 corrected the page's types; an
-automated check is needed to keep implementations and examples aligned.
+**Context:** [Issue #158](https://github.com/modelcontextprotocol/ext-skills/issues/158) requests standalone types and JSON Schema for SDK authors. The released page defines its types in TypeScript blocks, but implementers cannot consume those as a schema artifact. The issue records a server omitting directory-read cache attributes while its own tests passed. PR #157 corrected the page's types; an automated check is needed to keep implementations and examples aligned.
 
-**Decision:** Publish `schema/beta/schema.ts` and generated `schema.json`, matching
-the current `specification/beta/skills.mdx` revision. Use the identifier
-`https://modelcontextprotocol.io/ext-skills/beta/schema.json` and JSON Schema
-2020-12 with named `$defs`, following the core schema's generator and integer
-convention. Vendor the referenced `2026-07-28` base types at an explicit commit
-so generation and validation are reproducible without network access.
+**Decision:** Publish `schema/beta/schema.ts` and generated `schema.json`, matching the current `specification/beta/skills.mdx` revision. Use the identifier `https://modelcontextprotocol.io/ext-skills/beta/schema.json` and JSON Schema 2020-12 with named `$defs`, following the core schema's generator and integer convention. Vendor the referenced `2026-07-28` base types at an explicit commit so generation and validation are reproducible without network access.
 
-Keep the released page normative and unchanged. Check its TypeScript declarations
-against the exported interfaces, regenerate and compare the JSON artifact, and
-validate every JSON message example in CI. Include positive and negative
-directory-result fixtures to require both `ttlMs` and `cacheScope`. Subsequent
-wire changes still follow the existing draft/release process; this proposal
-neither changes the released wire format nor establishes a new release policy.
+Keep the released page normative and unchanged. Check its TypeScript declarations against the exported interfaces, regenerate and compare the JSON artifact, and validate every JSON message example in CI. Include positive and negative directory-result fixtures to require both `ttlMs` and `cacheScope`. Subsequent wire changes still follow the existing draft/release process; this proposal neither changes the released wire format nor establishes a new release policy.
 
-**Rationale:** A reusable schema lets implementations test the published shapes
-instead of only testing what they already emit. A separate schema job catches
-drift regardless of the development tool used. Structural validation does not
-establish semantic or security conformance: prose-only constraints, integrity,
-and approval handling remain outside these generated types.
+**Rationale:** A reusable schema lets implementations test the published shapes instead of only testing what they already emit. A separate schema job catches drift regardless of the development tool used. Structural validation does not establish semantic or security conformance: prose-only constraints, integrity, and approval handling remain outside these generated types.
+
+The directory and identifier use the lifecycle stage, `beta`, to match `specification/beta/`. [SEP-3392](https://modelcontextprotocol.io/seps/3392-extension-lifecycle) requires dated revision snapshots only at Stable. The Tasks extension keys its schema directory to the core protocol revision. That key would not be unique here, because a Beta extension can ship more than one revision against the same core revision. The identifier therefore names the current Beta revision and can name different content after a new revision ships. Consumers that need fixed content pin to a commit.
 
 **References:**
 - [Issue #158](https://github.com/modelcontextprotocol/ext-skills/issues/158), standalone schema request and implementation evidence.
+- [PR #166](https://github.com/modelcontextprotocol/ext-skills/pull/166), the schema files, scripts and CI job.
 - [PR #157](https://github.com/modelcontextprotocol/ext-skills/pull/157), type and example alignment with the base schema.
 - [Tasks schema layout](https://github.com/modelcontextprotocol/ext-tasks/tree/main/schema), separate extension and base type artifacts.
+- [SEP-3392](https://modelcontextprotocol.io/seps/3392-extension-lifecycle), stage directories and revision rules.

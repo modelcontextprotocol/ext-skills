@@ -36,29 +36,15 @@ For the case for serving skills over MCP, see the [official overview](https://mo
 
 ## Machine-readable schema
 
-[`schema/beta/schema.ts`](schema/beta/schema.ts) exports the wire types in the
-released Beta specification. [`schema/beta/schema.json`](schema/beta/schema.json)
-is generated from those types using the base protocol's `typescript-json-schema`
-generator and integer-number convention. It uses JSON Schema 2020-12 and the
-identifier `https://modelcontextprotocol.io/ext-skills/beta/schema.json`.
+[`schema/beta/schema.ts`](schema/beta/schema.ts) exports the wire types in the released Beta specification. [`schema/beta/schema.json`](schema/beta/schema.json) is generated from those types using the base protocol's `typescript-json-schema` generator and integer-number convention. It uses JSON Schema 2020-12 and the identifier `https://modelcontextprotocol.io/ext-skills/beta/schema.json`.
 
-The JSON file is a container of named `$defs`, like the core MCP schema. Validate
-a specific definition (for example `#/$defs/ReadResourceDirectoryResult`), not
-the container itself. The artifact is available in this repository; its `$id`
-does not require a network lookup. It includes the base definitions needed by
-the extension and the message-flow examples, so validation can run offline.
+The identifier names the current Beta revision. A Beta revision may make breaking changes, so the same identifier can name different content after a new revision ships. Pin to a commit of this repository if you need fixed content.
 
-The released [specification](specification/beta/skills.mdx) remains normative.
-CI checks all of its TypeScript declarations against the exported types and
-validates every JSON message example, including base resource reads and errors.
-Type generation preserves inherited required fields such as request `_meta`,
-`ttlMs`, and `cacheScope`, without depending on an SDK's interpretation.
+The JSON file is a container of named `$defs`, like the core MCP schema. Validate a specific definition (for example `#/$defs/ReadResourceDirectoryResult`), not the container itself. The artifact is available in this repository; its `$id` does not require a network lookup. It includes the base definitions needed by the extension and the message-flow examples, so validation can run offline.
 
-This is structural validation. It does not enforce prose-only requirements such
-as digest integrity, manifest completeness, URI/frontmatter name agreement,
-consent, or the semantic requirement that successful skill results have
-`resultType: "complete"` (the published types inherit the base `ResultType`).
-Those still require semantic conformance tests and host-side checks.
+The released [specification](specification/beta/skills.mdx) remains normative. CI checks all of its TypeScript declarations against the exported types and validates every JSON message example, including base resource reads and errors. Type generation preserves inherited required fields such as request `_meta`, `ttlMs`, and `cacheScope`, without depending on an SDK's interpretation.
+
+This is structural validation. It does not enforce prose-only requirements such as digest integrity, manifest completeness, URI/frontmatter name agreement, consent, or the semantic requirement that successful skill results have `resultType: "complete"` (the published types inherit the base `ResultType`). Those still require semantic conformance tests and host-side checks.
 
 ## Contributing
 

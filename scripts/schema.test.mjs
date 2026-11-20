@@ -1,10 +1,10 @@
-import { modernSchema } from "./schema.mjs";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 import {
   checkDeclarations,
   codeBlocks,
+  modernSchema,
   schemaPath,
   validateExamples,
   validators,
@@ -27,6 +27,14 @@ const fixture = (name) =>
   JSON.parse(
     readFileSync(new URL(`fixtures/${name}.json`, import.meta.url), "utf8"),
   );
+// Example ids repeat across sections, so match the first response after the request.
+const resultOf = (method) => {
+  const start = jsonExamples.findIndex((message) => message.method === method);
+  return jsonExamples
+    .slice(start)
+    .find((message) => message.id === jsonExamples[start].id && "result" in message)
+    .result;
+};
 
 test("every documented interface has a usable definition", () => {
   const names = checkDeclarations(markdown, types);
@@ -59,8 +67,8 @@ for (const [name, field] of [
 }
 
 for (const [name, result] of [
-  ["ListSkillsResult", jsonExamples[1].result],
-  ["GetSkillResult", jsonExamples[3].result],
+  ["ListSkillsResult", resultOf("skills/list")],
+  ["GetSkillResult", resultOf("skills/get")],
   ["ReadResourceDirectoryResult", fixture("directory-result")],
 ]) {
   for (const field of ["ttlMs", "cacheScope", "resultType"]) {
@@ -120,7 +128,7 @@ test("cache values preserve the base protocol's enum and numeric constraints", (
 });
 
 test("skill manifests allow dynamic content and arbitrary frontmatter fields", () => {
-  const skill = structuredClone(jsonExamples[3].result.skill);
+  const skill = structuredClone(resultOf("skills/get").skill);
   skill.frontmatter.metadata = { "vendor.example/extra": [true, 1, null] };
   assert.equal(validate("Skill")(skill), true);
   assert.equal(validate("Skill")({ ...skill, resources: "dynamic" }), true);
