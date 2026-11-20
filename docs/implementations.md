@@ -108,7 +108,7 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 | [agent-harness](https://github.com/ar27111994/agent-harness) | `community` | `planned` ([#492](https://github.com/ar27111994/agent-harness/issues/492)) | Digest-pinned skill store |
 | [agentpool](https://github.com/phil65/agentpool) | `community` | `v1` | Consumes and serves skills on FastMCP 4.2 |
 | [Agno](https://github.com/agno-agi/agno) | | `in progress` ([#11026](https://github.com/agno-agi/agno/pull/11026)) | Maintainer-written, in review |
-| [ChatGPT plugins](https://developers.openai.com/plugins/deploy/app-review#submitting-new-versions-for-review) | | `partial` | Imported skills are fixed per plugin version; changes need a new reviewed version |
+| [ChatGPT and Codex](https://developers.openai.com/plugins) | | `planned` | Skill import at plugin submission was rolled back in November 2026 until support ships across ChatGPT and Codex (OpenAI, in the working group Discord) |
 | [Cherry Studio](https://github.com/CherryHQ/cherry-studio) | | `in progress` ([#22382](https://github.com/CherryHQ/cherry-studio/pull/22382)) | Discovery and verified loading through tools; client spec merged in [#22350](https://github.com/CherryHQ/cherry-studio/pull/22350) |
 | [fast-agent](https://github.com/evalstate/fast-agent/blob/main/docs/docs/mcp/skills-over-mcp.md) | `community` | `v1` | `/skills add` installs served skills after size, digest and frontmatter checks; first end-to-end interop with hf-mcp-server |
 | [Glean (MCP client)](https://www.glean.com) | | `v1` | Admins import a connected server's skills via `skills/list`, verifying digests; static snapshot. Self-reported in [#165](https://github.com/modelcontextprotocol/ext-skills/pull/165) |
