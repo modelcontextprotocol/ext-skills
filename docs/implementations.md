@@ -34,7 +34,6 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 | [mcp-use](https://docs.mcp-use.com/v2/typescript/server/skills) | | TypeScript | `beta` | Server, client and inspector |
 | [mcpkit](https://github.com/panyam/mcpkit/tree/main/ext/skills) | `community` | Go | `beta` | Server and client, plus the `mcpskills` CLI. Passes the [conformance suite](https://github.com/modelcontextprotocol/conformance) server scenarios |
 | [Next.js](https://github.com/vercel/next.js) | | TypeScript | `in progress` ([#101538](https://github.com/vercel/next.js/pull/101538)) | Draft, for the `next-mcp` package |
-| [Pydantic AI](https://github.com/pydantic/pydantic-ai) | | Python | `in progress` ([#14070](https://github.com/pydantic/pydantic-ai/pull/14070)) | Draft. `MCPSkills(toolset)` offers a server's skills to an agent |
 | [Skybridge](https://docs.skybridge.tech/guides/skills) | | TypeScript | `draft` ([#1036](https://github.com/alpic-ai/skybridge/pull/1036)) | Experimental; entries lack `size` and cache hints |
 | [Spring AI](https://github.com/spring-projects/spring-ai) | | Java | `planned` ([#7345](https://github.com/spring-projects/spring-ai/issues/7345)) | |
 | [Tachyon](https://github.com/tachyonmcp/tachyon/tree/main/examples/mcp-skills) | | Java | `beta` | Self-reported 2026-09-14; requires clients to advertise the extension capability |
