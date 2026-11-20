@@ -31,7 +31,7 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 | [FastMCP TypeScript](https://github.com/PrefectHQ/fastmcp-ts) | | TypeScript | `beta` ([#131](https://github.com/PrefectHQ/fastmcp-ts/pull/131)) | Client since v1.9.0, server since v1.13.0 |
 | [Frappe](https://github.com/frappe/frappe) | | Python | `in progress` ([#46189](https://github.com/frappe/frappe/pull/46189)) | Draft. Serves each installed app's `skills/` directory |
 | [Laravel MCP](https://github.com/laravel/mcp) | | PHP | `in progress` ([#410](https://github.com/laravel/mcp/pull/410)) | |
-| [mcp-use](https://docs.mcp-use.com/v2/typescript/server/skills) | | TypeScript | `beta` | Server, client and inspector |
+| [mcp-use](https://docs.mcp-use.com/v2/typescript/server/skills) | | TypeScript | `partial` | Server, client and inspector. No `ttlMs` or `cacheScope` on `skills/list` or `skills/get` |
 | [mcpkit](https://github.com/panyam/mcpkit/tree/main/ext/skills) | `community` | Go | `beta` | Server and client, plus the `mcpskills` CLI. Passes the [conformance suite](https://github.com/modelcontextprotocol/conformance) server scenarios |
 | [Next.js](https://github.com/vercel/next.js) | | TypeScript | `in progress` ([#101538](https://github.com/vercel/next.js/pull/101538)) | Draft, for the `next-mcp` package |
 | [Skybridge](https://docs.skybridge.tech/guides/skills) | | TypeScript | `draft` ([#1036](https://github.com/alpic-ai/skybridge/pull/1036)) | Experimental; entries lack `size` and cache hints |
@@ -53,7 +53,7 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 | [Brewale](https://brewale.dev/docs#skills-over-mcp) | | TypeScript | `beta` | Hosted. Org, project and personal skills with per-user access; `directoryRead`; passes the conformance server scenarios |
 | [Capgo](https://github.com/Cap-go/capgo.app) | | TypeScript | `beta` ([#4080](https://github.com/Cap-go/capgo.app/pull/4080)) | Hosted. Mirror tools for clients without the extension |
 | [Cloudflare API MCP server](https://github.com/cloudflare/mcp) | | TypeScript | `beta` | Hosted. Serves the [cloudflare/skills](https://github.com/cloudflare/skills) repo with full manifests; no `directoryRead` |
-| [Context7](https://github.com/upstash/context7) | | TypeScript | `in progress` ([#3656](https://github.com/upstash/context7/pull/3656)) | |
+| [Context7](https://github.com/upstash/context7) | | TypeScript | `beta` ([#3656](https://github.com/upstash/context7/pull/3656)) | On the TypeScript SDK's extension. Merged, not yet released |
 | [Descope MCP server](https://docs.descope.com/mcp/mcp-server) | | | `partial` | Hosted. Docs confirm `skills/list`; the same skills install locally from [descope/skills](https://github.com/descope/skills) |
 | [DoiT MCP server](https://github.com/doitintl/doit-mcp-server) | | TypeScript | `beta` | Since v2.6.0 ([#345](https://github.com/doitintl/doit-mcp-server/pull/345)) |
 | [FastMCP Skill Drop](https://gofastmcp.com/skill-drop) | | Python | `partial` | Hosted. Turns an uploaded skill into a server with `skills/list` and fallback tools ([announcement](https://www.prefect.io/blog/skill-drop-share-skills-over-mcp)) |
@@ -72,7 +72,7 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 | [Microsoft Foundry toolbox](https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/skills) | | | `beta` | Hosted, in preview |
 | [n8n](https://github.com/n8n-io/n8n) | | TypeScript | `beta` ([#41725](https://github.com/n8n-io/n8n/pull/41725)) | Serves its skills hub since 2.46.0, behind a feature flag; per-skill selection since 2.47.0 ([#41729](https://github.com/n8n-io/n8n/pull/41729)) |
 | [OpenL Tablets](https://github.com/openl-tablets/openl-tablets) | | TypeScript | `beta` ([#2414](https://github.com/openl-tablets/openl-tablets/pull/2414)) | Since 7.0.0, on the TypeScript SDK's extension |
-| [OpenWork](https://github.com/different-ai/openwork) | | TypeScript | `beta` | Organization and plugin skills with supporting files ([#6129](https://github.com/different-ai/openwork/pull/6129), [#7530](https://github.com/different-ai/openwork/pull/7530)) |
+| [OpenWork](https://github.com/different-ai/openwork) | | TypeScript | `partial` | Organization and plugin skills with supporting files ([#6129](https://github.com/different-ai/openwork/pull/6129), [#7530](https://github.com/different-ai/openwork/pull/7530)). No `ttlMs` or `cacheScope` on `skills/list` or `skills/get` |
 | [Outline](https://github.com/outline/outline) | | TypeScript | `beta` | Since v1.11.0; per-file digests and `skill://outline/...` URIs |
 | [PostHog MCP](https://github.com/PostHog/posthog) | | TypeScript | `planned` ([#99933](https://github.com/PostHog/posthog/issues/99933)) | Serves skills through a tool today |
 | [Prefect MCP server](https://github.com/PrefectHQ/prefect-mcp-server) | | Python | `in progress` ([#245](https://github.com/PrefectHQ/prefect-mcp-server/pull/245)) | |
@@ -81,7 +81,7 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 | [Salesforce B2C DX MCP](https://github.com/SalesforceCommerceCloud/b2c-developer-tooling) | | TypeScript | `beta` | `@salesforce/b2c-dx-mcp` since 3.3.0; no `directoryRead` |
 | [Splunk Connect for Syslog](https://github.com/splunk/splunk-connect-for-syslog) | | Python | `beta` ([#3377](https://github.com/splunk/splunk-connect-for-syslog/pull/3377)) | `sc4s_mcp` serves its `create-parser` skill |
 | [Supabase MCP](https://github.com/supabase/mcp) | | TypeScript | `in progress` ([#437](https://github.com/supabase/mcp/pull/437)) | Draft |
-| [Tableau MCP](https://github.com/tableau/tableau-mcp) | | TypeScript | `beta` ([#1080](https://github.com/tableau/tableau-mcp/pull/1080)) | Since v5.1.1, behind a feature flag; no `directoryRead` |
+| [Tableau MCP](https://github.com/tableau/tableau-mcp) | | TypeScript | `partial` ([#1080](https://github.com/tableau/tableau-mcp/pull/1080)) | Since v5.1.1, behind a feature flag; no `directoryRead`, and no `ttlMs` or `cacheScope` on `skills/list` or `skills/get` |
 | [TogoMCP](https://github.com/dbcls/togomcp) | | Python | `beta` ([#306](https://github.com/dbcls/togomcp/pull/306)) | Since v2.34.0, on FastMCP |
 | [Univer Workspace](https://github.com/dream-num/univer-workspace) | | TypeScript | `beta` ([#289](https://github.com/dream-num/univer-workspace/pull/289)) | On the TypeScript SDK's extension, with a tool fallback |
 | [World Monitor](https://github.com/koala73/worldmonitor) | `community` | TypeScript | `partial` ([#10518](https://github.com/koala73/worldmonitor/pull/10518)) | Lists five skills to fit a platform limit; `skills/get` serves all. No `ttlMs` or `cacheScope` on `skills/list` or `skills/get` |
@@ -95,10 +95,10 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 | [LiteLLM](https://github.com/BerriAI/litellm) | | Python | `in progress` ([#47875](https://github.com/BerriAI/litellm/pull/47875)) | Fans `skills/list` and `skills/get` out to upstream servers |
 | [mcpproxy-go](https://github.com/smart-mcp-proxy/mcpproxy-go) | | Go | `partial` ([#1921](https://github.com/smart-mcp-proxy/mcpproxy-go/pull/1921)) | Reads upstream skills with digest checks and admin approval; gives them to agents as tools |
 | [Metorial](https://github.com/metorial/metorial-platform) | | TypeScript | `partial` ([#1147](https://github.com/metorial/metorial-platform/pull/1147)) | Opt-in with `enable_skill_resources`. No `ttlMs` or `cacheScope` on `skills/get` |
-| [reShapr](https://github.com/reshaprio/reshapr) | | Java | `beta` ([#606](https://github.com/reshaprio/reshapr/issues/606)) | Since 1.2.0, with `directoryRead` |
+| [reShapr](https://github.com/reshaprio/reshapr) | | Java | `partial` ([#606](https://github.com/reshaprio/reshapr/issues/606)) | Since 1.2.0, with `directoryRead`. No `ttlMs` or `cacheScope` on `skills/get` |
 | [Speakeasy Gram](https://www.speakeasy.com/docs/ai-control-plane/mcp-gateway/skills/serving-skills-over-mcp) | | Go | `partial` ([#8268](https://github.com/speakeasy-api/gram/pull/8268)) | Behind a flag; serves `SKILL.md` only |
 | [ToolHive](https://github.com/stacklok/toolhive) | | Go | `beta` ([#6512](https://github.com/stacklok/toolhive/pull/6512)) | Passes the extension through and authorizes each skill request |
-| [Warden](https://github.com/stephnangue/warden) | `community` | Go | `beta` ([#774](https://github.com/stephnangue/warden/pull/774)) | Filters `skills/list` and gates skill reads per caller |
+| [Warden](https://github.com/stephnangue/warden) | `community` | Go | `partial` ([#774](https://github.com/stephnangue/warden/pull/774)) | Filters `skills/list` and gates skill reads per caller. No `ttlMs` or `cacheScope` on `skills/get` |
 
 ## Hosts (including agent harnesses, IDEs, and web applications)
 
