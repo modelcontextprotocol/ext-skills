@@ -122,7 +122,7 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 | [Microsoft Agent Framework](https://learn.microsoft.com/agent-framework/) | | `pre-v1` | Released versions read `skill://index.json`. .NET adopted the extension on `main` (#10275), not yet released; the repo is not public |
 | [NimbleBrain](https://github.com/NimbleBrainInc/nimblebrain) | | `v1` ([#1309](https://github.com/NimbleBrainInc/nimblebrain/pull/1309)) | Lazy fetch with digest checks |
 | [opencode](https://github.com/anomalyco/opencode) | | `in progress` ([#64157](https://github.com/anomalyco/opencode/pull/64157)) | Experimental, behind the `mcp_skills` flag |
-| [Paperclip](https://github.com/paperclipai/paperclip) | | `v1` ([#21219](https://github.com/paperclipai/paperclip/pull/21219)) | Verifies app skills against the manifest and asks for approval |
+| [Paperclip](https://github.com/paperclipai/paperclip) | | `v1` ([#21219](https://github.com/paperclipai/paperclip/pull/21219)) | Verifies app skills against the manifest and asks for approval. Merged, not yet released |
 | [PwrAgent](https://github.com/pwrdrvr/PwrAgent) | | `v1` ([#3707](https://github.com/pwrdrvr/PwrAgent/pull/3707)) | Desktop agent; relays server skills into threads |
 | [qm](https://github.com/yc-software/qm) | | `in progress` ([#3776](https://github.com/yc-software/qm/pull/3776)) | Imports skill packs from servers |
 | [vitehub](https://github.com/vite-hub/vitehub) | | `partial` | Serves its skills ([#3390](https://github.com/vite-hub/vitehub/pull/3390)); installs served skills by scanning `skill://` resources ([#2605](https://github.com/vite-hub/vitehub/pull/2605)) |
