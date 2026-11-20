@@ -1,0 +1,17 @@
+{
+  "resultType": "complete",
+  "resources": [
+    {
+      "uri": "skill://pdf-processing/templates/invoice.md",
+      "name": "invoice.md",
+      "mimeType": "text/markdown"
+    },
+    {
+      "uri": "skill://pdf-processing/templates/regional",
+      "name": "regional",
+      "mimeType": "inode/directory"
+    }
+  ],
+  "ttlMs": 300000,
+  "cacheScope": "public"
+}
