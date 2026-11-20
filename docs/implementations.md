@@ -12,67 +12,118 @@ To add or update a row, open a PR. Keep notes to one line.
 
 ## SDKs and frameworks
 
-The TypeScript SDK ships the extension in v2.4.0 and FastMCP in v4.1.2; the Python SDK has it merged but not yet released. Implementations built before those releases register `skills/list`, `skills/get` and `resources/directory/read` as custom request handlers. The Inspector's [`schemas.ts`](https://github.com/modelcontextprotocol/inspector/blob/main/core/extension/skills/schemas.ts) is a worked example for TypeScript; its comments record the pitfalls ([typescript-sdk#2789](https://github.com/modelcontextprotocol/typescript-sdk/issues/2789)).
+The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SDK (rmcp) v3.9.0, the Ruby SDK v1.9.0, and FastMCP v4.2.0; the Python SDK has it merged but not yet released. Implementations built before those releases register `skills/list`, `skills/get` and `resources/directory/read` as custom request handlers. The Inspector's [`schemas.ts`](https://github.com/modelcontextprotocol/inspector/blob/main/core/extension/skills/schemas.ts) is a worked example for TypeScript; its comments record the pitfalls ([typescript-sdk#2789](https://github.com/modelcontextprotocol/typescript-sdk/issues/2789)).
 
 | Implementation | Category | Language | Status | Notes |
 | :--- | :--- | :--- | :--- | :--- |
+| [C# SDK](https://github.com/modelcontextprotocol/csharp-sdk) | `official` | C# | `v1` ([#1856](https://github.com/modelcontextprotocol/csharp-sdk/pull/1856)) | In v2.4.0 as the experimental `ModelContextProtocol.Extensions.Skills` package |
 | [Go SDK](https://github.com/modelcontextprotocol/go-sdk) | `official` | Go | `in progress` ([#1238](https://github.com/modelcontextprotocol/go-sdk/pull/1238)) | Changes requested; filesystem provider in [#1240](https://github.com/modelcontextprotocol/go-sdk/pull/1240) |
-| [TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk) | `official` | TypeScript | `v1` ([#3047](https://github.com/modelcontextprotocol/typescript-sdk/pull/3047)) | In v2.4.0 as `ext/skills`: `loadSkills` and `skills.attach` on the server, `SkillsClient` on the client. Tracking issue [#2798](https://github.com/modelcontextprotocol/typescript-sdk/issues/2798) |
-| [Python SDK](https://github.com/modelcontextprotocol/python-sdk) | `official` | Python | `v1` ([#3485](https://github.com/modelcontextprotocol/python-sdk/pull/3485)) | Merged, not yet released. Filesystem provider requested in [#3683](https://github.com/modelcontextprotocol/python-sdk/issues/3683) |
-| [C# SDK](https://github.com/modelcontextprotocol/csharp-sdk) | `official` | C# | `v1` ([#1856](https://github.com/modelcontextprotocol/csharp-sdk/pull/1856)) | Merged, not yet released |
-| [Rust SDK](https://github.com/modelcontextprotocol/rust-sdk) | `official` | Rust | `in progress` ([#1392](https://github.com/modelcontextprotocol/rust-sdk/pull/1392)) | Maintainer PR: server and client with typed results; filesystem catalog to follow. Tracking issue [#1391](https://github.com/modelcontextprotocol/rust-sdk/issues/1391) |
 | [Java SDK](https://github.com/modelcontextprotocol/java-sdk) | `official` | Java | `in progress` ([#1141](https://github.com/modelcontextprotocol/java-sdk/pull/1141)) | Client APIs and stateless server; [#1214](https://github.com/modelcontextprotocol/java-sdk/pull/1214) adds the modern server. Tracking issue [#1140](https://github.com/modelcontextprotocol/java-sdk/issues/1140) |
-| [PHP SDK](https://github.com/modelcontextprotocol/php-sdk) | `official` | PHP | `in progress` ([#372](https://github.com/modelcontextprotocol/php-sdk/pull/372)) | Draft PR; server side, registers skills from a directory |
-| [Ruby SDK](https://github.com/modelcontextprotocol/ruby-sdk) | `official` | Ruby | `in progress` ([#635](https://github.com/modelcontextprotocol/ruby-sdk/pull/635)) | Maintainer PR. Tracking issue [#568](https://github.com/modelcontextprotocol/ruby-sdk/issues/568) |
 | [Kotlin SDK](https://github.com/modelcontextprotocol/kotlin-sdk) | `official` | Kotlin | `planned` ([#1020](https://github.com/modelcontextprotocol/kotlin-sdk/issues/1020)) | |
-| [FastMCP SkillsProvider](https://gofastmcp.com/servers/providers/skills) | | Python | `v1` ([#5057](https://github.com/PrefectHQ/fastmcp/pull/5057)) | Experimental and opt-in. In v4.1.2 with the directory provider ([#5704](https://github.com/PrefectHQ/fastmcp/pull/5704)); proxy and mounted-server discovery in the 4.2 prerelease. Tracking issue [#5016](https://github.com/PrefectHQ/fastmcp/issues/5016) |
-| [FastMCP TypeScript](https://github.com/PrefectHQ/fastmcp-ts) | | TypeScript | `v1` ([#131](https://github.com/PrefectHQ/fastmcp-ts/pull/131)) | Client side, on the SDK's `SkillsClient` |
-| [Effect](https://github.com/Effect-TS/effect) | | TypeScript | `in progress` ([#10082](https://github.com/Effect-TS/effect/pull/10082)) | `McpServer` and `McpClient` |
+| [PHP SDK](https://github.com/modelcontextprotocol/php-sdk) | `official` | PHP | `in progress` ([#372](https://github.com/modelcontextprotocol/php-sdk/pull/372)) | Draft PR; server side, registers skills from a directory |
+| [Python SDK](https://github.com/modelcontextprotocol/python-sdk) | `official` | Python | `v1` ([#3485](https://github.com/modelcontextprotocol/python-sdk/pull/3485)) | Merged, not yet released. Filesystem provider in [#3795](https://github.com/modelcontextprotocol/python-sdk/pull/3795) |
+| [Ruby SDK](https://github.com/modelcontextprotocol/ruby-sdk) | `official` | Ruby | `v1` ([#635](https://github.com/modelcontextprotocol/ruby-sdk/pull/635)) | In v1.9.0: server from a directory or handler; client lists, reads and verifies |
+| [Rust SDK](https://github.com/modelcontextprotocol/rust-sdk) | `official` | Rust | `v1` ([#1392](https://github.com/modelcontextprotocol/rust-sdk/pull/1392)) | In rmcp 3.9.0; directory loader (`skills-fs` feature) since 3.10.0 |
+| [TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk) | `official` | TypeScript | `v1` ([#3047](https://github.com/modelcontextprotocol/typescript-sdk/pull/3047)) | In v2.4.0 as `ext/skills`: `loadSkills` and `skills.attach` on the server, `SkillsClient` on the client. Tracking issue [#2798](https://github.com/modelcontextprotocol/typescript-sdk/issues/2798) |
+| [airlift](https://github.com/airlift/airlift) | | Java | `v1` ([#2170](https://github.com/airlift/airlift/pull/2170)) | `@McpSkill` annotation, with `directoryRead` |
+| [Effect](https://github.com/Effect-TS/effect) | | TypeScript | `v1` ([#10082](https://github.com/Effect-TS/effect/pull/10082)) | `McpServer` and `McpClient`, since effect 4.1.1 |
+| [FastMCP](https://gofastmcp.com/servers/skills) | | Python | `v1` ([#5057](https://github.com/PrefectHQ/fastmcp/pull/5057)) | Experimental. v4.2.0 adds `SkillCatalogProvider`, client `read_skill()`, and discovery through proxies and mounted servers ([announcement](https://jlowin.dev/blog/fastmcp-4-2)); the 4.1 skills API is deprecated |
+| [FastMCP TypeScript](https://github.com/PrefectHQ/fastmcp-ts) | | TypeScript | `v1` ([#131](https://github.com/PrefectHQ/fastmcp-ts/pull/131)) | Client since v1.9.0, server since v1.13.0 |
+| [Frappe](https://github.com/frappe/frappe) | | Python | `in progress` ([#46189](https://github.com/frappe/frappe/pull/46189)) | Draft. Serves each installed app's `skills/` directory |
+| [Laravel MCP](https://github.com/laravel/mcp) | | PHP | `in progress` ([#410](https://github.com/laravel/mcp/pull/410)) | |
+| [mcp-use](https://docs.mcp-use.com/v2/typescript/server/skills) | | TypeScript | `v1` | Server, client and inspector |
 | [mcpkit](https://github.com/panyam/mcpkit/tree/main/ext/skills) | `community` | Go | `v1` | Server and client, plus the `mcpskills` CLI. Passes the [conformance suite](https://github.com/modelcontextprotocol/conformance) server scenarios |
-| [tower-mcp](https://docs.rs/tower-mcp/latest/tower_mcp/skills/) | `community` | Rust | `v1` ([#1642](https://github.com/joshrotenberg/tower-mcp/pull/1642)) | Server and client since 0.26.1 behind the `skills` feature; `SkillSet` loads a directory, `read_verified_skill_file` checks size, digest and frontmatter. Passes the [conformance suite](https://github.com/modelcontextprotocol/conformance) server and client scenarios |
+| [Next.js](https://github.com/vercel/next.js) | | TypeScript | `in progress` ([#101538](https://github.com/vercel/next.js/pull/101538)) | Draft, for the `next-mcp` package |
+| [Pydantic AI](https://github.com/pydantic/pydantic-ai) | | Python | `in progress` ([#14070](https://github.com/pydantic/pydantic-ai/pull/14070)) | Draft. `MCPSkills(toolset)` offers a server's skills to an agent |
+| [Skybridge](https://docs.skybridge.tech/guides/skills) | | TypeScript | `pre-v1` ([#1036](https://github.com/alpic-ai/skybridge/pull/1036)) | Experimental; entries lack `size` and cache hints |
+| [Spring AI](https://github.com/spring-projects/spring-ai) | | Java | `planned` ([#7345](https://github.com/spring-projects/spring-ai/issues/7345)) | |
 | [Tachyon](https://github.com/tachyonmcp/tachyon/tree/main/examples/mcp-skills) | | Java | `v1` | Self-reported 2026-09-14; requires clients to advertise the extension capability |
+| [tower-mcp](https://docs.rs/tower-mcp/latest/tower_mcp/skills/) | `community` | Rust | `v1` ([#1642](https://github.com/joshrotenberg/tower-mcp/pull/1642)) | Server and client since 0.26.1 behind the `skills` feature; `SkillSet` loads a directory, `read_verified_skill_file` checks size, digest and frontmatter. Passes the [conformance suite](https://github.com/modelcontextprotocol/conformance) server and client scenarios |
+| [turul-mcp-framework](https://github.com/aussierobots/turul-mcp-framework) | `community` | Rust | `v1` ([#52](https://github.com/aussierobots/turul-mcp-framework/pull/52)) | `turul-mcp-ext-skills` crate, with directory reads |
+| [xmcp](https://github.com/basementstudio/xmcp) | | TypeScript | `v1` ([#769](https://github.com/basementstudio/xmcp/pull/769)) | Serves `src/skills/` by default since 1.10.0 |
 
 ## Servers
 
 | Implementation | Category | Language | Status | Notes |
 | :--- | :--- | :--- | :--- | :--- |
-| [hf-mcp-server](https://github.com/huggingface/hf-mcp-server) | | TypeScript | `v1` | Hugging Face. `skills/list`, `skills/get`, `directoryRead`. HTTP transports only |
-| [github-stars-contrib-mcp-server](https://github.com/svg153/github-stars-contrib-mcp-server) | `community` | Python | `v1` ([#144](https://github.com/modelcontextprotocol/ext-skills/issues/144)) | Passes the [conformance suite](https://github.com/modelcontextprotocol/conformance) server scenarios |
+| [Ansible AAP MCP server](https://github.com/ansible/aap-mcp-server) | | TypeScript | `v1` ([#209](https://github.com/ansible/aap-mcp-server/pull/209)) | Off unless `skills_enabled` is set ([#213](https://github.com/ansible/aap-mcp-server/pull/213)) |
+| [Arize Phoenix](https://github.com/Arize-ai/phoenix) | | TypeScript | `planned` ([#16596](https://github.com/Arize-ai/phoenix/issues/16596)) | |
+| [authentik CLI](https://github.com/goauthentik/platform) | | Rust | `v1` ([#1823](https://github.com/goauthentik/platform/pull/1823)) | `ak` serves two bundled skills since v0.73.0 |
+| [Azure MCP Server](https://github.com/microsoft/mcp) | | C# | `planned` ([#3655](https://github.com/microsoft/mcp/issues/3655)) | |
+| [basic-memory](https://github.com/basicmachines-co/basic-memory) | | Python | `v1` ([#2022](https://github.com/basicmachines-co/basic-memory/pull/2022)) | On FastMCP |
 | [Brewale](https://brewale.dev/docs#skills-over-mcp) | | TypeScript | `v1` | Hosted. Org, project and personal skills with per-user access; `directoryRead`; passes the conformance server scenarios |
+| [Capgo](https://github.com/Cap-go/capgo.app) | | TypeScript | `v1` ([#4080](https://github.com/Cap-go/capgo.app/pull/4080)) | Hosted. Mirror tools for clients without the extension |
 | [Cloudflare API MCP server](https://github.com/cloudflare/mcp) | | TypeScript | `v1` | Hosted. Serves the [cloudflare/skills](https://github.com/cloudflare/skills) repo with full manifests; no `directoryRead` |
-| [Outline](https://github.com/outline/outline) | | TypeScript | `v1` | Since v1.11.0; per-file digests and `skill://outline/...` URIs |
-| [Salesforce B2C DX MCP](https://github.com/SalesforceCommerceCloud/b2c-developer-tooling) | | TypeScript | `v1` | `@salesforce/b2c-dx-mcp` since 3.3.0 |
-| [Tableau MCP](https://github.com/tableau/tableau-mcp) | | TypeScript | `partial` | `skills/list` since v4.27.2 ([#1015](https://github.com/tableau/tableau-mcp/pull/1015)); also serves `skill://` resources |
-| [DoiT MCP server](https://github.com/doitintl/doit-mcp-server) | | TypeScript | `v1` | Since v2.7.1 ([#345](https://github.com/doitintl/doit-mcp-server/pull/345)) |
-| [Google MCP Toolbox](https://github.com/googleapis/mcp-toolbox) | | Go | `v1` | Merged ([#4050](https://github.com/googleapis/mcp-toolbox/pull/4050)), not yet released |
-| [OpenWork](https://github.com/different-ai/openwork) | | TypeScript | `v1` | Organization and plugin skills ([#6129](https://github.com/different-ai/openwork/pull/6129)) |
-| [Repliers MCP server](https://github.com/Repliers-io/mcp-server) | | JavaScript | `v1` | Serves its skills for ChatGPT's import ([#26](https://github.com/Repliers-io/mcp-server/pull/26)) |
-| [Ansible AAP MCP server](https://github.com/ansible/aap-mcp-server) | | TypeScript | `v1` | AAP skills ([#209](https://github.com/ansible/aap-mcp-server/pull/209)); tool fallback for clients without the extension ([#206](https://github.com/ansible/aap-mcp-server/pull/206)) |
-| [n8n](https://github.com/n8n-io/n8n) | | TypeScript | `v1` | Serves its skills hub ([#41563](https://github.com/n8n-io/n8n/pull/41563), [#41725](https://github.com/n8n-io/n8n/pull/41725)); per-skill exposure in [#41729](https://github.com/n8n-io/n8n/pull/41729) |
+| [Context7](https://github.com/upstash/context7) | | TypeScript | `in progress` ([#3656](https://github.com/upstash/context7/pull/3656)) | |
+| [Descope MCP server](https://docs.descope.com/mcp/mcp-server) | | | `partial` | Hosted. Docs confirm `skills/list`; the same skills install locally from [descope/skills](https://github.com/descope/skills) |
+| [DoiT MCP server](https://github.com/doitintl/doit-mcp-server) | | TypeScript | `v1` | Since v2.6.0 ([#345](https://github.com/doitintl/doit-mcp-server/pull/345)) |
+| [FastMCP Skill Drop](https://gofastmcp.com/skill-drop) | | Python | `partial` | Hosted. Turns an uploaded skill into a server with `skills/list` and fallback tools ([announcement](https://www.prefect.io/blog/skill-drop-share-skills-over-mcp)) |
+| [GitHub MCP Server](https://github.com/github/github-mcp-server) | | Go | `v1` ([#3685](https://github.com/github/github-mcp-server/pull/3685)) | Opt-in since v2.2.0; bundled skills filtered by the enabled toolsets, with `directoryRead` |
+| [github-stars-contrib-mcp-server](https://github.com/svg153/github-stars-contrib-mcp-server) | `community` | Python | `v1` ([#144](https://github.com/modelcontextprotocol/ext-skills/issues/144)) | Passes the [conformance suite](https://github.com/modelcontextprotocol/conformance) server scenarios |
+| [Glean (MCP server)](https://docs.glean.com/user-guide/mcp/usage) | | Go | `v1` | Hosted. Serves each user's policy-filtered Glean Skills; no `directoryRead`. Self-reported in [#165](https://github.com/modelcontextprotocol/ext-skills/pull/165) |
+| [Google MCP Toolbox](https://github.com/googleapis/mcp-toolbox) | | Go | `v1` ([#4104](https://github.com/googleapis/mcp-toolbox/pull/4104)) | Since v1.16.0 |
 | [gridctl](https://github.com/gridctl/gridctl) | | Go | `v1` | Registry skills on both protocol revisions, with directory browsing ([#1418](https://github.com/gridctl/gridctl/pull/1418)) |
-| [OpenL Tablets](https://github.com/openl-tablets/openl-tablets) | | TypeScript | `v1` | On the TypeScript SDK's extension ([#2414](https://github.com/openl-tablets/openl-tablets/pull/2414)) |
-| [mcpskills](https://github.com/Cali0707/mcpskills) | `community` | Go | `v1` | Reference server on the Go SDK over Streamable HTTP, with OAuth and group-based access |
+| [hf-mcp-server](https://github.com/huggingface/hf-mcp-server) | | TypeScript | `v1` | Hugging Face. `skills/list`, `skills/get`, `directoryRead`. HTTP transports only |
+| [jshookmcp](https://github.com/vmoranv/jshookmcp) | `community` | TypeScript | `v1` ([#252](https://github.com/vmoranv/jshookmcp/pull/252)) | Experimental |
 | [kernel-mcp-server](https://github.com/kernel/kernel-mcp-server) | | TypeScript | `in progress` ([#260](https://github.com/kernel/kernel-mcp-server/pull/260)) | Ships the `kernel-mcp` skill from [kernel/skills](https://github.com/kernel/skills) |
-| [Glean (MCP server)](https://docs.glean.com/user-guide/mcp/usage) | | Go | `v1` | Hosted. Serves each user's policy-filtered Glean Skills; no `directoryRead` |
+| [Laminar](https://github.com/lmnr-ai/lmnr) | | TypeScript | `in progress` ([#2671](https://github.com/lmnr-ai/lmnr/pull/2671)) | |
+| [Langfuse](https://github.com/langfuse/langfuse) | | TypeScript | `v1` ([#19552](https://github.com/langfuse/langfuse/pull/19552)) | Serves its `langfuse` and `migrate-to-langfuse` skills |
+| [Mapbox MCP server](https://github.com/mapbox/mcp-server) | | TypeScript | `in progress` ([#295](https://github.com/mapbox/mcp-server/pull/295)) | |
+| [mcpskills](https://github.com/Cali0707/mcpskills) | `community` | Go | `v1` | Reference server on the Go SDK over Streamable HTTP, with OAuth and group-based access |
+| [Microsoft Foundry toolbox](https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/skills) | | | `v1` | Hosted, in preview |
+| [n8n](https://github.com/n8n-io/n8n) | | TypeScript | `v1` ([#41725](https://github.com/n8n-io/n8n/pull/41725)) | Serves its skills hub since 2.46.0, behind a feature flag; per-skill selection since 2.47.0 ([#41729](https://github.com/n8n-io/n8n/pull/41729)) |
+| [OpenL Tablets](https://github.com/openl-tablets/openl-tablets) | | TypeScript | `v1` ([#2414](https://github.com/openl-tablets/openl-tablets/pull/2414)) | Since 7.0.0, on the TypeScript SDK's extension |
+| [OpenWork](https://github.com/different-ai/openwork) | | TypeScript | `v1` | Organization and plugin skills with supporting files ([#6129](https://github.com/different-ai/openwork/pull/6129), [#7530](https://github.com/different-ai/openwork/pull/7530)) |
+| [Outline](https://github.com/outline/outline) | | TypeScript | `v1` | Since v1.11.0; per-file digests and `skill://outline/...` URIs |
+| [PostHog MCP](https://github.com/PostHog/posthog) | | TypeScript | `planned` ([#99933](https://github.com/PostHog/posthog/issues/99933)) | Serves skills through a tool today |
+| [Prefect MCP server](https://github.com/PrefectHQ/prefect-mcp-server) | | Python | `in progress` ([#245](https://github.com/PrefectHQ/prefect-mcp-server/pull/245)) | |
+| [RavenDB MCP](https://github.com/ravendb/ravendb-mcp) | | C# | `v1` ([#38](https://github.com/ravendb/ravendb-mcp/pull/38)) | On the C# SDK's skills package |
+| [Repliers MCP server](https://github.com/Repliers-io/mcp-server) | | JavaScript | `v1` | Serves its skills for ChatGPT's import ([#26](https://github.com/Repliers-io/mcp-server/pull/26)) |
+| [Salesforce B2C DX MCP](https://github.com/SalesforceCommerceCloud/b2c-developer-tooling) | | TypeScript | `v1` | `@salesforce/b2c-dx-mcp` since 3.3.0; no `directoryRead` |
+| [Splunk Connect for Syslog](https://github.com/splunk/splunk-connect-for-syslog) | | Python | `v1` ([#3377](https://github.com/splunk/splunk-connect-for-syslog/pull/3377)) | `sc4s_mcp` serves its `create-parser` skill |
+| [Supabase MCP](https://github.com/supabase/mcp) | | TypeScript | `in progress` ([#437](https://github.com/supabase/mcp/pull/437)) | Draft |
+| [Tableau MCP](https://github.com/tableau/tableau-mcp) | | TypeScript | `v1` ([#1080](https://github.com/tableau/tableau-mcp/pull/1080)) | Since v5.1.1, behind a feature flag; no `directoryRead` |
+| [TogoMCP](https://github.com/dbcls/togomcp) | | Python | `v1` ([#306](https://github.com/dbcls/togomcp/pull/306)) | Since v2.34.0, on FastMCP |
+| [Univer Workspace](https://github.com/dream-num/univer-workspace) | | TypeScript | `v1` ([#289](https://github.com/dream-num/univer-workspace/pull/289)) | On the TypeScript SDK's extension, with a tool fallback |
+| [World Monitor](https://github.com/koala73/worldmonitor) | `community` | TypeScript | `v1` ([#10518](https://github.com/koala73/worldmonitor/pull/10518)) | Lists five skills to fit a platform limit; `skills/get` serves all |
+
+## Gateways
+
+| Implementation | Category | Language | Status | Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| [agentgateway](https://github.com/agentgateway/agentgateway) | | Rust | `in progress` ([#4214](https://github.com/agentgateway/agentgateway/pull/4214)) | Pass-through; second approach in [#4391](https://github.com/agentgateway/agentgateway/pull/4391) |
+| [Archestra](https://archestra.ai/docs/platform-mcp-gateway-skills) | | TypeScript | `v1` ([#10800](https://github.com/archestra-ai/archestra/pull/10800)) | Serves organization skills; on by default from the 1.5.0 release candidates |
+| [LiteLLM](https://github.com/BerriAI/litellm) | | Python | `in progress` ([#47875](https://github.com/BerriAI/litellm/pull/47875)) | Fans `skills/list` and `skills/get` out to upstream servers |
+| [mcpproxy-go](https://github.com/smart-mcp-proxy/mcpproxy-go) | | Go | `partial` ([#1921](https://github.com/smart-mcp-proxy/mcpproxy-go/pull/1921)) | Reads upstream skills with digest checks and admin approval; gives them to agents as tools |
+| [Metorial](https://github.com/metorial/metorial-platform) | | TypeScript | `v1` ([#1147](https://github.com/metorial/metorial-platform/pull/1147)) | Opt-in with `enable_skill_resources` |
+| [reShapr](https://github.com/reshaprio/reshapr) | | Java | `v1` ([#606](https://github.com/reshaprio/reshapr/issues/606)) | Since 1.2.0, with `directoryRead` |
+| [Speakeasy Gram](https://www.speakeasy.com/docs/ai-control-plane/mcp-gateway/skills/serving-skills-over-mcp) | | Go | `partial` ([#8268](https://github.com/speakeasy-api/gram/pull/8268)) | Behind a flag; serves `SKILL.md` only |
+| [ToolHive](https://github.com/stacklok/toolhive) | | Go | `v1` ([#6512](https://github.com/stacklok/toolhive/pull/6512)) | Passes the extension through and authorizes each skill request |
+| [Warden](https://github.com/stephnangue/warden) | `community` | Go | `v1` ([#774](https://github.com/stephnangue/warden/pull/774)) | Filters `skills/list` and gates skill reads per caller |
 
 ## Hosts (including agent harnesses, IDEs, and web applications)
 
 | Implementation | Category | Status | Notes |
 | :--- | :--- | :--- | :--- |
-| [fast-agent](https://github.com/evalstate/fast-agent/blob/main/docs/docs/mcp/skills-over-mcp.md) | `community` | `v1` | `/skills add` installs served skills after size, digest and frontmatter checks; first end-to-end interop with hf-mcp-server |
-| [MCP Inspector](https://github.com/modelcontextprotocol/inspector/blob/main/clients/cli/README.md#skill-verification---verify) | `official` | `partial` | Since 2.6.0, including CLI skill verification; 2.13.0 moved onto the SDK's `ext/skills` |
-| [MCPJam Inspector](https://github.com/MCPJam/inspector) | | `v1` | App, CLI and SDK; verifies digests and frontmatter, namespaces skills by server. Aligned with the released spec in v3.17.0 |
-| [mcpc](https://github.com/apify/mcpc) | | `v1` | Apify's MCP CLI; `skills-list` and `skills-get` with size and digest checks since v0.7.0 |
-| [ChatGPT plugins](https://developers.openai.com/plugins/build/mcp-server#import-skills-from-the-mcp-server) | | `partial` | Imports skills at plugin submission, static snapshot |
-| [Microsoft Agent Framework](https://github.com/microsoft/agent-framework) | | `partial` | .NET discovery on `main` ([#9198](https://github.com/microsoft/agent-framework/pull/9198)), not yet released |
-| [vitehub](https://github.com/vite-hub/vitehub) | | `v1` | Installs served skills ([#2605](https://github.com/vite-hub/vitehub/pull/2605)) |
-| [harness](https://github.com/majorcontext/harness) | | `v1` | Lists, verifies and loads served skills ([#770](https://github.com/majorcontext/harness/pull/770)) |
-| [Cherry Studio](https://github.com/CherryHQ/cherry-studio) | | `in progress` ([#22382](https://github.com/CherryHQ/cherry-studio/pull/22382)) | Discovery and verified loading through tools; client spec proposed in [#22350](https://github.com/CherryHQ/cherry-studio/pull/22350) |
-| [agentgateway](https://github.com/agentgateway/agentgateway) | | `in progress` ([#4214](https://github.com/agentgateway/agentgateway/pull/4214)) | Gateway pass-through; waits on the Rust SDK |
-| [VS Code](https://github.com/microsoft/vscode) | | `planned` ([#338300](https://github.com/microsoft/vscode/issues/338300)) | Requested for GitHub Copilot; no PR yet |
-| [Goose](https://github.com/aaif-goose/goose) | | `in progress` ([#12724](https://github.com/aaif-goose/goose/pull/12724)) | Host PR on released rmcp; the maintainers' plan ([#12068](https://github.com/aaif-goose/goose/issues/12068)) waits on the Rust SDK |
-| [Agno](https://github.com/agno-agi/agno) | | `in progress` ([#11026](https://github.com/agno-agi/agno/pull/11026)) | Maintainer-written, in review |
-| [opencode](https://github.com/anomalyco/opencode) | | `in progress` ([#52298](https://github.com/anomalyco/opencode/pull/52298)) | Community PR, no maintainer reply yet |
-| [Hermes Agent](https://github.com/NousResearch/hermes-agent) | | `in progress` ([#137746](https://github.com/NousResearch/hermes-agent/pull/137746)) | Community PR, no maintainer reply yet |
 | [agent-harness](https://github.com/ar27111994/agent-harness) | `community` | `planned` ([#492](https://github.com/ar27111994/agent-harness/issues/492)) | Digest-pinned skill store |
-| [Glean (MCP client)](https://www.glean.com) | | `v1` | Admins import a connected server's skills via `skills/list`, verifying digests; static snapshot |
+| [agentpool](https://github.com/phil65/agentpool) | `community` | `v1` | Consumes and serves skills on FastMCP 4.2 |
+| [Agno](https://github.com/agno-agi/agno) | | `in progress` ([#11026](https://github.com/agno-agi/agno/pull/11026)) | Maintainer-written, in review |
+| [ChatGPT plugins](https://developers.openai.com/plugins/deploy/app-review#submitting-new-versions-for-review) | | `partial` | Imported skills are fixed per plugin version; changes need a new reviewed version |
+| [Cherry Studio](https://github.com/CherryHQ/cherry-studio) | | `in progress` ([#22382](https://github.com/CherryHQ/cherry-studio/pull/22382)) | Discovery and verified loading through tools; client spec merged in [#22350](https://github.com/CherryHQ/cherry-studio/pull/22350) |
+| [fast-agent](https://github.com/evalstate/fast-agent/blob/main/docs/docs/mcp/skills-over-mcp.md) | `community` | `v1` | `/skills add` installs served skills after size, digest and frontmatter checks; first end-to-end interop with hf-mcp-server |
+| [Glean (MCP client)](https://www.glean.com) | | `v1` | Admins import a connected server's skills via `skills/list`, verifying digests; static snapshot. Self-reported in [#165](https://github.com/modelcontextprotocol/ext-skills/pull/165) |
+| [Goose](https://github.com/aaif-goose/goose) | | `planned` ([#12068](https://github.com/aaif-goose/goose/issues/12068)) | Earlier host PRs closed; to be built on rmcp's support |
+| [harness](https://github.com/majorcontext/harness) | | `v1` | Lists, verifies and loads served skills ([#770](https://github.com/majorcontext/harness/pull/770)) |
+| [Hermes Agent](https://github.com/NousResearch/hermes-agent) | | `in progress` ([#137746](https://github.com/NousResearch/hermes-agent/pull/137746)) | Community PR, no maintainer review yet |
+| [Kilo Code](https://github.com/Kilo-Org/kilocode) | | `planned` ([#15733](https://github.com/Kilo-Org/kilocode/issues/15733)) | |
+| [MCP Inspector](https://github.com/modelcontextprotocol/inspector/blob/main/clients/cli/README.md#skill-verification---verify) | `official` | `partial` | Since 2.6.0, including CLI skill verification; 2.13.0 moved onto the SDK's `ext/skills` |
+| [mcpc](https://github.com/apify/mcpc) | | `v1` | Apify's MCP CLI; `skills-list` and `skills-get` with size and digest checks since v0.7.0 |
+| [MCPJam Inspector](https://github.com/MCPJam/inspector) | | `v1` | App, CLI and SDK; verifies digests and frontmatter, namespaces skills by server. Aligned with the released spec in v3.17.0 |
+| [Microsoft Agent Framework](https://learn.microsoft.com/agent-framework/) | | `pre-v1` | Released versions read `skill://index.json`. .NET adopted the extension on `main` (#10275), not yet released; the repo is not public |
+| [NimbleBrain](https://github.com/NimbleBrainInc/nimblebrain) | | `v1` ([#1309](https://github.com/NimbleBrainInc/nimblebrain/pull/1309)) | Lazy fetch with digest checks |
+| [opencode](https://github.com/anomalyco/opencode) | | `in progress` ([#64157](https://github.com/anomalyco/opencode/pull/64157)) | Experimental, behind the `mcp_skills` flag |
+| [Paperclip](https://github.com/paperclipai/paperclip) | | `v1` ([#21219](https://github.com/paperclipai/paperclip/pull/21219)) | Verifies app skills against the manifest and asks for approval |
+| [PwrAgent](https://github.com/pwrdrvr/PwrAgent) | | `v1` ([#3707](https://github.com/pwrdrvr/PwrAgent/pull/3707)) | Desktop agent; relays server skills into threads |
+| [qm](https://github.com/yc-software/qm) | | `in progress` ([#3776](https://github.com/yc-software/qm/pull/3776)) | Imports skill packs from servers |
+| [vitehub](https://github.com/vite-hub/vitehub) | | `partial` | Serves its skills ([#3390](https://github.com/vite-hub/vitehub/pull/3390)); installs served skills by scanning `skill://` resources ([#2605](https://github.com/vite-hub/vitehub/pull/2605)) |
+| [VS Code](https://github.com/microsoft/vscode) | | `v1` ([#345956](https://github.com/microsoft/vscode/pull/345956)) | GitHub Copilot; on by default since 1.147, with per-server consent ([announcement](https://techcommunity.microsoft.com/blog/azuredevcommunityblog/skills-over-mcp-are-now-available-in-vs-code/4574580)) |
