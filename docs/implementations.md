@@ -84,17 +84,17 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 | [Tableau MCP](https://github.com/tableau/tableau-mcp) | | TypeScript | `beta` ([#1080](https://github.com/tableau/tableau-mcp/pull/1080)) | Since v5.1.1, behind a feature flag; no `directoryRead` |
 | [TogoMCP](https://github.com/dbcls/togomcp) | | Python | `beta` ([#306](https://github.com/dbcls/togomcp/pull/306)) | Since v2.34.0, on FastMCP |
 | [Univer Workspace](https://github.com/dream-num/univer-workspace) | | TypeScript | `beta` ([#289](https://github.com/dream-num/univer-workspace/pull/289)) | On the TypeScript SDK's extension, with a tool fallback |
-| [World Monitor](https://github.com/koala73/worldmonitor) | `community` | TypeScript | `beta` ([#10518](https://github.com/koala73/worldmonitor/pull/10518)) | Lists five skills to fit a platform limit; `skills/get` serves all |
+| [World Monitor](https://github.com/koala73/worldmonitor) | `community` | TypeScript | `partial` ([#10518](https://github.com/koala73/worldmonitor/pull/10518)) | Lists five skills to fit a platform limit; `skills/get` serves all. No `ttlMs` or `cacheScope` on `skills/list` or `skills/get` |
 
 ## Gateways
 
 | Implementation | Category | Language | Status | Notes |
 | :--- | :--- | :--- | :--- | :--- |
 | [agentgateway](https://github.com/agentgateway/agentgateway) | | Rust | `in progress` ([#4214](https://github.com/agentgateway/agentgateway/pull/4214)) | Pass-through; second approach in [#4391](https://github.com/agentgateway/agentgateway/pull/4391) |
-| [Archestra](https://archestra.ai/docs/platform-mcp-gateway-skills) | | TypeScript | `beta` ([#10800](https://github.com/archestra-ai/archestra/pull/10800)) | Serves organization skills; on by default from the 1.5.0 release candidates |
+| [Archestra](https://archestra.ai/docs/platform-mcp-gateway-skills) | | TypeScript | `partial` ([#10800](https://github.com/archestra-ai/archestra/pull/10800)) | Serves organization skills; on by default from the 1.5.0 release candidates. No `ttlMs` or `cacheScope` on `skills/get` |
 | [LiteLLM](https://github.com/BerriAI/litellm) | | Python | `in progress` ([#47875](https://github.com/BerriAI/litellm/pull/47875)) | Fans `skills/list` and `skills/get` out to upstream servers |
 | [mcpproxy-go](https://github.com/smart-mcp-proxy/mcpproxy-go) | | Go | `partial` ([#1921](https://github.com/smart-mcp-proxy/mcpproxy-go/pull/1921)) | Reads upstream skills with digest checks and admin approval; gives them to agents as tools |
-| [Metorial](https://github.com/metorial/metorial-platform) | | TypeScript | `beta` ([#1147](https://github.com/metorial/metorial-platform/pull/1147)) | Opt-in with `enable_skill_resources` |
+| [Metorial](https://github.com/metorial/metorial-platform) | | TypeScript | `partial` ([#1147](https://github.com/metorial/metorial-platform/pull/1147)) | Opt-in with `enable_skill_resources`. No `ttlMs` or `cacheScope` on `skills/get` |
 | [reShapr](https://github.com/reshaprio/reshapr) | | Java | `beta` ([#606](https://github.com/reshaprio/reshapr/issues/606)) | Since 1.2.0, with `directoryRead` |
 | [Speakeasy Gram](https://www.speakeasy.com/docs/ai-control-plane/mcp-gateway/skills/serving-skills-over-mcp) | | Go | `partial` ([#8268](https://github.com/speakeasy-api/gram/pull/8268)) | Behind a flag; serves `SKILL.md` only |
 | [ToolHive](https://github.com/stacklok/toolhive) | | Go | `beta` ([#6512](https://github.com/stacklok/toolhive/pull/6512)) | Passes the extension through and authorizes each skill request |
