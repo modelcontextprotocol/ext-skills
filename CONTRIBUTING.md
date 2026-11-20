@@ -32,6 +32,26 @@ Pull requests build the website in CI, including contributions from forks.
 Broken internal page links fail the build. Cloudflare Pages builds the site with
 `npm run docs:build` and serves `.vitepress/dist`.
 
+## Schema Validation
+
+Run `npm run check:schema` before submitting schema or specification changes.
+This type-checks `schema/beta/schema.ts`, compares its declarations with the
+released specification, checks that the generated JSON Schema is current, and
+validates the JSON examples and regression fixtures. The schema CI job runs the
+same command on pull requests, including forks.
+
+Use `npm run generate:schemas` to regenerate `schema/beta/schema.json`. Generation
+and validation run offline after `npm ci`; they never fetch an SDK or a moving
+upstream schema. The base protocol types and their license notice are vendored
+at a commit pinned in `scripts/fetch-spec-types.mjs`. `npm run fetch:spec-types`
+reproduces that snapshot. A repin must be reviewed explicitly and followed by
+generation and validation.
+
+The Beta types mirror the released specification, which remains normative.
+Propose wire changes through the decision-log process rather than editing the
+released revision. Neither a schema pass nor an example pass establishes
+semantic conformance, host security, or consent handling.
+
 ## How to Participate
 
 This Working Group welcomes contributions from anyone interested in skills distribution over MCP. You can participate by:
