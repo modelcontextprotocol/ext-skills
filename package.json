@@ -23,5 +23,8 @@
     "typescript": "6.0.3",
     "typescript-json-schema": "0.68.0",
     "vitepress": "^1.6.4"
+  },
+  "overrides": {
+    "vite": "^6.4.4"
   }
 }
