@@ -20,10 +20,8 @@
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
     "mdast-util-from-markdown": "2.0.2",
-    "mermaid": "^11.17.0",
     "typescript": "6.0.3",
     "typescript-json-schema": "0.68.0",
-    "vitepress": "^1.6.4",
-    "vitepress-plugin-mermaid": "^2.0.17"
+    "vitepress": "^1.6.4"
   }
 }
