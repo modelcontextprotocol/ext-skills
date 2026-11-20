@@ -413,7 +413,7 @@ The wire format of a successful exchange is otherwise unchanged. `skills/list` a
 
 ### 2026-11-02: Publish machine-readable Skills extension types and validate examples in CI
 
-**Status:** Proposed
+**Status:** Accepted
 
 **Context:** [Issue #158](https://github.com/modelcontextprotocol/ext-skills/issues/158) requests standalone types and JSON Schema for SDK authors. The released page defines its types in TypeScript blocks, but implementers cannot consume those as a schema artifact. The issue records a server omitting directory-read cache attributes while its own tests passed. PR #157 corrected the page's types; an automated check is needed to keep implementations and examples aligned.
 
