@@ -29,6 +29,7 @@ The TypeScript SDK ships the extension in v2.4.0 and FastMCP in v4.1.2; the Pyth
 | [FastMCP TypeScript](https://github.com/PrefectHQ/fastmcp-ts) | | TypeScript | `v1` ([#131](https://github.com/PrefectHQ/fastmcp-ts/pull/131)) | Client side, on the SDK's `SkillsClient` |
 | [Effect](https://github.com/Effect-TS/effect) | | TypeScript | `in progress` ([#10082](https://github.com/Effect-TS/effect/pull/10082)) | `McpServer` and `McpClient` |
 | [mcpkit](https://github.com/panyam/mcpkit/tree/main/ext/skills) | `community` | Go | `v1` | Server and client, plus the `mcpskills` CLI. Passes the [conformance suite](https://github.com/modelcontextprotocol/conformance) server scenarios |
+| [tower-mcp](https://docs.rs/tower-mcp/latest/tower_mcp/skills/) | `community` | Rust | `v1` ([#1642](https://github.com/joshrotenberg/tower-mcp/pull/1642)) | Server and client since 0.26.1 behind the `skills` feature; `SkillSet` loads a directory, `read_verified_skill_file` checks size, digest and frontmatter. Passes the [conformance suite](https://github.com/modelcontextprotocol/conformance) server and client scenarios |
 | [Tachyon](https://github.com/tachyonmcp/tachyon/tree/main/examples/mcp-skills) | | Java | `v1` | Self-reported 2026-09-14; requires clients to advertise the extension capability |
 
 ## Servers
