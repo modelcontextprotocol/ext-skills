@@ -2,7 +2,7 @@
 
 Example servers, SDKs, and hosts that serve or consume skills over MCP. Official client support is tracked on the [extension client matrix](https://modelcontextprotocol.io/extensions/client-matrix); this list is broader and community-maintained.
 
-**Status:** `beta` implements the released [Beta revision](../specification/beta/skills.mdx) · `partial` implements some of it · `draft` targets an earlier SEP draft · `prototype` fork or demo · `in progress` open PR · `planned` issue only. A link after the status points to the issue or PR tracking the work.
+**Status:** `beta` implements the released [Beta revision](../specification/beta/skills.mdx) · `partial` implements some of it · `draft` targets an earlier SEP draft · `prototype` fork or demo · `in progress` open PR · `planned` committed to by the maintainers · `requested` open feature request, no commitment yet. A link after the status points to the issue or PR tracking the work.
 
 **Category:** `official` maintained by the MCP project · `community` individual or community project · unmarked rows are maintained by the organization behind the product
 
@@ -35,7 +35,7 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 | [mcpkit](https://github.com/panyam/mcpkit/tree/main/ext/skills) | `community` | Go | `beta` | Server and client, plus the `mcpskills` CLI. Passes the [conformance suite](https://github.com/modelcontextprotocol/conformance) server scenarios |
 | [Next.js](https://github.com/vercel/next.js) | | TypeScript | `in progress` ([#101538](https://github.com/vercel/next.js/pull/101538)) | For the `next-mcp` package |
 | [Skybridge](https://docs.skybridge.tech/guides/skills) | | TypeScript | `draft` ([#1036](https://github.com/alpic-ai/skybridge/pull/1036)) | Experimental; entries lack `size` and cache hints |
-| [Spring AI](https://github.com/spring-projects/spring-ai) | | Java | `planned` ([#7345](https://github.com/spring-projects/spring-ai/issues/7345)) | |
+| [Spring AI](https://github.com/spring-projects/spring-ai) | | Java | `requested` ([#7345](https://github.com/spring-projects/spring-ai/issues/7345)) | |
 | [Tachyon](https://github.com/tachyonmcp/tachyon/tree/main/examples/mcp-skills) | | Java | `beta` | Self-reported 2026-09-14; requires clients to advertise the extension capability |
 | [tower-mcp](https://docs.rs/tower-mcp/latest/tower_mcp/skills/) | `community` | Rust | `beta` ([#1642](https://github.com/joshrotenberg/tower-mcp/pull/1642)) | Server and client since 0.26.1 behind the `skills` feature; `SkillSet` loads a directory, `read_verified_skill_file` checks size, digest and frontmatter. Passes the [conformance suite](https://github.com/modelcontextprotocol/conformance) server and client scenarios |
 | [turul-mcp-framework](https://github.com/aussierobots/turul-mcp-framework) | `community` | Rust | `beta` ([#52](https://github.com/aussierobots/turul-mcp-framework/pull/52)) | `turul-mcp-ext-skills` crate, with directory reads |
@@ -56,6 +56,7 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 | [Context7](https://github.com/upstash/context7) | | TypeScript | `beta` ([#3656](https://github.com/upstash/context7/pull/3656)) | On the TypeScript SDK's extension. Merged, not yet released |
 | [Descope MCP server](https://docs.descope.com/mcp/mcp-server) | | | `partial` | Hosted. Docs confirm `skills/list`; the same skills install locally from [descope/skills](https://github.com/descope/skills) |
 | [DoiT MCP server](https://github.com/doitintl/doit-mcp-server) | | TypeScript | `beta` | Since v2.6.0 ([#345](https://github.com/doitintl/doit-mcp-server/pull/345)) |
+| [Executor](https://github.com/UsefulSoftwareCo/executor) | | TypeScript | `requested` ([#2553](https://github.com/UsefulSoftwareCo/executor/issues/2553)) | Serves skills through its own `skills` tool today |
 | [FastMCP Skill Drop](https://gofastmcp.com/skill-drop) | | Python | `beta` | Hosted. Turns an uploaded skill or repo into a server with `skills/list` and `skills/get` on FastMCP's extension, plus `list_skills` and `read_skill` tools; no `directoryRead` ([announcement](https://www.prefect.io/blog/skill-drop-share-skills-over-mcp)) |
 | [GitHub MCP Server](https://github.com/github/github-mcp-server) | | Go | `beta` ([#3685](https://github.com/github/github-mcp-server/pull/3685)) | Opt-in since v2.2.0; bundled skills filtered by the enabled toolsets, with `directoryRead` |
 | [github-stars-contrib-mcp-server](https://github.com/svg153/github-stars-contrib-mcp-server) | `community` | Python | `beta` ([#144](https://github.com/modelcontextprotocol/ext-skills/issues/144)) | Passes the [conformance suite](https://github.com/modelcontextprotocol/conformance) server scenarios |
@@ -112,6 +113,7 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 | [agent-harness](https://github.com/ar27111994/agent-harness) | `community` | `planned` ([#492](https://github.com/ar27111994/agent-harness/issues/492)) | Digest-pinned skill store |
 | [agentpool](https://github.com/phil65/agentpool) | `community` | `beta` | Consumes and serves skills on FastMCP 4.2 |
 | [Agno](https://github.com/agno-agi/agno) | | `in progress` ([#11026](https://github.com/agno-agi/agno/pull/11026)) | Maintainer-written, in review |
+| [APM](https://github.com/microsoft/apm) | | `requested` ([#3721](https://github.com/microsoft/apm/issues/3721)) | Agent Package Manager; request to install skills that servers publish |
 | [ChatGPT and Codex](https://developers.openai.com/plugins) | | `planned` | Skill import at plugin submission was rolled back in November 2026 until support ships across ChatGPT and Codex ([OpenAI in the working group Discord](https://discord.com/channels/1358869848138059966/1566650178935726231)) |
 | [Cherry Studio](https://github.com/CherryHQ/cherry-studio) | | `partial` ([#22382](https://github.com/CherryHQ/cherry-studio/pull/22382)) | Discovery and verified loading through tools; rejects `"dynamic"` skills. Merged, not yet released |
 | [Enconvo](https://enconvo.com/) | | `beta` | Since 2.5.6. Lists and verifies served skills (digests, sizes, frontmatter), honors `ttlMs` and `directoryRead`. Closed source; self-reported in [#171](https://github.com/modelcontextprotocol/ext-skills/pull/171) |
@@ -120,7 +122,7 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 | [Goose](https://github.com/aaif-goose/goose) | | `planned` ([#12068](https://github.com/aaif-goose/goose/issues/12068)) | Earlier host PRs closed; to be built on rmcp's support |
 | [harness](https://github.com/majorcontext/harness) | | `beta` | Lists, verifies and loads served skills ([#770](https://github.com/majorcontext/harness/pull/770)) |
 | [Hermes Agent](https://github.com/NousResearch/hermes-agent) | | `in progress` ([#137746](https://github.com/NousResearch/hermes-agent/pull/137746)) | Community PR, no maintainer review yet |
-| [Kilo Code](https://github.com/Kilo-Org/kilocode) | | `planned` ([#15733](https://github.com/Kilo-Org/kilocode/issues/15733)) | |
+| [Kilo Code](https://github.com/Kilo-Org/kilocode) | | `requested` ([#15733](https://github.com/Kilo-Org/kilocode/issues/15733)) | |
 | [MCP Inspector](https://github.com/modelcontextprotocol/inspector/blob/main/clients/cli/README.md#skill-verification---verify) | `official` | `partial` | Since 2.6.0, including CLI skill verification; 2.13.0 moved onto the SDK's `ext/skills` |
 | [mcpc](https://github.com/apify/mcpc) | | `beta` | Apify's MCP CLI; `skills-list` and `skills-get` with size and digest checks since v0.7.0 |
 | [MCPJam Inspector](https://github.com/MCPJam/inspector) | | `beta` | App, CLI and SDK; verifies digests and frontmatter, namespaces skills by server. Aligned with the released spec in v3.17.0 |
@@ -132,4 +134,4 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 | [qm](https://github.com/yc-software/qm) | | `partial` ([#3776](https://github.com/yc-software/qm/pull/3776)) | Imports each listed `SKILL.md` as a skill pack, reading all of them at import. Merged, not yet released |
 | [vitehub](https://github.com/vite-hub/vitehub) | | `partial` | Serves its skills ([#3390](https://github.com/vite-hub/vitehub/pull/3390)); installs served skills by scanning `skill://` resources ([#2605](https://github.com/vite-hub/vitehub/pull/2605)) |
 | [VS Code](https://github.com/microsoft/vscode) | | `beta` ([#345956](https://github.com/microsoft/vscode/pull/345956)) | GitHub Copilot; on by default since 1.147, with per-server consent ([announcement](https://techcommunity.microsoft.com/blog/azuredevcommunityblog/skills-over-mcp-are-now-available-in-vs-code/4574580)) |
-| [Warp](https://github.com/warpdotdev/warp) | | `planned` ([#16967](https://github.com/warpdotdev/warp/issues/16967)) | |
+| [Warp](https://github.com/warpdotdev/warp) | | `requested` ([#16967](https://github.com/warpdotdev/warp/issues/16967)) | |
