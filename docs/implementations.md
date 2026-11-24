@@ -90,7 +90,7 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 
 | Implementation | Category | Language | Status | Notes |
 | :--- | :--- | :--- | :--- | :--- |
-| [agentgateway](https://github.com/agentgateway/agentgateway) | | Rust | `in progress` ([#4214](https://github.com/agentgateway/agentgateway/pull/4214)) | Pass-through; second approach in [#4391](https://github.com/agentgateway/agentgateway/pull/4391) |
+| [agentgateway](https://github.com/agentgateway/agentgateway) | | Rust | `in progress` ([#3579](https://github.com/agentgateway/agentgateway/issues/3579)) | Single-target pass-through merged, not yet released; multiplexing in [#4490](https://github.com/agentgateway/agentgateway/pull/4490) |
 | [Archestra](https://archestra.ai/docs/platform-mcp-gateway-skills) | | TypeScript | `partial` ([#10800](https://github.com/archestra-ai/archestra/pull/10800)) | Serves organization skills; on by default from the 1.5.0 release candidates. No `ttlMs` or `cacheScope` on `skills/get` |
 | [FastMCP Gateway](https://docs.horizon.prefect.io/skills) | | Python | `beta` | Hosted. Serves skills from hosted, external and virtual (Registry) servers with per-skill permissions; optional `list_skills` and `read_skill` tools |
 | [LiteLLM](https://github.com/BerriAI/litellm) | | Python | `in progress` ([#47875](https://github.com/BerriAI/litellm/pull/47875)) | Fans `skills/list` and `skills/get` out to upstream servers |
