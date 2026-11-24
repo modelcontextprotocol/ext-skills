@@ -113,7 +113,7 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 | [agent-harness](https://github.com/ar27111994/agent-harness) | `community` | `planned` ([#492](https://github.com/ar27111994/agent-harness/issues/492)) | Digest-pinned skill store |
 | [agentpool](https://github.com/phil65/agentpool) | `community` | `beta` | Consumes and serves skills on FastMCP 4.2 |
 | [Agno](https://github.com/agno-agi/agno) | | `in progress` ([#11026](https://github.com/agno-agi/agno/pull/11026)) | Maintainer-written, in review |
-| [APM](https://github.com/microsoft/apm) | | `requested` ([#3721](https://github.com/microsoft/apm/issues/3721)) | Agent Package Manager; request to install skills that servers publish |
+| [APM](https://github.com/microsoft/apm) | | `requested` ([#3721](https://github.com/microsoft/apm/issues/3721)) | Agent Package Manager; request to install skills that servers publish. Deferred by a maintainer pending a design |
 | [ChatGPT and Codex](https://developers.openai.com/plugins) | | `planned` | Skill import at plugin submission was rolled back in November 2026 until support ships across ChatGPT and Codex ([OpenAI in the working group Discord](https://discord.com/channels/1358869848138059966/1566650178935726231)) |
 | [Cherry Studio](https://github.com/CherryHQ/cherry-studio) | | `partial` ([#22382](https://github.com/CherryHQ/cherry-studio/pull/22382)) | Discovery and verified loading through tools; rejects `"dynamic"` skills. Merged, not yet released |
 | [Claude Code](https://github.com/anthropics/claude-code) | | `planned` ([#106550](https://github.com/anthropics/claude-code/issues/106550)) | |
