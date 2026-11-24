@@ -65,6 +65,7 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 | [hf-mcp-server](https://github.com/huggingface/hf-mcp-server) | | TypeScript | `beta` | Hugging Face. `skills/list`, `skills/get`, `directoryRead`. HTTP transports only |
 | [jshookmcp](https://github.com/vmoranv/jshookmcp) | `community` | TypeScript | `beta` ([#252](https://github.com/vmoranv/jshookmcp/pull/252)) | Experimental |
 | [kernel-mcp-server](https://github.com/kernel/kernel-mcp-server) | | TypeScript | `in progress` ([#260](https://github.com/kernel/kernel-mcp-server/pull/260)) | Ships the `kernel-mcp` skill from [kernel/skills](https://github.com/kernel/skills) |
+| [Kody](https://github.com/kody-hq/kody) | | TypeScript | `beta` ([#3010](https://github.com/kody-hq/kody/pull/3010)) | Serves packaged skills; out from behind its flag in [#5394](https://github.com/kody-hq/kody/pull/5394). No `directoryRead` |
 | [Laminar](https://github.com/lmnr-ai/lmnr) | | TypeScript | `in progress` ([#2671](https://github.com/lmnr-ai/lmnr/pull/2671)) | |
 | [Langfuse](https://github.com/langfuse/langfuse) | | TypeScript | `beta` ([#19552](https://github.com/langfuse/langfuse/pull/19552)) | Serves its `langfuse` and `migrate-to-langfuse` skills |
 | [Mapbox MCP server](https://github.com/mapbox/mcp-server) | | TypeScript | `in progress` ([#295](https://github.com/mapbox/mcp-server/pull/295)) | |
@@ -79,6 +80,7 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 | [RavenDB MCP](https://github.com/ravendb/ravendb-mcp) | | C# | `beta` ([#38](https://github.com/ravendb/ravendb-mcp/pull/38)) | On the C# SDK's skills package |
 | [Repliers MCP server](https://github.com/Repliers-io/mcp-server) | | JavaScript | `beta` | Serves its skills for ChatGPT's import ([#26](https://github.com/Repliers-io/mcp-server/pull/26)) |
 | [Salesforce B2C DX MCP](https://github.com/SalesforceCommerceCloud/b2c-developer-tooling) | | TypeScript | `beta` | `@salesforce/b2c-dx-mcp` since 3.3.0; no `directoryRead` |
+| [skillshare](https://github.com/runkids/skillshare) | `community` | Go | `beta` ([#905](https://github.com/runkids/skillshare/pull/905)) | `skillshare mcp serve` serves synced skills, with `directoryRead` |
 | [Splunk Connect for Syslog](https://github.com/splunk/splunk-connect-for-syslog) | | Python | `beta` ([#3377](https://github.com/splunk/splunk-connect-for-syslog/pull/3377)) | `sc4s_mcp` serves its `create-parser` skill |
 | [Supabase MCP](https://github.com/supabase/mcp) | | TypeScript | `in progress` ([#437](https://github.com/supabase/mcp/pull/437)) | Draft |
 | [Tableau MCP](https://github.com/tableau/tableau-mcp) | | TypeScript | `partial` ([#1080](https://github.com/tableau/tableau-mcp/pull/1080)) | Since v5.1.1, behind a feature flag; no `directoryRead`, and no `ttlMs` or `cacheScope` on `skills/list` or `skills/get` |
@@ -100,6 +102,7 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 | [reShapr](https://github.com/reshaprio/reshapr) | | Java | `partial` ([#606](https://github.com/reshaprio/reshapr/issues/606)) | Since 1.2.0, with `directoryRead`. No `ttlMs` or `cacheScope` on `skills/get` |
 | [Speakeasy Gram](https://www.speakeasy.com/docs/ai-control-plane/mcp-gateway/skills/serving-skills-over-mcp) | | Go | `partial` ([#8268](https://github.com/speakeasy-api/gram/pull/8268)) | Behind a flag; serves `SKILL.md` only |
 | [ToolHive](https://github.com/stacklok/toolhive) | | Go | `beta` ([#6512](https://github.com/stacklok/toolhive/pull/6512)) | Passes the extension through and authorizes each skill request |
+| [Toolport](https://github.com/btsouth/toolport) | `community` | Rust | `in progress` ([#1335](https://github.com/btsouth/toolport/pull/1335)) | Relays the extension from upstream servers, prefixing skill URIs per server |
 | [Warden](https://github.com/stephnangue/warden) | `community` | Go | `partial` ([#774](https://github.com/stephnangue/warden/pull/774)) | Filters `skills/list` and gates skill reads per caller. No `ttlMs` or `cacheScope` on `skills/get` |
 
 ## Hosts (including agent harnesses, IDEs, and web applications)
