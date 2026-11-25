@@ -81,6 +81,7 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 | [RavenDB MCP](https://github.com/ravendb/ravendb-mcp) | | C# | `beta` ([#38](https://github.com/ravendb/ravendb-mcp/pull/38)) | On the C# SDK's skills package |
 | [Repliers MCP server](https://github.com/Repliers-io/mcp-server) | | JavaScript | `beta` | Serves its skills for ChatGPT's import ([#26](https://github.com/Repliers-io/mcp-server/pull/26)) |
 | [Salesforce B2C DX MCP](https://github.com/SalesforceCommerceCloud/b2c-developer-tooling) | | TypeScript | `beta` | `@salesforce/b2c-dx-mcp` since 3.3.0; no `directoryRead` |
+| [Shopify](https://help.shopify.com/en/manual/apps/connecting-ai-tools) | | | `beta` | Hosted at `setup.shopify.com/mcp`. Serves `admin-graphql` and `editing-themes` skills; no `directoryRead` |
 | [skillshare](https://github.com/runkids/skillshare) | `community` | Go | `beta` ([#905](https://github.com/runkids/skillshare/pull/905)) | `skillshare mcp serve` serves synced skills, with `directoryRead` |
 | [Splunk Connect for Syslog](https://github.com/splunk/splunk-connect-for-syslog) | | Python | `beta` ([#3377](https://github.com/splunk/splunk-connect-for-syslog/pull/3377)) | `sc4s_mcp` serves its `create-parser` skill |
 | [Supabase MCP](https://github.com/supabase/mcp) | | TypeScript | `in progress` ([#437](https://github.com/supabase/mcp/pull/437)) | Draft |
