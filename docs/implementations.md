@@ -45,6 +45,7 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 
 | Implementation | Category | Language | Status | Notes |
 | :--- | :--- | :--- | :--- | :--- |
+| [aitmpl](https://github.com/davila7/claude-code-templates) | | TypeScript | `beta` ([#1704](https://github.com/davila7/claude-code-templates/pull/1704)) | Claude Code Templates catalog server at `mcp.aitmpl.com/mcp`. Serves two skills through the TypeScript SDK, with `directoryRead` |
 | [Ansible AAP MCP server](https://github.com/ansible/aap-mcp-server) | | TypeScript | `beta` ([#209](https://github.com/ansible/aap-mcp-server/pull/209)) | Off unless `skills_enabled` is set ([#213](https://github.com/ansible/aap-mcp-server/pull/213)) |
 | [Arize Phoenix](https://github.com/Arize-ai/phoenix) | | TypeScript | `planned` ([#16596](https://github.com/Arize-ai/phoenix/issues/16596)) | |
 | [authentik CLI](https://github.com/goauthentik/platform) | | Rust | `beta` ([#1823](https://github.com/goauthentik/platform/pull/1823)) | `ak` serves two bundled skills since v0.73.0 |
