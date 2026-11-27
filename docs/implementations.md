@@ -77,6 +77,7 @@ The extension ships in the TypeScript SDK v2.4.0, the C# SDK v2.4.0, the Rust SD
 | [OpenL Tablets](https://github.com/openl-tablets/openl-tablets) | | TypeScript | `beta` ([#2414](https://github.com/openl-tablets/openl-tablets/pull/2414)) | Since 7.0.0, on the TypeScript SDK's extension |
 | [OpenWork](https://github.com/different-ai/openwork) | | TypeScript | `partial` | Organization and plugin skills with supporting files ([#6129](https://github.com/different-ai/openwork/pull/6129), [#7530](https://github.com/different-ai/openwork/pull/7530)). No `ttlMs` or `cacheScope` on `skills/list` or `skills/get` |
 | [Outline](https://github.com/outline/outline) | | TypeScript | `beta` | Since v1.11.0; per-file digests and `skill://outline/...` URIs |
+| [PDFops](https://github.com/pdfops/pdfops-mcp) | | TypeScript | `beta` | Since v0.7.0, on the TypeScript SDK's extension; serves a `pdf-workflows` skill over stdio |
 | [PostHog MCP](https://github.com/PostHog/posthog) | | TypeScript | `planned` ([#99933](https://github.com/PostHog/posthog/issues/99933)) | Serves skills through a tool today |
 | [Prefect MCP server](https://github.com/PrefectHQ/prefect-mcp-server) | | Python | `in progress` ([#245](https://github.com/PrefectHQ/prefect-mcp-server/pull/245)) | |
 | [RavenDB MCP](https://github.com/ravendb/ravendb-mcp) | | C# | `beta` ([#38](https://github.com/ravendb/ravendb-mcp/pull/38)) | On the C# SDK's skills package |
